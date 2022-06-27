@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1703.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radicle", "src\Radicle\src\Radicle.csproj", "{96A040FC-4038-4C4F-807A-31937D0AADBD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Radicle", "Radicle", "{2404296C-8EFA-433D-BD59-C527258D73F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{1CD32B33-0DE2-4C7C-93FA-766752EAB453}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Radicle", "Radicle", "{1C64405B-D870-4B94-9329-E58C9F27C60B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radicle.Alike", "src\Radicle.Alike\src\Radicle.Alike.csproj", "{06DF3275-904A-4292-82C2-091D93861D1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radicle.Common", "src\Radicle.Common\src\Radicle.Common.csproj", "{B4E57FA2-1472-4EEC-A2A1-394FDC3B2891}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{19220957-FA12-40F4-83D8-74410873D148}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		README.md = README.md
+		stylecop.json = stylecop.json
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radicle.CLI", "src\Radicle.CLI\src\Radicle.CLI.csproj", "{547794BC-AC73-4203-A8F7-F30CE800B877}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96A040FC-4038-4C4F-807A-31937D0AADBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96A040FC-4038-4C4F-807A-31937D0AADBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96A040FC-4038-4C4F-807A-31937D0AADBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96A040FC-4038-4C4F-807A-31937D0AADBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06DF3275-904A-4292-82C2-091D93861D1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06DF3275-904A-4292-82C2-091D93861D1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06DF3275-904A-4292-82C2-091D93861D1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06DF3275-904A-4292-82C2-091D93861D1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E57FA2-1472-4EEC-A2A1-394FDC3B2891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E57FA2-1472-4EEC-A2A1-394FDC3B2891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E57FA2-1472-4EEC-A2A1-394FDC3B2891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E57FA2-1472-4EEC-A2A1-394FDC3B2891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{547794BC-AC73-4203-A8F7-F30CE800B877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{547794BC-AC73-4203-A8F7-F30CE800B877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{547794BC-AC73-4203-A8F7-F30CE800B877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{547794BC-AC73-4203-A8F7-F30CE800B877}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D72FDBDE-F420-44E3-BE7B-E594B7464C68}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{96A040FC-4038-4C4F-807A-31937D0AADBD} = {2404296C-8EFA-433D-BD59-C527258D73F1}
+		{1C64405B-D870-4B94-9329-E58C9F27C60B} = {1CD32B33-0DE2-4C7C-93FA-766752EAB453}
+		{06DF3275-904A-4292-82C2-091D93861D1A} = {2404296C-8EFA-433D-BD59-C527258D73F1}
+		{B4E57FA2-1472-4EEC-A2A1-394FDC3B2891} = {2404296C-8EFA-433D-BD59-C527258D73F1}
+		{547794BC-AC73-4203-A8F7-F30CE800B877} = {2404296C-8EFA-433D-BD59-C527258D73F1}
+	EndGlobalSection
+EndGlobal

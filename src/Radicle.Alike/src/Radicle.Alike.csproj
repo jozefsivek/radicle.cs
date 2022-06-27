@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Title>Radicle.Alike</Title>
+        <Description>Radicle.Alike library.</Description>
+        <Summary>Radicle.Alike library.</Summary>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <IsSDK>true</IsSDK>
+        <!--PackageIcon>tbd.png</PackageIcon-->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Roslynator.Analyzers" Version="4.1.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+        <!--
+            - https://github.com/xamarin/Xamarin.Forms/blob/caab66bcf9614aca0c0805d560a34e176d196e17/Git.Build.targets
+            - https://www.cazzulino.com/git-info-from-msbuild-and-code.html
+            - https://github.com/devlooped/GitInfo
+        -->
+        <PackageReference Include="GitInfo" Version="2.2.0" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../Radicle.Common/src/Radicle.Common.csproj">
+            <Private>false</Private>
+        </ProjectReference>
+    </ItemGroup>
+
+    <!--
+    ItemGroup
+        None Include="images/tbd.png" Pack="true" PackagePath="/" /
+    /ItemGroup
+    -->
+
+    <ItemGroup>
+        <None Include="../../../.editorconfig" Link=".editorconfig" />
+        <None Include="../../../stylecop.json" Link="stylecop.json" />
+    </ItemGroup>
+</Project>

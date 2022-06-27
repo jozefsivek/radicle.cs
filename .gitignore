@@ -1,0 +1,61 @@
+# white listing rules, for more information see the following links
+# - https://git-scm.com/docs/gitignore
+# - https://gist.github.com/jamiebergen/91a49b3c3e648031619178050122d90f
+# - https://jasonstitt.com/gitignore-whitelisting-patterns
+
+# Ignore everything
+*
+
+# git
+!.gitattributes
+!.gitignore
+
+# build
+
+# editor configuration
+!.editorconfig
+!stylecop.json
+
+# documentation (all md files but only in docs)
+!README.md
+!*.md
+!docs
+!docs/**/
+
+# solution
+!Radicle.sln
+!Directory.Build.props
+
+!*.cs
+
+!src
+
+# !src/project
+# !src/project/src
+# !src/project/src/project.csproj
+# !src/project/src/**/
+# !src/project/tests
+# !src/project/tests/project.Tests
+# !src/project/tests/project.Tests/project.Tests.csproj
+# !src/project/tests/project.Tests/**/
+
+!src/Radicle
+!src/Radicle/src
+!src/Radicle/src/Radicle.csproj
+!src/Radicle/src/**/
+
+!src/Radicle.Common
+!src/Radicle.Common/src
+!src/Radicle.Common/src/Radicle.Common.csproj
+!src/Radicle.Common/src/**/
+
+!src/Radicle.Alike
+!src/Radicle.Alike/src
+!src/Radicle.Alike/src/Radicle.Alike.csproj
+!src/Radicle.Alike/src/**/
+
+
+!src/Radicle.CLI
+!src/Radicle.CLI/src
+!src/Radicle.CLI/src/Radicle.CLI.csproj
+!src/Radicle.CLI/src/**/

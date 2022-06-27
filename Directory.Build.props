@@ -1,0 +1,129 @@
+﻿<Project>
+
+    <PropertyGroup>
+
+        <!-- https://docs.microsoft.com/en-gb/visualstudio/msbuild/customize-your-build?view=vs-2019 -->
+        <Authors>Jozef Sivek</Authors>
+        <Copyright>2019-2022 Jozef Sivek</Copyright>
+        <Owners>Jozef Sivek</Owners>
+        <!--
+            https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/versioning
+            this will affect:
+            - AssemblyVersion
+            - FileVersion (this will automatically contain recquired revission number)
+            - InformationalVersion (dynamically computed by Source Link).
+
+            PackageVersion is set when packing.
+        -->
+        <Version>0.1.0</Version>
+        <PackageProjectUrl>https://github.com/jozefsivek/radicle.cs</PackageProjectUrl>
+        <PackageReleaseNotes>TBA</PackageReleaseNotes>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <NoWarn></NoWarn> <!-- see .editorconfig for changes -->
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+        <!--
+            https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enforcecodestyleinbuild
+            https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview#enable-on-build
+        -->
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+        <!--
+            https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/nullable-reference-types
+            https://www.meziantou.net/csharp-8-nullable-reference-types.htm
+        -->
+        <Nullable>enable</Nullable>
+
+        <!--
+            https://docs.microsoft.com/en-gb/visualstudio/code-quality/migrate-from-fxcop-analyzers-to-net-analyzers?view=vs-2019
+        -->
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+
+        <!-- naturally -->
+        <ShowAllFiles>true</ShowAllFiles>
+
+        <LangVersion>10.0</LangVersion>
+    </PropertyGroup>
+
+    <!-- Package -->
+
+    <PropertyGroup>
+        <!-- https://github.com/dotnet/sourcelink -->
+
+        <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+        <!-- embed PDB symbols, do not produce separate package
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+            - https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file/overview#include-pdb-files-inside-the-bundle
+        -->
+        <DebugType>embedded</DebugType>
+
+        <!--
+            https://github.com/clairernovotny/DeterministicBuilds :
+            so that compiler-generated source, like AssemblyInfo,
+            are included in the PDB.
+        -->
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+        <!--
+            -p:ContinuousIntegrationBuild=true on pack
+            These should not be enabled during local dev or the debugger won't be able to find the local source files.
+            https://github.com/clairernovotny/DeterministicBuilds
+        -->
+        <!-- ContinuousIntegrationBuild>true</ContinuousIntegrationBuild -->
+    </PropertyGroup>
+
+    <!-- Better build paths -->
+
+    <PropertyGroup>
+        <!--
+            This controls where nuget intermediate files are written.
+            See rest in `Directory.Build.props`.
+
+            - https://developercommunity.visualstudio.com/content/problem/1256608/looks-like-visual-studio-for-mac-doesnt-respect-th.html
+        -->
+        <MSBuildProjectExtensionsPath>$(SolutionDir)obj/$(MSBuildProjectName)/</MSBuildProjectExtensionsPath>
+
+        <!--
+            https://docs.microsoft.com/en-us/visualstudio/ide/how-to-change-the-build-output-directory?view=vs-2019
+        -->
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+        <!--
+            We only use $(Configuration) and not $(TargetFramework) because:
+
+            - `TargetFramework` is not defined yet on read of this file
+            - build to one directory with library projects having
+              different target framework than tests, is not possible
+
+            - https://docs.microsoft.com/en-gb/archive/blogs/kirillosenkov/using-a-common-intermediate-and-output-directory-for-your-solution
+            - https://github.com/NuGet/Home/issues/7362
+            - https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2017
+        -->
+
+        <BaseIntermediateOutputPath>$(MSBuildProjectExtensionsPath)</BaseIntermediateOutputPath>
+        <IntermediateOutputPath>$(MSBuildProjectExtensionsPath)$(Configuration)/</IntermediateOutputPath>
+        <!-- Do not set BaseOutputPath, bad consequences -->
+        <!--BaseOutputPath>$(SolutionDir)/bin/</BaseOutputPath-->
+        <OutputPath>$(SolutionDir)bin/$(Configuration)/</OutputPath>
+        <OutDir>$(OutputPath)</OutDir>
+        <!-- Don't transitively copy output files, since everything builds to the same folder.
+
+            - until https://github.com/dotnet/sdk/issues/23342 is solved
+            - https://weblog.west-wind.com/posts/2021/Jun/15/Running-NET-Core-Apps-on-a-Framework-other-than-Compiled-Version
+
+        <UseCommonOutputDirectory>True</UseCommonOutputDirectory>
+        -->
+
+        <!-- The $(AssemblyName) is not defined yet on read of this file -->
+        <!--DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile-->
+        <DocumentationFile>$(OutputPath)$(MSBuildProjectName).xml</DocumentationFile>
+    </PropertyGroup>
+
+</Project>

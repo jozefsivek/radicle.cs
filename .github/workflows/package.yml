@@ -1,0 +1,26 @@
+name: .NET-package
+
+on:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - v**
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Pack
+      run: dotnet pack Radicle.sln --no-restore --configuration Release --output nupkgs -p:ContinuousIntegrationBuild=true
+    - name: Push
+      run: dotnet nuget push "nupkgs/*.nupkg" --api-key ${{ secrets.RADICLE_NUGET }} --source https://api.nuget.org/v3/index.json

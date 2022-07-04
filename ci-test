@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+SOLUTION=Radicle.sln
+
+print_help() {
+	echo "Test all the steps of normal CI for ${SOLUTION} in Release mode"
+	echo "Usage:"
+	echo "    deploy-test [-h|--help|-t|--only-tests]"
+	echo ""
+	echo "       (default)         - run build, test and pack"
+	echo "       -h --help         - print this help"
+	echo "       -t --only-test    - run only tests"
+}
+
+run_build() {
+	dotnet build $SOLUTION --configuration Release -p:ContinuousIntegrationBuild=true
+
+	if [ $? -gt 0 ]; then
+		echo "======================"
+		echo "Build failed, abording" >&2
+		exit 1
+	fi
+}
+
+run_tests() {
+	BUILDARG=""
+
+	case $1 in
+		"-b" )
+			BUILDARG="";;
+		*)
+			BUILDARG="--no-build";;
+	esac
+
+	dotnet test $SOLUTION $BUILDARG --filter 'FullyQualifiedName!~FunctionalTests' --nologo --configuration Release
+
+	if [ $? -gt 0 ]; then
+		echo "======================"
+		echo "Tests failed, abording" >&2
+		exit 1
+	fi
+}
+
+run_pack() {
+	dotnet pack $SOLUTION --no-build --configuration Release --output nupkgs -p:ContinuousIntegrationBuild=true
+
+	if [ $? -gt 0 ]; then
+		echo "========================"
+		echo "Packing failed, abording" >&2
+		exit 1
+	fi
+}
+
+run_all() {
+	run_build || exit 1
+	run_tests || exit 1
+	run_pack || exit 1
+}
+
+# bash substring expansion
+# http://tldp.org/LDP/abs/html/string-manipulation.html
+
+case $1 in
+	"-t" | "--only-test" | "only-test" )
+		run_tests -b;;
+	"-h" | "--help" | "h" | "help")
+		print_help
+		exit 0;;
+	*)
+		run_all "${@:2}";;
+esac

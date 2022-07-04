@@ -27,6 +27,18 @@ Mind the versions bellow follow [Semantic Versioning](https://semver.org/)
 - Fix: any bug fixes.
 - Secure: vulnerabilities.
 
+*Breaking changes*
+
+Small note on what DOES NOT count as a breaking change
+(and thus not require major change update):
+
+- addition of optional parameters in function/method call
+  with default values replicating the previous behaviour
+- change of the order of names optional parameters
+  (just use names when doing call to prevent breaks)
+- any changes to explicitly marked internal
+  and or experimental API
+
 Current list of maintained releases:
 
 - features and bug fixes: 0.x or later

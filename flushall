@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+print_help() {
+	echo "Flush all ephemeral binaries"
+	echo "Usage:"
+	echo "    flushall [-h|--help]"
+	echo ""
+	echo "       -h --help         - print this help"
+	echo "       (default)         - run flushall"
+}
+
+flush_all() {
+	 find . -iname bin | xargs rm -r || exit 1
+	 find . -iname obj | xargs rm -r || exit 1
+	 rm -fr nupkgs || exit 1
+	 rm -fr published || exit 1
+}
+
+# bash substring expansion
+# http://tldp.org/LDP/abs/html/string-manipulation.html
+
+case $1 in
+	"-h" | "--help" | "h" | "help")
+		print_help
+		exit 0;;
+	*)
+		flush_all "${@:2}";;
+esac
+

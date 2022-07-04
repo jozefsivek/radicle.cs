@@ -48,6 +48,10 @@
 !src/Radicle.Common/src
 !src/Radicle.Common/src/Radicle.Common.csproj
 !src/Radicle.Common/src/**/
+!src/Radicle.Common/tests
+!src/Radicle.Common/tests/Radicle.Common.Tests
+!src/Radicle.Common/tests/Radicle.Common.Tests/Radicle.Common.Tests.csproj
+!src/Radicle.Common/tests/Radicle.Common.Tests/**/
 
 !src/Radicle.Alike
 !src/Radicle.Alike/src

@@ -46,6 +46,17 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.2.0 (2022-07-13)
+------------------
+
+Upgrade urgency: LOW; new common functionality
+
+- Add better definition of breaking changes here
+- Add common utility functionality
+- Add flush utility and local test for CI
+- Add scaffold for sample project
+
+
 0.1.0 (2022-06-27)
 ------------------
 

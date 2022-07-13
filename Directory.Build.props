@@ -13,11 +13,11 @@
             - FileVersion (this will automatically contain recquired revission number)
             - InformationalVersion (dynamically computed by Source Link).
 
-            PackageVersion is set when packing.
+            PackageVersion is auto-set when packing.
         -->
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <PackageProjectUrl>https://github.com/jozefsivek/radicle.cs</PackageProjectUrl>
-        <PackageReleaseNotes>TBA</PackageReleaseNotes>
+        <PackageReleaseNotes>https://github.com/jozefsivek/radicle.cs/blob/master/CHANGELOG.md</PackageReleaseNotes>
     </PropertyGroup>
 
     <PropertyGroup>

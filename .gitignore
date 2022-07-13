@@ -58,8 +58,12 @@
 !src/Radicle.Alike/src/Radicle.Alike.csproj
 !src/Radicle.Alike/src/**/
 
-
 !src/Radicle.CLI
 !src/Radicle.CLI/src
 !src/Radicle.CLI/src/Radicle.CLI.csproj
 !src/Radicle.CLI/src/**/
+
+!samples
+!samples/Radicle.Sample.CLI
+!samples/Radicle.Sample.CLI/Radicle.Sample.CLI.csproj
+!samples/Radicle.Sample.CLI/**/

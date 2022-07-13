@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+    	<!-- Publishing details of this CLI app -->
+        <!-- - https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file/overview -->
+        <!-- <PublishSingleFile>true</PublishSingleFile>-->
+        <!-- no dotnet framework recquired -->
+        <!-- <SelfContained>true</SelfContained>-->
+        <!-- - https://docs.microsoft.com/en-us/dotnet/core/deploying/trimming/trim-self-contained -->
+        <!-- <PublishTrimmed>true</PublishTrimmed>-->
+        <!-- probably not needed for CLI app -->
+        <!-- <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>-->
+        <!-- the savings are around 40% -->
+        <!-- <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>-->
+        <!-- - https://docs.microsoft.com/en-us/dotnet/core/rid-catalog -->
+        <!-- <RuntimeIdentifiers>osx-x64;linux-x64;win-x64</RuntimeIdentifiers>-->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Roslynator.Analyzers" Version="4.1.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.SourceLink.Bitbucket.Git" Version="1.1.1" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../../stylecop.json" Link="stylecop.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="../../src/Radicle.CLI/src/Radicle.CLI.csproj" />
+    </ItemGroup>
+
+</Project>

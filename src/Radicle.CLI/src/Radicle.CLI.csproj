@@ -3,7 +3,7 @@
         <Title>Radicle.CLI</Title>
         <Description>Radicle.CLI library.</Description>
         <Summary>Radicle.CLI library.</Summary>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <IsSDK>true</IsSDK>
         <!--PackageIcon>tbd.png</PackageIcon-->
     </PropertyGroup>
@@ -27,9 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../../Radicle.Common/src/Radicle.Common.csproj">
-            <Private>false</Private>
-        </ProjectReference>
+        <ProjectReference Include="../../Radicle.Alike/src/Radicle.Alike.csproj" />
     </ItemGroup>
 
     <!--
@@ -42,4 +40,5 @@
         <None Include="../../../.editorconfig" Link=".editorconfig" />
         <None Include="../../../stylecop.json" Link="stylecop.json" />
     </ItemGroup>
+
 </Project>

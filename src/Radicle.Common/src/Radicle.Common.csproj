@@ -37,4 +37,5 @@
         <None Include="../../../.editorconfig" Link=".editorconfig" />
         <None Include="../../../stylecop.json" Link="stylecop.json" />
     </ItemGroup>
+
 </Project>

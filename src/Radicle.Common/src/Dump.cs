@@ -1,5 +1,9 @@
 ﻿namespace Radicle.Common;
 
+using System;
+using Radicle.Common.Tokenization;
+using Radicle.Common.Tokenization.Models;
+
 /// <summary>
 /// Collection of (text) dump related utilities akin to those in Python.
 /// </summary>
@@ -29,5 +33,65 @@ public static class Dump
         string? up = upperBound?.ToString() ?? "?";
 
         return $"{bra}{low}, {up}{ket}";
+    }
+
+    /// <summary>
+    /// Dump string value as string literal.
+    /// </summary>
+    /// <param name="value">Value to dump.</param>
+    /// <param name="literalDefinition">Definition
+    ///     of the string literal to use,
+    ///     defaults to conservative C like string literal.</param>
+    /// <returns>Encoded string with quotation marks.</returns>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    public static string Literal(
+            string value,
+            IStringLiteralDefinition? literalDefinition = null)
+    {
+        IStringLiteralDefinition def = literalDefinition
+                ?? CLikeStringLiteralDefinition.Conservative;
+
+        return def.GetLiteral(value);
+    }
+
+    /// <summary>
+    /// Dump character as string literal.
+    /// </summary>
+    /// <param name="value">Value to dump.</param>
+    /// <param name="literalDefinition">Definition
+    ///     of the string literal to use,
+    ///     defaults to conservative C like string literal.</param>
+    /// <returns>Encoded string with quotation marks.</returns>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    public static string Literal(
+            char value,
+            IStringLiteralDefinition? literalDefinition = null)
+    {
+        IStringLiteralDefinition def = literalDefinition
+                ?? CLikeStringLiteralDefinition.Conservative;
+
+        return def.GetLiteral(new string(value, 1));
+    }
+
+    /// <summary>
+    /// Dump value as string literal.
+    /// </summary>
+    /// <param name="value">Value to dump.</param>
+    /// <param name="literalDefinition">Definition
+    ///     of the string literal to use,
+    ///     defaults to conservative C like string literal.</param>
+    /// <returns>Encoded string with quotation marks.</returns>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    public static string Literal(
+            TokenWithValue value,
+            IStringLiteralDefinition? literalDefinition = null)
+    {
+        IStringLiteralDefinition def = literalDefinition
+                ?? CLikeStringLiteralDefinition.Conservative;
+
+        return def.GetLiteral(value);
     }
 }

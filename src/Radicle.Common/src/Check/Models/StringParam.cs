@@ -58,6 +58,21 @@ internal readonly struct StringParam : IStringParam
     }
 
     /// <inheritdoc/>
+    public IStringParam NoNewLines()
+    {
+        if (this.InnerParam.IsSpecified
+                && this.InnerParam.Value.Length != 0
+                && !TypedNameSpec.SingleLine.IsValid(this.InnerParam.Value))
+        {
+            throw new ArgumentException(
+                    $"{this.InnerParam.DescriptionWithValue} cannot be a string with new lines.",
+                    this.InnerParam.Name);
+        }
+
+        return this;
+    }
+
+    /// <inheritdoc/>
     public IStringParam InRange(
             int lowerBound,
             int upperBound,

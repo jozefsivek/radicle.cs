@@ -160,11 +160,7 @@ public static class EnumerableExtensions
                     getSizeFromGetter = false;
                 }
 
-                if (currentBucket == null)
-                {
-                    currentBucket = new T[size];
-                }
-
+                currentBucket ??= new T[size];
                 currentBucket[currentBatchSize++] = item;
 
                 if (currentBatchSize == size)

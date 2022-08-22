@@ -108,6 +108,41 @@ public class StringParamTest
     }
 
     [Theory]
+    [InlineData("foo")]
+    [InlineData("")]
+    [InlineData("foo bar")]
+    [InlineData("foo\tbar")]
+    [InlineData(" foo\tbar ")]
+    public void NoNewLines_ValidParam_Works(string input)
+    {
+        Ensure.Param(input).NoNewLines();
+    }
+
+    [Theory]
+    [InlineData("\n")]
+    [InlineData("\r")]
+    [InlineData("\n\r")]
+    [InlineData("\r\n")]
+    [InlineData("foo\n")]
+    [InlineData("foo\r")]
+    [InlineData("foo\n\r")]
+    [InlineData("foo\r\n")]
+    [InlineData("\nbar")]
+    [InlineData("\rbar")]
+    [InlineData("\n\rbar")]
+    [InlineData("\r\nbar")]
+    public void NoNewLines_InvalidParam_Throws(string input)
+    {
+        ArgumentException exc = Assert.Throws<ArgumentException>(
+                () => Ensure.Param(input).NoNewLines());
+
+        Assert.StartsWith(
+                $"Parameter 'input' with value: '{input}' cannot be a string with new lines.",
+                exc.Message,
+                StringComparison.Ordinal);
+    }
+
+    [Theory]
     [InlineData("ham", 2, 4, true, true)]
     [InlineData("em", 2, 4, true, false)]
     [InlineData("buzz", 2, 4, false, true)]

@@ -29,6 +29,14 @@ public interface IStringParam : IParam<string>, IEnumerable<char>
     IStringParam NotWhiteSpace();
 
     /// <summary>
+    /// Checks if the parameter value is contains any new lines.
+    /// </summary>
+    /// <returns>This instance of <see cref="IStringParam"/>.</returns>
+    /// <exception cref="ArgumentException">Thrown when the
+    ///     parameter value contains new lines.</exception>
+    IStringParam NoNewLines();
+
+    /// <summary>
     /// Checks if the parameter value length is inside given range, throws if not.
     /// By default the range is inclusive.
     /// </summary>

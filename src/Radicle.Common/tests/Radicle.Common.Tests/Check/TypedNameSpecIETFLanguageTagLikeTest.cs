@@ -1,7 +1,7 @@
 ﻿namespace Radicle.Common.Check;
 
-using Xunit;
 using Radicle.Common.Extensions;
+using Xunit;
 
 public class TypedNameSpecIETFLanguageTagLikeTest
 {

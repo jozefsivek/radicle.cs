@@ -46,6 +46,23 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.3.0 (2022-08-22)
+------------------
+
+Upgrade urgency: LOW; new CLI and common functionality
+
+- Add sample project to show capabilities of REPL CLI tooling
+- Add tooling for building iteractive REPL (Read-eval-print loop)
+  CLI (command line interface) program. Supported features includ
+  progress indicators as well as scaffold for commands.
+  See sample projects for examples.
+- Add new extensions and parsing functionality including:
+  string parameter line check, new string and binary dumps,
+  new time related extensions, looping collection,
+  tokenizers and parsers, string literal functionality,
+  support for simple markdown for CLI, better progress class.
+
+
 0.2.0 (2022-07-13)
 ------------------
 

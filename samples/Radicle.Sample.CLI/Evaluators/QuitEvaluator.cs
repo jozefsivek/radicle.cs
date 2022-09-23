@@ -12,7 +12,7 @@ using Radicle.Sample.CLI.Evaluators.Base;
 /// <summary>
 /// "QUIT" command evaluator.
 /// </summary>
-internal sealed class QuitEvaluator : CommandEvaluator
+internal sealed class QuitEvaluator : SampleCommandEvaluator
 {
     /// <summary>
     /// Main verb of this command evaluator.

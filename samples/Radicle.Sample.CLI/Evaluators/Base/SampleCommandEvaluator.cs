@@ -6,12 +6,12 @@ using Radicle.CLI.Models;
 /// <summary>
 /// Base class of sample evaluators.
 /// </summary>
-internal abstract class CommandEvaluator : CommandEvaluator<EvaluationOutput, SampleREPLEvaluator>
+internal abstract class SampleCommandEvaluator : CommandEvaluator<EvaluationOutput, SampleREPLEvaluator>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="CommandEvaluator"/> class.
+    /// Initializes a new instance of the <see cref="SampleCommandEvaluator"/> class.
     /// </summary>
-    internal CommandEvaluator()
+    internal SampleCommandEvaluator()
     {
     }
 }

@@ -18,7 +18,7 @@ using Radicle.Sample.CLI.Evaluators.Base;
 /// <summary>
 /// "HELP" command evaluator.
 /// </summary>
-internal sealed class HelpEvaluator : CommandEvaluator
+internal sealed class HelpEvaluator : SampleCommandEvaluator
 {
     /// <summary>
     /// Main verb of this command evaluator.

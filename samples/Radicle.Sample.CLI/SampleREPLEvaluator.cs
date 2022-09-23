@@ -113,7 +113,7 @@ public sealed class SampleREPLEvaluator : IREPLEvaluator, IEvaluationContext
         TransparentProgress<long> progress = new();
 
         return new EvaluationOutputPromise(
-                this.EvaluateInternal(
+                this.EvaluateInternalAsync(
                     arguments,
                     progress: progress,
                     cancellationToken: cancellationToken),
@@ -121,7 +121,7 @@ public sealed class SampleREPLEvaluator : IREPLEvaluator, IEvaluationContext
     }
 
     /// <inheritdoc/>
-    public async Task AuditEvaluation(
+    public async Task AuditEvaluationAsync(
             string input,
             TimeSpan elapsed,
             CancellationToken cancellationToken = default)
@@ -156,7 +156,7 @@ public sealed class SampleREPLEvaluator : IREPLEvaluator, IEvaluationContext
         return history;
     }
 
-    private async Task<EvaluationOutput> EvaluateInternal(
+    private async Task<EvaluationOutput> EvaluateInternalAsync(
             TokenWithValue[] arguments,
             TransparentProgress<long>? progress = null,
             CancellationToken cancellationToken = default)

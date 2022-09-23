@@ -38,7 +38,7 @@ public interface IREPLEvaluator
     ///     if required parameter is <see langword="null"/>.</exception>
     /// <exception cref="OperationCanceledException">Thrown
     ///     if operation is canceled with <paramref name="cancellationToken"/>.</exception>
-    Task AuditEvaluation(
+    Task AuditEvaluationAsync(
             string input,
             TimeSpan elapsed,
             CancellationToken cancellationToken = default);

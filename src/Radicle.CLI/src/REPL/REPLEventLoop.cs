@@ -128,7 +128,7 @@ public sealed class REPLEventLoop
                 }
 #pragma warning restore CA1508 // Avoid dead conditional code
 
-                await this.evaluator.AuditEvaluation(
+                await this.evaluator.AuditEvaluationAsync(
                         input,
                         sw.Elapsed,
                         cancellationToken: cancellationToken).ConfigureAwait(false);

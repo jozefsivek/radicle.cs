@@ -11,7 +11,7 @@ using Radicle.Sample.CLI.Evaluators.Base;
 /// <summary>
 /// "FOO BAR" command evaluator.
 /// </summary>
-internal sealed class FooBarEvaluator : CommandEvaluator
+internal sealed class FooBarEvaluator : SampleCommandEvaluator
 {
     /// <summary>
     /// Main verb of this command evaluator.

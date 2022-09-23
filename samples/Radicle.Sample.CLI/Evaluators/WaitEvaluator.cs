@@ -14,7 +14,7 @@ using Radicle.Sample.CLI.Evaluators.Base;
 /// <summary>
 /// "WAIT" command evaluator.
 /// </summary>
-internal sealed class WaitEvaluator : CommandEvaluator
+internal sealed class WaitEvaluator : SampleCommandEvaluator
 {
     /// <summary>
     /// Main verb of this command evaluator.

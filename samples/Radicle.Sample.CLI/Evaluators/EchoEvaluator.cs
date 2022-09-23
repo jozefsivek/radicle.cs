@@ -12,7 +12,7 @@ using Radicle.Sample.CLI.Evaluators.Base;
 /// <summary>
 /// "ECHO" command evaluator.
 /// </summary>
-internal sealed class EchoEvaluator : CommandEvaluator
+internal sealed class EchoEvaluator : SampleCommandEvaluator
 {
     /// <summary>
     /// Main verb of this command evaluator.

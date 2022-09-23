@@ -13,7 +13,7 @@ using Radicle.Sample.CLI.Evaluators.Base;
 /// <summary>
 /// "HISTORY" command evaluator.
 /// </summary>
-internal sealed class HistoryEvaluator : CommandEvaluator
+internal sealed class HistoryEvaluator : SampleCommandEvaluator
 {
     /// <summary>
     /// Main verb of this command evaluator.

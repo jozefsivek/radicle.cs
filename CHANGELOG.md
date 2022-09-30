@@ -46,6 +46,24 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.4.0 (2022-09-30)
+------------------
+
+Upgrade urgency: LOW; bug fixes and new API
+
+- Fix missing "Async" in some methods (technically a breaking
+  change, but minor change required)
+- Add tasks handling tools for easy parallelization
+  and batching/buffering
+- Add hassle free gzip tooling for small data compression
+- Add shell expanders for expanding home paths etc.
+- Add ready to use disposable base classes
+- Add variable-length quantity (VLQ) implementation
+- Add utility for generating compact UUID/GUIDs
+- Add partial implementation of ISO 8601:2004 dates
+  parsing and serialization
+
+
 0.3.0 (2022-08-22)
 ------------------
 

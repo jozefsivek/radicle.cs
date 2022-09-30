@@ -58,13 +58,13 @@ public class CompactUUIDTest
     [Fact]
     public void Generate_ReturnsBase64Characters()
     {
-        Assert.Matches(new Regex(@"\A[a-zA-Z0-9\+\/]+\z"), CompactUUID.GenerateWebSafe());
+        Assert.Matches(new Regex(@"\A[a-zA-Z0-9\+\/]+\z"), CompactUUID.Generate());
     }
 
     [Fact]
     public void GenerateWebSafe_Returns22Characters()
     {
-        Assert.Equal(22, CompactUUID.Generate().Length);
+        Assert.Equal(22, CompactUUID.GenerateWebSafe().Length);
     }
 
     [Fact]

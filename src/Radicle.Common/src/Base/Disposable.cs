@@ -10,11 +10,18 @@ using Radicle.Common.Check;
 /// several disposable objects into one as base class or collection.
 /// </summary>
 /// <remarks>
+/// <para>
 /// Disposing is NOT thread safe.
 /// Read https://alistairevans.co.uk/2019/10/24/net-asynchronous-disposal-tips-for-implementing-iasyncdisposable-on-your-own-types/ ,
 /// https://docs.microsoft.com/en-us/dotnet/api/system.object.finalize?view=net-5.0
 /// and
 /// https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/unmanaged .
+/// </para>
+/// <para>
+/// If you need to react to disposing follow: https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose#implement-the-dispose-pattern-for-a-derived-class ,
+/// define your own dispose flag to detect repeated calls
+/// and call base <see cref="Dispose(bool)"/> after yours override.
+/// </para>
 /// </remarks>
 public class Disposable : IDisposable
 {

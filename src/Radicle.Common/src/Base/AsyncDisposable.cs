@@ -9,13 +9,21 @@ using System.Threading.Tasks;
 /// or collection.
 /// </summary>
 /// <remarks>
+/// <para>
 /// Disposing is NOT thread safe.
 /// Read https://alistairevans.co.uk/2019/10/24/net-asynchronous-disposal-tips-for-implementing-iasyncdisposable-on-your-own-types/ ,
-/// https://docs.microsoft.com/en-us/dotnet/api/system.object.finalize?view=net-5.0
+/// https://docs.microsoft.com/en-us/dotnet/api/system.object.finalize?view=net-5.0 ,
+/// https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync#disposeasync-and-disposeasynccore
 /// and
 /// https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/unmanaged .
 /// Important, do not stack async usings:
 /// https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync#unacceptable-pattern .
+/// </para>
+/// <para>
+/// If you need to react to disposing follow: https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose#implement-the-dispose-pattern-for-a-derived-class ,
+/// define your own dispose flag to detect repeated calls
+/// and call base <see cref="DisposeAsyncCore"/> after yours override.
+/// </para>
 /// </remarks>
 public class AsyncDisposable : Disposable, IAsyncDisposable
 {

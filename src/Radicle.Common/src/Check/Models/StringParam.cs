@@ -11,6 +11,10 @@ using Radicle.Common.Check.Models.Generic;
 /// </summary>
 internal readonly struct StringParam : IStringParam
 {
+    private static readonly Regex SingleLineRegex = new(
+            TypedNameSpec.SingleLine.Pattern,
+            RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StringParam"/> struct.
     /// </summary>
@@ -62,7 +66,7 @@ internal readonly struct StringParam : IStringParam
     {
         if (this.InnerParam.IsSpecified
                 && this.InnerParam.Value.Length != 0
-                && !TypedNameSpec.SingleLine.IsValid(this.InnerParam.Value))
+                && !SingleLineRegex.IsMatch(this.InnerParam.Value))
         {
             throw new ArgumentException(
                     $"{this.InnerParam.DescriptionWithValue} cannot be a string with new lines.",

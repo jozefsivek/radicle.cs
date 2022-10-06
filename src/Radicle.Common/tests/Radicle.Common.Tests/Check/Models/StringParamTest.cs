@@ -118,6 +118,12 @@ public class StringParamTest
         Ensure.Param(input).NoNewLines();
     }
 
+    [Fact]
+    public void NoNewLines_LongParam_Works()
+    {
+        Ensure.Param(new string('x', 17_000)).NoNewLines();
+    }
+
     [Theory]
     [InlineData("\n")]
     [InlineData("\r")]

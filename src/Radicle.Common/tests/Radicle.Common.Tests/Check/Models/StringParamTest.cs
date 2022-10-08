@@ -2,6 +2,7 @@ namespace Radicle.Common.Check.Models;
 
 using System;
 using Moq;
+using Radicle.Common.Extensions;
 using Xunit;
 
 public class StringParamTest
@@ -102,7 +103,7 @@ public class StringParamTest
                 () => Ensure.Param(input).NotWhiteSpace());
 
         Assert.StartsWith(
-                $"Parameter 'input' with value: '{input}' cannot be a white space string.",
+                $"Parameter 'input' with value: {Dump.Literal(input)} cannot be a white space string.",
                 exc.Message,
                 StringComparison.Ordinal);
     }
@@ -143,7 +144,7 @@ public class StringParamTest
                 () => Ensure.Param(input).NoNewLines());
 
         Assert.StartsWith(
-                $"Parameter 'input' with value: '{input}' cannot be a string with new lines.",
+                $"Parameter 'input' with value: {Dump.Literal(input)} cannot be a string with new lines.",
                 exc.Message,
                 StringComparison.Ordinal);
     }
@@ -181,7 +182,22 @@ public class StringParamTest
         string range = Dump.Range(min, max, includeLower: lower, includeUpper: upper);
 
         Assert.StartsWith(
-                $"Parameter 'input' with value: '{input}' length must be in range {range}",
+                $"Parameter 'input' with value: {Dump.Literal(input)} length must be in range {range}",
+                exc.Message,
+                StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void InRange_InvalidLongParam_Throws()
+    {
+        string input = new('a', 160);
+        ArgumentOutOfRangeException exc = Assert.Throws<ArgumentOutOfRangeException>(
+                () => Ensure.Param(input).InRange(1, 24));
+
+        string range = Dump.Range(1, 24);
+
+        Assert.StartsWith(
+                $"Parameter 'input' with value: {input.SnippetLiteral()} length must be in range {range}",
                 exc.Message,
                 StringComparison.Ordinal);
     }
@@ -204,7 +220,7 @@ public class StringParamTest
                 () => Ensure.Param(input).IsRegex());
 
         Assert.StartsWith(
-                $"Parameter 'input' with value: '{input}' must be a valid regex.",
+                $"Parameter 'input' with value: {Dump.Literal(input)} must be a valid regex.",
                 exc.Message,
                 StringComparison.Ordinal);
     }

@@ -40,7 +40,7 @@ public interface IParam<T> : IParam
         get
         {
             string val = this.Value is string s
-                    ? "'" + s.Ellipsis() + "'"
+                    ? s.SnippetLiteral()
                     : this.Value.ToString();
 
             return $"Parameter '{this.Name}' with value: {val}";

@@ -287,7 +287,7 @@ public class DictionaryParamTest
                     .AllKeys(v => Ensure.Param(v).InRange(1, 1)));
 
         Assert.StartsWith(
-                "Dictionary parameter 'testDict' at key [bc], key error: Parameter 'v' with value: 'bc' length must be in range [1, 1] (Parameter 'v')",
+                "Dictionary parameter 'testDict' at key [bc], key error: Parameter 'v' with value: \"bc\" length must be in range [1, 1] (Parameter 'v')",
                 exc.Message,
                 StringComparison.Ordinal);
     }
@@ -307,7 +307,7 @@ public class DictionaryParamTest
                     .AllKeys(v => Ensure.Param(v).That(v => v != "c")));
 
         Assert.Equal(
-                "Dictionary parameter 'testDict' at key [c], key error: Parameter 'v' with value: 'c' is not valid. (Parameter 'v')",
+                "Dictionary parameter 'testDict' at key [c], key error: Parameter 'v' with value: \"c\" is not valid. (Parameter 'v')",
                 exc.Message);
     }
 }

@@ -46,6 +46,17 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.5.0 (2022-10-13)
+------------------
+
+Upgrade urgency: LOW; bug fixes and new API
+
+- Fix bug preventing correct validation of long strings for no new lines
+- Clarify use of base disposable class in documentation
+- Add new Snippet end SnippetLiteral extension,
+  more suited for trimmed string value dumps than Ellipsis
+
+
 0.4.0 (2022-09-30)
 ------------------
 

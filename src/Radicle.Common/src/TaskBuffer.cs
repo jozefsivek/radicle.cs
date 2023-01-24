@@ -2,6 +2,7 @@ namespace Radicle.Common;
 
 using System;
 using System.Threading.Tasks;
+using Radicle.Common.Base;
 
 /// <summary>
 /// Utility for buffering tasks and awaiting multiple of them.

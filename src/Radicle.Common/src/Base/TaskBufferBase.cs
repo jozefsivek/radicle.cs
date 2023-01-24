@@ -1,4 +1,4 @@
-﻿namespace Radicle.Common;
+﻿namespace Radicle.Common.Base;
 
 using System;
 using System.Collections.Generic;

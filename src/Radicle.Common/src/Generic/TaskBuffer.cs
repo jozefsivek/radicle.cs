@@ -3,6 +3,7 @@ namespace Radicle.Common.Generic;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Radicle.Common.Base;
 
 /// <summary>
 /// Generic version of <see cref="TaskBuffer"/>.
@@ -32,6 +33,7 @@ public sealed class TaskBuffer<TValue, TMetaData> : TaskBufferBase<TMetaData>
 
     /// <summary>
     /// Enqueue given <paramref name="task"/> if capacity was not reached.
+    /// Order of enqueued tasks is preserved.
     /// </summary>
     /// <param name="task">Task to enqueue.</param>
     /// <param name="metaData">Meta-data of <paramref name="task"/>.</param>
@@ -49,7 +51,7 @@ public sealed class TaskBuffer<TValue, TMetaData> : TaskBufferBase<TMetaData>
     }
 
     /// <summary>
-    /// Await all stored tasks serially and clear
+    /// Await all stored tasks serially in order they were enqueued and clear
     /// the buffer. Call before or at the time
     /// <see cref="Enqueue(Task{TValue}, TMetaData)"/> returns <see langword="true"/>.
     /// </summary>

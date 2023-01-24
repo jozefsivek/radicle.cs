@@ -289,9 +289,11 @@ public static class EnumerableExtensions
     /// <param name="source">source array, note that any empty
     ///     source will lead to empty result.</param>
     /// <param name="count">length of new array.</param>
-    /// <param name="fuzzy">fuzzy length of new array
-    ///     (in range <paramref name="min"/>
-    ///     and <paramref name="count"/>).</param>
+    /// <param name="fuzzy">Opt for fuzzy length of new
+    ///     enumeration instead of fixed <paramref name="count"/>
+    ///     (the returned enumeration length is in
+    ///     inclusive range <paramref name="min"/>
+    ///     to <paramref name="count"/>).</param>
     /// <param name="min">minimum length of new array
     ///     if <paramref name="fuzzy"/>
     ///     is set to <see langword="true"/>,
@@ -324,11 +326,11 @@ public static class EnumerableExtensions
         {
             T next;
             min = min > count ? count : min;
-            int repeats = fuzzy
+            int length = fuzzy
                     ? min + ThreadSafeRandom.Next(count + 1 - min)
                     : count;
 
-            for (int i = 0; i < repeats; i++)
+            for (int i = 0; i < length; i++)
             {
                 next = list[ThreadSafeRandom.Next(list.Count)];
 

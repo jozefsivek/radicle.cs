@@ -45,6 +45,8 @@
         -->
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <!-- the current CI/CD is fixed to dotnet 6 -->
+        <AnalysisLevel>6.0</AnalysisLevel>
 
         <!-- naturally -->
         <ShowAllFiles>true</ShowAllFiles>

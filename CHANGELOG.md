@@ -46,6 +46,18 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.6.0 (2023-01-28)
+------------------
+
+Upgrade urgency: LOW; new profiling API
+
+- Add extension to fire and forget tasks to avoid warnings
+- Fix warnings and adjust string literal in the typed name ToString
+  (now with double quotes instead of single quotes)
+- Add universal profiling API. This should be compatible with profiling,
+  structured logging and or logging in general.
+
+
 0.5.0 (2022-10-13)
 ------------------
 

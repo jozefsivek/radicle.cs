@@ -11,5 +11,5 @@ public interface IProfileableByEvent
     /// <summary>
     /// Event handler for events.
     /// </summary>
-    event EventHandler<ProfilingEventArgs>? ProfiledEventOccured;
+    event EventHandler<ProfilingEventArgs>? ProfilingEventOccurred;
 }

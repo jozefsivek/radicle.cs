@@ -46,15 +46,7 @@ Current list of maintained releases:
 - not supported: -
 
 
-0.6.1 (2023-01-28)
-------------------
-
-Upgrade urgency: LOW; correction of new profiling API
-
-- Fix wrong language use
-
-
-0.6.0 (2023-01-28)
+0.6.2 (2023-01-28)
 ------------------
 
 Upgrade urgency: LOW; new profiling API
@@ -64,6 +56,7 @@ Upgrade urgency: LOW; new profiling API
   (now with double quotes instead of single quotes)
 - Add universal profiling API. This should be compatible with profiling,
   structured logging and or logging in general.
+- Fix wrong language use
 
 
 0.5.0 (2022-10-13)

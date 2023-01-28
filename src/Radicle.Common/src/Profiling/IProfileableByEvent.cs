@@ -6,10 +6,10 @@ using Radicle.Common.Profiling.Models;
 /// <summary>
 /// Interface for a service which produces profiling events.
 /// </summary>
-public interface IProfilableByEvent
+public interface IProfileableByEvent
 {
     /// <summary>
     /// Event handler for events.
     /// </summary>
-    event EventHandler<ProfiledEventArgs>? ProfileEventOccured;
+    event EventHandler<ProfilingEventArgs>? ProfiledEventOccured;
 }

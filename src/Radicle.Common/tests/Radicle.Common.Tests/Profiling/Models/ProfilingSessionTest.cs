@@ -41,7 +41,7 @@ public class ProfilingSessionTest
         {
             passes++;
 
-            foreach (IProfiledEvent e in session.Yield())
+            foreach (IProfilingEvent e in session.Yield())
             {
                 Assert.Equal($"{i++}", e.Message);
             }
@@ -68,7 +68,7 @@ public class ProfilingSessionTest
 #pragma warning disable CA1031 // Do not catch general exception types
             try
             {
-                session.Add(new ProfiledEventArgs(
+                session.Add(new ProfilingEventArgs(
                         "test",
                         "test_category")
                 {

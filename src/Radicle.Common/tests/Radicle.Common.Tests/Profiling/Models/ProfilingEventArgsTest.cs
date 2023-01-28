@@ -3,14 +3,14 @@ namespace Radicle.Common.Profiling.Models;
 using System;
 using Xunit;
 
-public class ProfiledEventArgsTest
+public class ProfilingEventArgsTest
 {
     [Fact]
     public void From_NullInstance_Throws()
     {
         EventCategoryName category = new("test_category");
 
-        Assert.Throws<ArgumentNullException>(() => ProfiledEventArgs.From(
+        Assert.Throws<ArgumentNullException>(() => ProfilingEventArgs.From(
                 null!,
                 severity: EventSeverity.Info,
                 exception: null,
@@ -21,7 +21,7 @@ public class ProfiledEventArgsTest
     [Fact]
     public void From_NullCategory_Throws()
     {
-        Assert.Throws<ArgumentNullException>(() => ProfiledEventArgs.From(
+        Assert.Throws<ArgumentNullException>(() => ProfilingEventArgs.From(
                 new TestService(),
                 severity: EventSeverity.Info,
                 exception: null,
@@ -32,7 +32,7 @@ public class ProfiledEventArgsTest
     [Fact]
     public void Contains_NullInput_ReturnsFalse()
     {
-        (_, _, _, _, ProfiledEventArgs e) = CreateFirstEvent(EventSeverity.Info);
+        (_, _, _, _, ProfilingEventArgs e) = CreateFirstEvent(EventSeverity.Info);
 
         Assert.False(e.Contains(null));
     }
@@ -40,7 +40,7 @@ public class ProfiledEventArgsTest
     [Fact]
     public void Contains_Self_ReturnsTrue()
     {
-        (_, _, _, _, ProfiledEventArgs e) = CreateFirstEvent(EventSeverity.Info);
+        (_, _, _, _, ProfilingEventArgs e) = CreateFirstEvent(EventSeverity.Info);
 
         Assert.True(e.Contains(e));
     }
@@ -48,8 +48,8 @@ public class ProfiledEventArgsTest
     [Fact]
     public void Contains_OtherLookAlikeInput_ReturnsFalse()
     {
-        (_, _, _, _, ProfiledEventArgs e) = CreateFirstEvent(EventSeverity.Info);
-        (_, _, _, _, ProfiledEventArgs e2) = CreateFirstEvent(EventSeverity.Info);
+        (_, _, _, _, ProfilingEventArgs e) = CreateFirstEvent(EventSeverity.Info);
+        (_, _, _, _, ProfilingEventArgs e2) = CreateFirstEvent(EventSeverity.Info);
 
         Assert.False(e.Contains(e2));
     }
@@ -57,8 +57,8 @@ public class ProfiledEventArgsTest
     [Fact]
     public void Contains_PreviousInput_ReturnsTrue()
     {
-        (_, _, _, _, ProfiledEventArgs previous) = CreateFirstEvent(EventSeverity.Info);
-        ProfiledEventArgs next = ProfiledEventArgs.Continue(previous, null, null);
+        (_, _, _, _, ProfilingEventArgs previous) = CreateFirstEvent(EventSeverity.Info);
+        ProfilingEventArgs next = ProfilingEventArgs.Continue(previous, null, null);
 
         Assert.True(next.Contains(previous));
     }
@@ -66,9 +66,9 @@ public class ProfiledEventArgsTest
     [Fact]
     public void Contains_PreviousPreviousInput_ReturnsTrue()
     {
-        (_, _, _, _, ProfiledEventArgs previous2) = CreateFirstEvent(EventSeverity.Info);
-        ProfiledEventArgs previous = ProfiledEventArgs.Continue(previous2, null, null);
-        ProfiledEventArgs self = ProfiledEventArgs.End(previous, null, null);
+        (_, _, _, _, ProfilingEventArgs previous2) = CreateFirstEvent(EventSeverity.Info);
+        ProfilingEventArgs previous = ProfilingEventArgs.Continue(previous2, null, null);
+        ProfilingEventArgs self = ProfilingEventArgs.End(previous, null, null);
 
         Assert.True(self.Contains(previous2));
     }
@@ -87,7 +87,7 @@ public class ProfiledEventArgsTest
         ArgumentNullException exception = new("param", "exc");
         const string message = "{foo} is {bar}";
 
-        ProfiledEventArgs e = ProfiledEventArgs.From(
+        ProfilingEventArgs e = ProfilingEventArgs.From(
                 service,
                 severity: severity,
                 exception: exception,
@@ -114,7 +114,7 @@ public class ProfiledEventArgsTest
     {
         EventCategoryName category = new("test_category");
 
-        Assert.Throws<ArgumentNullException>(() => ProfiledEventArgs.StartFrom(
+        Assert.Throws<ArgumentNullException>(() => ProfilingEventArgs.StartFrom(
                 null!,
                 severity: EventSeverity.Info,
                 exception: null,
@@ -125,7 +125,7 @@ public class ProfiledEventArgsTest
     [Fact]
     public void StartFrom_NullCategory_Throws()
     {
-        Assert.Throws<ArgumentNullException>(() => ProfiledEventArgs.StartFrom(
+        Assert.Throws<ArgumentNullException>(() => ProfilingEventArgs.StartFrom(
                 new TestService(),
                 severity: EventSeverity.Info,
                 exception: null,
@@ -142,7 +142,7 @@ public class ProfiledEventArgsTest
     [InlineData(EventSeverity.Warning)]
     public void StartFrom_ValidInput_CreatesFirstEvent(EventSeverity severity)
     {
-        (EventCategoryName category, Exception exception, string message, INamedForProfiling service, ProfiledEventArgs e) =
+        (EventCategoryName category, Exception exception, string message, INamedForProfiling service, ProfilingEventArgs e) =
                 CreateFirstEvent(severity);
 
         Assert.Equal(new object[] { "foo", 2 }, e.Arguments);
@@ -163,7 +163,7 @@ public class ProfiledEventArgsTest
     {
         EventCategoryName category = new("test_category");
 
-        Assert.Throws<ArgumentNullException>(() => ProfiledEventArgs.Continue(
+        Assert.Throws<ArgumentNullException>(() => ProfilingEventArgs.Continue(
                 null!,
                 exception: null,
                 message: null));
@@ -178,10 +178,10 @@ public class ProfiledEventArgsTest
     [InlineData(EventSeverity.Warning)]
     public void Continue_ValidInput_CreatesIntermediateEvent(EventSeverity severity)
     {
-        (EventCategoryName category, _, string message, INamedForProfiling service, ProfiledEventArgs first) =
+        (EventCategoryName category, _, string message, INamedForProfiling service, ProfilingEventArgs first) =
                 CreateFirstEvent(severity);
 
-        ProfiledEventArgs e = ProfiledEventArgs.Continue(
+        ProfilingEventArgs e = ProfilingEventArgs.Continue(
                 first,
                 exception: null,
                 message: null);
@@ -203,12 +203,12 @@ public class ProfiledEventArgsTest
     public void Continue_ValidInputWithOverrides_CreatesIntermediateEvent()
     {
         const EventSeverity severity = EventSeverity.Info;
-        (EventCategoryName category, _, _, INamedForProfiling service, ProfiledEventArgs first) =
+        (EventCategoryName category, _, _, INamedForProfiling service, ProfilingEventArgs first) =
                 CreateFirstEvent(severity);
 
         const string messageOverride = "{foo} is {bar} 2";
 
-        ProfiledEventArgs e = ProfiledEventArgs.Continue(
+        ProfilingEventArgs e = ProfilingEventArgs.Continue(
                 first,
                 exception: null,
                 message: messageOverride,
@@ -233,7 +233,7 @@ public class ProfiledEventArgsTest
     {
         EventCategoryName category = new("test_category");
 
-        Assert.Throws<ArgumentNullException>(() => ProfiledEventArgs.End(
+        Assert.Throws<ArgumentNullException>(() => ProfilingEventArgs.End(
                 null!,
                 exception: null,
                 message: null));
@@ -248,10 +248,10 @@ public class ProfiledEventArgsTest
     [InlineData(EventSeverity.Warning)]
     public void End_ValidInput_CreatesLastEvent(EventSeverity severity)
     {
-        (EventCategoryName category, _, string message, INamedForProfiling service, ProfiledEventArgs first) =
+        (EventCategoryName category, _, string message, INamedForProfiling service, ProfilingEventArgs first) =
                 CreateFirstEvent(severity);
 
-        ProfiledEventArgs e = ProfiledEventArgs.End(
+        ProfilingEventArgs e = ProfilingEventArgs.End(
                 first,
                 exception: null,
                 message: null);
@@ -273,12 +273,12 @@ public class ProfiledEventArgsTest
     public void End_ValidInputWithOverrides_CreatesLastEvent()
     {
         const EventSeverity severity = EventSeverity.Info;
-        (EventCategoryName category, _, _, INamedForProfiling service, ProfiledEventArgs first) =
+        (EventCategoryName category, _, _, INamedForProfiling service, ProfilingEventArgs first) =
                 CreateFirstEvent(severity);
 
         const string messageOverride = "{foo} is {bar} 2";
 
-        ProfiledEventArgs e = ProfiledEventArgs.End(
+        ProfilingEventArgs e = ProfilingEventArgs.End(
                 first,
                 exception: null,
                 message: messageOverride,
@@ -298,14 +298,14 @@ public class ProfiledEventArgsTest
         Assert.Equal(service.EventSourceName, e.SourceName);
     }
 
-    private static (EventCategoryName Category, Exception Exc, string Message, INamedForProfiling Service, ProfiledEventArgs E) CreateFirstEvent(
+    private static (EventCategoryName Category, Exception Exc, string Message, INamedForProfiling Service, ProfilingEventArgs E) CreateFirstEvent(
             EventSeverity severity)
     {
         EventCategoryName category = new("test_category");
         TestService service = new();
         ArgumentNullException exception = new("param", "exc");
         const string message = "{foo} is {bar}";
-        ProfiledEventArgs e = ProfiledEventArgs.StartFrom(
+        ProfilingEventArgs e = ProfilingEventArgs.StartFrom(
                 service,
                 severity: severity,
                 exception: exception,

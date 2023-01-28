@@ -46,6 +46,14 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.6.1 (2023-01-28)
+------------------
+
+Upgrade urgency: LOW; correction of new profiling API
+
+- Fix wrong language use
+
+
 0.6.0 (2023-01-28)
 ------------------
 

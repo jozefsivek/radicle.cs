@@ -42,7 +42,10 @@ run_tests() {
 }
 
 run_pack() {
-	dotnet pack $SOLUTION --no-build --configuration Release --output nupkgs -p:ContinuousIntegrationBuild=true
+	# https://github.com/dotnet/performance/pull/2774: --output nupkgs
+	dotnet pack $SOLUTION --no-build --configuration Release -p:ContinuousIntegrationBuild=true
+	mkdir -p nupkgs
+	mv bin/Release/*.nupkg nupkgs/.
 
 	if [ $? -gt 0 ]; then
 		echo "========================"

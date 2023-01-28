@@ -6,7 +6,7 @@ using Radicle.Common.Profiling.Models;
 /// <summary>
 /// Interface defining service which allows on-demand profiling by session.
 /// </summary>
-public interface IProfilableBySession
+public interface IProfileableBySession
 {
     /// <summary>
     /// Set session factory.

@@ -5,18 +5,18 @@ using System.Collections.Immutable;
 using Radicle.Common.Check;
 
 /// <summary>
-/// Base of profiled event for use in events.
+/// Base of profiling event for use in events.
 /// </summary>
-public class ProfiledEventArgs : EventArgs, IProfiledEvent
+public class ProfilingEventArgs : EventArgs, IProfilingEvent
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ProfiledEventArgs"/> class.
+    /// Initializes a new instance of the <see cref="ProfilingEventArgs"/> class.
     /// </summary>
     /// <param name="sourceName">Source name.</param>
     /// <param name="categoryName">Category name.</param>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
-    internal ProfiledEventArgs(
+    internal ProfilingEventArgs(
             EventSourceName sourceName,
             EventCategoryName categoryName)
     {
@@ -29,7 +29,7 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     public DateTime CreatedOn { get; }
 
     /// <inheritdoc />
-    public IProfiledEvent First => this.Previous?.First ?? this;
+    public IProfilingEvent First => this.Previous?.First ?? this;
 
     /// <inheritdoc />
     public TimeSpan Elapsed
@@ -46,7 +46,7 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     }
 
     /// <inheritdoc />
-    public virtual IProfiledEvent? Previous { get; init; }
+    public virtual IProfilingEvent? Previous { get; init; }
 
     /// <inheritdoc />
     public virtual EventSeverity Severity { get; init; }
@@ -70,7 +70,7 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     public Exception? Exception { get; init; }
 
     /// <summary>
-    /// Construct new stand alone instance of <see cref="ProfiledEventArgs"/>.
+    /// Construct new stand alone instance of <see cref="ProfilingEventArgs"/>.
     /// </summary>
     /// <param name="instance">Instance of <see cref="INamedForProfiling"/>.</param>
     /// <param name="severity">Severity of event.</param>
@@ -80,8 +80,8 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     /// <param name="args">Optional arguments for <paramref name="message"/> template.</param>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
-    /// <returns>Instance of <see cref="ProfiledEventArgs"/>.</returns>
-    public static ProfiledEventArgs From(
+    /// <returns>Instance of <see cref="ProfilingEventArgs"/>.</returns>
+    public static ProfilingEventArgs From(
             INamedForProfiling instance,
             EventSeverity severity,
             Exception? exception,
@@ -91,7 +91,7 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     {
         Ensure.Param(instance).Done();
 
-        return new ProfiledEventArgs(
+        return new ProfilingEventArgs(
                 instance.EventSourceName,
                 category)
         {
@@ -104,7 +104,7 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     }
 
     /// <summary>
-    /// Construct new fisrt instance of <see cref="ProfiledEventArgs"/>
+    /// Construct new fisrt instance of <see cref="ProfilingEventArgs"/>
     /// in a chain of events.
     /// </summary>
     /// <param name="instance">Instance of <see cref="INamedForProfiling"/>.</param>
@@ -115,8 +115,8 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     /// <param name="args">Optional arguments for <paramref name="message"/> template.</param>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
-    /// <returns>Instance of <see cref="ProfiledEventArgs"/>.</returns>
-    public static ProfiledEventArgs StartFrom(
+    /// <returns>Instance of <see cref="ProfilingEventArgs"/>.</returns>
+    public static ProfilingEventArgs StartFrom(
             INamedForProfiling instance,
             EventSeverity severity,
             Exception? exception,
@@ -126,7 +126,7 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     {
         Ensure.Param(instance).Done();
 
-        return new ProfiledEventArgs(
+        return new ProfilingEventArgs(
                 instance.EventSourceName,
                 category)
         {
@@ -139,7 +139,7 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     }
 
     /// <summary>
-    /// Construct continuation instance of <see cref="ProfiledEventArgs"/>
+    /// Construct continuation instance of <see cref="ProfilingEventArgs"/>
     /// in a chain of events.
     /// </summary>
     /// <param name="previous">Event to continue from.</param>
@@ -150,16 +150,16 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     ///     if left empty the previous even message is used.</param>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
-    /// <returns>Instance of <see cref="ProfiledEventArgs"/>.</returns>
-    public static ProfiledEventArgs Continue(
-            IProfiledEvent previous,
+    /// <returns>Instance of <see cref="ProfilingEventArgs"/>.</returns>
+    public static ProfilingEventArgs Continue(
+            IProfilingEvent previous,
             Exception? exception,
             string? message,
             params object?[] args)
     {
         Ensure.Param(previous).Done();
 
-        return new ProfiledEventArgs(
+        return new ProfilingEventArgs(
                 previous.SourceName,
                 previous.CategoryName)
         {
@@ -173,7 +173,7 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     }
 
     /// <summary>
-    /// Construct continuation instance of <see cref="ProfiledEventArgs"/>
+    /// Construct continuation instance of <see cref="ProfilingEventArgs"/>
     /// in a chain of events.
     /// </summary>
     /// <param name="previous">Event to continue from.</param>
@@ -184,16 +184,16 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     ///     if left empty the previous even message is used.</param>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
-    /// <returns>Instance of <see cref="ProfiledEventArgs"/>.</returns>
-    public static ProfiledEventArgs End(
-            IProfiledEvent previous,
+    /// <returns>Instance of <see cref="ProfilingEventArgs"/>.</returns>
+    public static ProfilingEventArgs End(
+            IProfilingEvent previous,
             Exception? exception,
             string? message,
             params object?[] args)
     {
         Ensure.Param(previous).Done();
 
-        return new ProfiledEventArgs(
+        return new ProfilingEventArgs(
                 previous.SourceName,
                 previous.CategoryName)
         {
@@ -207,7 +207,7 @@ public class ProfiledEventArgs : EventArgs, IProfiledEvent
     }
 
     /// <inheritdoc />
-    public bool Contains(IProfiledEvent? other)
+    public bool Contains(IProfilingEvent? other)
     {
         return ReferenceEquals(this, other) || (this.Previous?.Contains(other) ?? false);
     }

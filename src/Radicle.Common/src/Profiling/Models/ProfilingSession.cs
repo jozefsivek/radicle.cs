@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Radicle.Common.Check;
 
 /// <summary>
-/// Profiling session used for recording profiled events.
+/// Profiling session used for recording profiling events.
 /// </summary>
 public sealed class ProfilingSession
 {
@@ -21,7 +21,7 @@ public sealed class ProfilingSession
     /// Yield enumeration of all recorded events and clear any stored events.
     /// </summary>
     /// <returns>Enumeration of events.</returns>
-    public IEnumerable<IProfiledEvent> Yield()
+    public IEnumerable<IProfilingEvent> Yield()
     {
         Item? last = null;
 
@@ -67,7 +67,7 @@ public sealed class ProfilingSession
     /// <param name="profileEvent">Event to add.</param>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
-    public void Add(IProfiledEvent profileEvent)
+    public void Add(IProfilingEvent profileEvent)
     {
         Item e = new(Ensure.Param(profileEvent).Value);
 
@@ -84,7 +84,7 @@ public sealed class ProfilingSession
     }
 
     /// <summary>
-    /// Single-linked items storing <see cref="IProfiledEvent"/> instances.
+    /// Single-linked items storing <see cref="IProfilingEvent"/> instances.
     /// </summary>
     private class Item
     {
@@ -92,7 +92,7 @@ public sealed class ProfilingSession
         /// Initializes a new instance of the <see cref="Item"/> class.
         /// </summary>
         /// <param name="value">Event.</param>
-        public Item(IProfiledEvent value)
+        public Item(IProfilingEvent value)
         {
             this.Value = value;
         }
@@ -100,7 +100,7 @@ public sealed class ProfilingSession
         /// <summary>
         /// Gets event.
         /// </summary>
-        public IProfiledEvent Value { get; }
+        public IProfilingEvent Value { get; }
 
         /// <summary>
         /// Gets or sets link to the previous item.

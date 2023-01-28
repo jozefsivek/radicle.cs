@@ -4,11 +4,11 @@ using System;
 using System.Collections.Immutable;
 
 /// <summary>
-/// Interface with a definition of base properties of any profiled event.
+/// Interface with a definition of base properties of any profiling event.
 /// Note these events are intended to be immutable and can represent variety of things
 /// (command, event, query, etc.).
 /// </summary>
-public interface IProfiledEvent
+public interface IProfilingEvent
 {
     /// <summary>
     /// Gets UTC date time of event creation.
@@ -20,12 +20,12 @@ public interface IProfiledEvent
     /// Previous events share set of common properties (see description
     /// of other properties refering to event chain).
     /// </summary>
-    public IProfiledEvent? Previous { get; }
+    public IProfilingEvent? Previous { get; }
 
     /// <summary>
     /// Gets the first event in this event chain or this event.
     /// </summary>
-    public IProfiledEvent First { get; }
+    public IProfilingEvent First { get; }
 
     /// <summary>
     /// Gets elapsed time from the first event in the event chain.
@@ -82,5 +82,5 @@ public interface IProfiledEvent
     /// <returns><see langword="true"/> if this event is <paramref name="other"/>
     ///     or it is one of the previous events; <see langword="false"/>
     ///     otherwise.</returns>
-    public bool Contains(IProfiledEvent? other);
+    public bool Contains(IProfilingEvent? other);
 }

@@ -134,7 +134,7 @@ public abstract class TypedName<T> : ITypedName, IEquatable<T>, IComparable, ICo
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"name: '{this.InvariantValue}'";
+        return $"name: {Dump.Literal(this.InvariantValue)}";
     }
 
     /// <inheritdoc />

@@ -599,9 +599,9 @@ public sealed class CLikeStringLiteralDefinition : IStringLiteralDefinition
         {
             yield return this.escapeTokenStopWord.Value;
         }
-        else if (this.commonEscapeCharacters.ContainsKey(character))
+        else if (this.commonEscapeCharacters.TryGetValue(character, out char escapeValue))
         {
-            yield return new string(this.commonEscapeCharacters[character], 1);
+            yield return new string(escapeValue, 1);
         }
         else
         {
@@ -622,9 +622,9 @@ public sealed class CLikeStringLiteralDefinition : IStringLiteralDefinition
         {
             return this.escapeTokenStopWord.Value;
         }
-        else if (this.commonEscapeCodes.ContainsKey(characterCode))
+        else if (this.commonEscapeCodes.TryGetValue(characterCode, out char code))
         {
-            return new string(this.commonEscapeCodes[characterCode], 1);
+            return new string(code, 1);
         }
         else
         {

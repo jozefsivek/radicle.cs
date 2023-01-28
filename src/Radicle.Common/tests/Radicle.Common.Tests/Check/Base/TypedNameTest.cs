@@ -86,8 +86,8 @@ public class TypedNameTest
     [Fact]
     public void ToString_Works()
     {
-        Assert.Equal("Test name: 'Group'", new ConcreteCaseSensitiveName("Group").ToString());
-        Assert.Equal("Test name: 'group'", new ConcreteCaseInsensitiveName("Group").ToString());
+        Assert.Equal("Test name: \"Group\"", new ConcreteCaseSensitiveName("Group").ToString());
+        Assert.Equal("Test name: \"group\"", new ConcreteCaseInsensitiveName("Group").ToString());
     }
 
     [Fact]

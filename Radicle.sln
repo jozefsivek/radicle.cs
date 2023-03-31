@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radicle.Sample.CLI", "sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radicle.Common.Tests", "src\Radicle.Common\tests\Radicle.Common.Tests\Radicle.Common.Tests.csproj", "{524FE37D-FC0E-47F5-B64E-841B3B12B818}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radicle.Alike.Tests", "src\Radicle.Alike\tests\Radicle.Alike.Tests\Radicle.Alike.Tests.csproj", "{C1E5AD1E-8C51-4CED-88AC-929E2CBBED8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{524FE37D-FC0E-47F5-B64E-841B3B12B818}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{524FE37D-FC0E-47F5-B64E-841B3B12B818}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{524FE37D-FC0E-47F5-B64E-841B3B12B818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E5AD1E-8C51-4CED-88AC-929E2CBBED8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E5AD1E-8C51-4CED-88AC-929E2CBBED8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E5AD1E-8C51-4CED-88AC-929E2CBBED8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E5AD1E-8C51-4CED-88AC-929E2CBBED8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,5 +84,6 @@ Global
 		{547794BC-AC73-4203-A8F7-F30CE800B877} = {2404296C-8EFA-433D-BD59-C527258D73F1}
 		{4CAA4E45-7EF0-471D-99CC-015C96B0CCFD} = {78C21AA3-73F2-4F74-B235-68F7EC8883C2}
 		{524FE37D-FC0E-47F5-B64E-841B3B12B818} = {1C64405B-D870-4B94-9329-E58C9F27C60B}
+		{C1E5AD1E-8C51-4CED-88AC-929E2CBBED8B} = {1C64405B-D870-4B94-9329-E58C9F27C60B}
 	EndGlobalSection
 EndGlobal

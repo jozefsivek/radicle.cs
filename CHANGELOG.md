@@ -46,6 +46,21 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.7.0 (2023-03-31)
+------------------
+
+Upgrade urgency: LOW; new RESP3 models and RESP2 serialization
+
+- Change auxiliary packages and fix new warnings. Also
+  fix potential issue in RandomPick for changed enumerable
+  and check for null keys in AllNotNull just in case the enumerable
+  was no dictionary in the first place
+  Check [SponsorLink blog post](https://www.cazzulino.com/sponsorlink.html)
+  for the new info on build of this library when building locally.
+- Add RESP2 and RESP3 models with support for RESP2 serialization
+  [RESP](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md)
+
+
 0.6.2 (2023-01-28)
 ------------------
 

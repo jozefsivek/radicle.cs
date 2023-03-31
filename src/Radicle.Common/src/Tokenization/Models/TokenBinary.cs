@@ -17,7 +17,8 @@ public sealed class TokenBinary : TokenWithValue
     /// <remarks>Note <paramref name="bytes"/> does not have
     ///     clear connection with form and length of <paramref name="sourceString"/>.
     ///     It depends on decoder or tokenizer on how given string input
-    ///     is translated to bytes.</remarks>
+    ///     is translated to bytes. If you want to create token directly
+    ///     from bytes see <see cref="GetPassThrough(IEnumerable{byte}, int)"/>.</remarks>
     /// <param name="sourceString">Source string.</param>
     /// <param name="startAt">Inclusive position of start of decoding.</param>
     /// <param name="endAt">Inclusive position of end of decoding.</param>

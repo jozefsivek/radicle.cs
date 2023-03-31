@@ -736,7 +736,7 @@ public static class Ensure
     /// <exception cref="ArgumentNullException">Thrown when the specified
     ///     <paramref name="parameterValue"/> is <see langword="null"/>.</exception>
     internal static void NotNull(
-            object? parameterValue,
+            object parameterValue,
             [CallerArgumentExpression("parameterValue")] string? parameterName = null)
     {
         if (parameterValue is null)

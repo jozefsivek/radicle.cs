@@ -162,8 +162,8 @@ public class TypedNameSpecTest
         TypedNameSpec spec = new(
                 "foo",
                 ".*",
-                ignoreCaseInPattern: ignoreCaseInPatter,
-                disallowedValues: disallowed.Split(','));
+                disallowedValues: disallowed.Split(','),
+                ignoreCaseInPattern: ignoreCaseInPatter);
 
         Assert.True(spec.IsValid(input));
 
@@ -182,8 +182,8 @@ public class TypedNameSpecTest
         TypedNameSpec spec = new(
                 "foo",
                 ".*",
-                ignoreCaseInPattern: ignoreCaseInPatter,
-                disallowedValues: disallowed.Split(','));
+                disallowedValues: disallowed.Split(','),
+                ignoreCaseInPattern: ignoreCaseInPatter);
 
         Assert.False(spec.IsValid(input));
 

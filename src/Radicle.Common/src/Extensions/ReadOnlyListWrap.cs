@@ -83,22 +83,7 @@ internal sealed class ReadOnlyListWrap<T> : IReadOnlyList<T>
 
             if (this.enumerable)
             {
-                int possition = 0;
-
-                foreach (T item in this.innerEnumerable)
-                {
-                    if (possition == index)
-                    {
-                        return item;
-                    }
-
-                    possition++;
-                }
-
-                throw new ArgumentOutOfRangeException(
-                        nameof(index),
-                        index,
-                        $"Index {index} was outside the bounds of the enumerable");
+                return this.innerEnumerable.ElementAt(index);
             }
             else if (this.readOnly)
             {

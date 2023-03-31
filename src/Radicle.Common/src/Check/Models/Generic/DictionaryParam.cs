@@ -67,6 +67,13 @@ internal readonly struct DictionaryParam<TDict, TItemKey, TItemValue> : IDiction
         {
             foreach (KeyValuePair<TItemKey, TItemValue> v in this.Value)
             {
+                if (v.Key is null)
+                {
+                    throw new ArgumentNullException(
+                            this.Name,
+                            "Dictionary contains null key.");
+                }
+
                 if (v.Value is null)
                 {
                     throw new ArgumentNullException(

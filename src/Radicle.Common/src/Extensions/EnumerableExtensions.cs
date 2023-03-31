@@ -299,7 +299,9 @@ public static class EnumerableExtensions
     ///     is set to <see langword="true"/>,
     ///     values larger than <paramref name="count"/>
     ///     will be clipped to value of <paramref name="count"/>.</param>
-    /// <returns>Enumeration with random picks.</returns>
+    /// <returns>Enumeration with random picks. If the <paramref name="source"/>
+    ///     changed during the execution of this method
+    ///     outdated items may be returned.</returns>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required arguments are <see langword="null" />.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown
@@ -324,7 +326,6 @@ public static class EnumerableExtensions
 
         if (list.Count != 0 && count > 0)
         {
-            T next;
             min = min > count ? count : min;
             int length = fuzzy
                     ? min + ThreadSafeRandom.Next(count + 1 - min)
@@ -332,7 +333,23 @@ public static class EnumerableExtensions
 
             for (int i = 0; i < length; i++)
             {
-                next = list[ThreadSafeRandom.Next(list.Count)];
+                T next;
+
+                while (true)
+                {
+                    try
+                    {
+                        next = list[ThreadSafeRandom.Next(list.Count)];
+                        break;
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        if (list.Count == 0)
+                        {
+                            yield break;
+                        }
+                    }
+                }
 
                 yield return next;
             }

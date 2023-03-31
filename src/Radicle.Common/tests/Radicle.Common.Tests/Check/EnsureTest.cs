@@ -11,7 +11,7 @@ public class EnsureTest
         object? param = null;
 
         ArgumentNullException exc = Assert.Throws<ArgumentNullException>(
-                () => Ensure.NotNull(param));
+                () => Ensure.NotNull(param!));
 
         Assert.Equal(
                 "Parameter 'param' cannot be null. (Parameter 'param')",

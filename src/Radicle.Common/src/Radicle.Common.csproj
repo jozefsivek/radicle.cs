@@ -13,7 +13,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Roslynator.Analyzers" Version="4.1.1">
+        <PackageReference Include="Roslynator.Analyzers" Version="4.2.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -23,7 +23,7 @@
             - https://www.cazzulino.com/git-info-from-msbuild-and-code.html
             - https://github.com/devlooped/GitInfo
         -->
-        <PackageReference Include="GitInfo" Version="2.2.0" PrivateAssets="All" />
+        <PackageReference Include="GitInfo" Version="3.0.4" PrivateAssets="All" />
         <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
     </ItemGroup>
 

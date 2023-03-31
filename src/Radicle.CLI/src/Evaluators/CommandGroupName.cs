@@ -13,7 +13,7 @@ public sealed class CommandGroupName : TypedName<CommandGroupName>
     /// Specification.
     /// </summary>
     public static readonly TypedNameSpec Specification = TypedNameSpec.Programming
-            .With(maxLength: 32, ignoreCaseWhenCompared: true);
+            .With(ignoreCaseWhenCompared: true, maxLength: 32);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CommandGroupName"/> class.

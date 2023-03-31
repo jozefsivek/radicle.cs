@@ -57,6 +57,10 @@
 !src/Radicle.Alike/src
 !src/Radicle.Alike/src/Radicle.Alike.csproj
 !src/Radicle.Alike/src/**/
+!src/Radicle.Alike/tests
+!src/Radicle.Alike/tests/Radicle.Alike.Tests
+!src/Radicle.Alike/tests/Radicle.Alike.Tests/Radicle.Alike.Tests.csproj
+!src/Radicle.Alike/tests/Radicle.Alike.Tests/**/
 
 !src/Radicle.CLI
 !src/Radicle.CLI/src

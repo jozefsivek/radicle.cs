@@ -58,7 +58,7 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
         {
             Ensure.Param(value).Done();
 
-            WriteLine(value, color: !this.stylingProvider.EnableColor);
+            WriteLine(value, color: this.stylingProvider.EnableColor);
         }
 
         return Task.CompletedTask;

@@ -66,8 +66,9 @@ public sealed class CLILikeArgumentsTokenizer : StringTokenizer
             inToken = true;
 
             // try to read string literal
-            TokenDecoding literalDecoding = this.stringLiteralDefinition
-                    .TryReadStringLiteral(input, startAt: pos);
+            TokenDecoding literalDecoding =
+                    this.stringLiteralDefinition
+                        .TryReadStringLiteral(input, startAt: pos);
 
             if (literalDecoding is TokenNoMatch)
             {

@@ -4,7 +4,8 @@ using System;
 
 /// <summary>
 /// Immutable representation of no-match for token decoding.
-/// E.g. if the probed input does not contain expected token form,
+/// E.g. if the probed input does not contain expected token form
+/// of the token so it is not even possible to continue in searching for token,
 /// then this will be the result of decoding.
 /// </summary>
 public sealed class TokenNoMatch : TokenDecoding

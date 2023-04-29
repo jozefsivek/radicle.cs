@@ -2,12 +2,13 @@
 
 using System;
 using Radicle.Common.Check;
+using Radicle.Common.MetaData;
 
 /// <summary>
 /// Immutable representation of token match.
 /// This can be successfull or not.
 /// </summary>
-public abstract class TokenMatch : TokenDecoding
+public abstract class TokenMatch : TokenDecoding, IOneFrom<TokenFailure, TokenWithNoValue, TokenBinary, TokenString>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="TokenMatch"/> class.
@@ -37,9 +38,10 @@ public abstract class TokenMatch : TokenDecoding
     public int EndAt { get; }
 
     /// <summary>
-    /// Gets position in root parent <see cref="TokenDecoding.SourceString"/> where literal was ended (inclusive).
+    /// Gets position in the root <see cref="TokenDecoding.Parent"/>
+    /// <see cref="TokenDecoding.SourceString"/> where the literal was ended (inclusive).
     /// In case of <see cref="TokenFailure"/> it is last read position
-    /// with formatting error.
+    /// with the formatting error.
     /// </summary>
     public int RootEndAt
     {
@@ -52,5 +54,44 @@ public abstract class TokenMatch : TokenDecoding
 
             return this.EndAt + this.Parent.StartAt;
         }
+    }
+
+    /// <inheritdoc/>
+    public new byte SumTypeValueIndex
+    {
+        get
+        {
+            if (this is TokenString)
+            {
+                return 3;
+            }
+            else if (this is TokenBinary)
+            {
+                return 2;
+            }
+            else if (this is TokenWithNoValue)
+            {
+                return 1;
+            }
+            else if (this is TokenFailure)
+            {
+                return 0;
+            }
+
+            throw new NotSupportedException(
+                    $"BUG: {nameof(TokenDecoding)} of type {this.GetType().Name} "
+                    + "is not counted into the sum type");
+        }
+    }
+
+    /// <summary>
+    /// Return representation of this instance
+    /// as one of the possible subtypes.
+    /// </summary>
+    /// <returns>Sum type of all possible values.</returns>
+    [Experimental("Currently under experimental use.")]
+    public new IOneFrom<TokenFailure, TokenWithNoValue, TokenBinary, TokenString> AsOneFrom()
+    {
+        return this;
     }
 }

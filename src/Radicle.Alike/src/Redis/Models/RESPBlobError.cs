@@ -73,6 +73,31 @@ public sealed class RESPBlobError : RESPValue
     /// </summary>
     public ulong Length => (ulong)this.Value.Length;
 
+    /// <summary>
+    /// Implicitly cast of <paramref name="stringValue"/>
+    /// to instance of <see cref="RESPBlobError"/>.
+    /// </summary>
+    /// <param name="stringValue">Value to cast.</param>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    public static implicit operator RESPBlobError(string stringValue)
+    {
+        return new RESPBlobError(stringValue);
+    }
+
+    /// <summary>
+    /// Convert <paramref name="stringValue"/>
+    /// to instance of <see cref="RESPBlobError"/>.
+    /// </summary>
+    /// <param name="stringValue">Value to cast.</param>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    /// <returns>Instance of <see cref="RESPBlobError"/>.</returns>
+    public static RESPBlobError FromString(string stringValue)
+    {
+        return new RESPBlobError(stringValue);
+    }
+
     /// <inheritdoc/>
     public override TResult Accept<TResult>(IRESPValueVisitor<TResult> visitor)
     {

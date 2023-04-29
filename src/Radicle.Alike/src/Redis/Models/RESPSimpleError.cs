@@ -70,6 +70,35 @@ public sealed class RESPSimpleError : RESPValue
     /// <exception cref="DecoderFallbackException">A fallback occurred.</exception>
     public string StringValue => RESPNames.DefaultEncoding.GetString(this.Value.ToArray());
 
+    /// <summary>
+    /// Implicitly cast of <paramref name="stringValue"/>
+    /// to instance of <see cref="RESPSimpleError"/>.
+    /// </summary>
+    /// <param name="stringValue">Value to cast.</param>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown if
+    ///     <paramref name="stringValue"/> contains new lines.</exception>
+    public static implicit operator RESPSimpleError(string stringValue)
+    {
+        return new RESPSimpleError(stringValue);
+    }
+
+    /// <summary>
+    /// Convert <paramref name="stringValue"/>
+    /// to instance of <see cref="RESPSimpleError"/>.
+    /// </summary>
+    /// <param name="stringValue">Value to cast.</param>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException">Thrown if
+    ///     <paramref name="stringValue"/> contains new lines.</exception>
+    /// <returns>Instance of <see cref="RESPSimpleError"/>.</returns>
+    public static RESPSimpleError FromString(string stringValue)
+    {
+        return new RESPSimpleError(stringValue);
+    }
+
     /// <inheritdoc/>
     public override TResult Accept<TResult>(IRESPValueVisitor<TResult> visitor)
     {

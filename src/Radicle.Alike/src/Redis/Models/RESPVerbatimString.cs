@@ -82,6 +82,31 @@ public sealed class RESPVerbatimString : RESPValue
     /// </summary>
     public ulong Length => (ulong)this.Value.Length;
 
+    /// <summary>
+    /// Implicitly cast of <paramref name="stringValue"/>
+    /// to instance of plain text <see cref="RESPVerbatimString"/>.
+    /// </summary>
+    /// <param name="stringValue">Value to cast.</param>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    public static implicit operator RESPVerbatimString(string stringValue)
+    {
+        return new RESPVerbatimString(VerbatimStringType.Text, stringValue);
+    }
+
+    /// <summary>
+    /// Convert <paramref name="stringValue"/>
+    /// to instance of plain text <see cref="RESPVerbatimString"/>.
+    /// </summary>
+    /// <param name="stringValue">Value to cast.</param>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    /// <returns>Instance of <see cref="RESPVerbatimString"/>.</returns>
+    public static RESPVerbatimString FromString(string stringValue)
+    {
+        return new RESPVerbatimString(VerbatimStringType.Text, stringValue);
+    }
+
     /// <inheritdoc/>
     public override TResult Accept<TResult>(IRESPValueVisitor<TResult> visitor)
     {

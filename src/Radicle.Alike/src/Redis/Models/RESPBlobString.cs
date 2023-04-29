@@ -2,15 +2,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using Radicle.Common.Check;
 
 /// <summary>
 /// Immutable representation of RESP blob string.
 /// </summary>
-public sealed class RESPBlobString : RESPValue
+public sealed class RESPBlobString : RESPStringLikeValue
 {
     /// <summary>
     /// Get human readable name.
@@ -25,11 +23,8 @@ public sealed class RESPBlobString : RESPValue
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
     public RESPBlobString(string stringValue)
+        : base(stringValue)
     {
-        Ensure.Param(stringValue).Done();
-
-        this.Value = RESPNames.DefaultEncoding.GetBytes(stringValue)
-                .ToImmutableArray();
     }
 
     /// <summary>
@@ -39,24 +34,12 @@ public sealed class RESPBlobString : RESPValue
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
     public RESPBlobString(IEnumerable<byte> value)
+        : base(value)
     {
-        this.Value = Ensure.Param(value).ToImmutableArray();
     }
 
     /// <inheritdoc/>
     public override RESPDataType Type => RESPDataType.BlobString;
-
-    /// <summary>
-    /// Gets value as byte array.
-    /// </summary>
-    public ImmutableArray<byte> Value { get; }
-
-    /// <summary>
-    /// Gets string value from <see cref="Value"/>.
-    /// </summary>
-    /// <exception cref="ArgumentException">The byte array contains invalid Unicode code points.</exception>
-    /// <exception cref="DecoderFallbackException">A fallback occurred.</exception>
-    public string StringValue => RESPNames.DefaultEncoding.GetString(this.Value.ToArray());
 
     /// <summary>
     /// Gets a value indicating whether this value is empty.

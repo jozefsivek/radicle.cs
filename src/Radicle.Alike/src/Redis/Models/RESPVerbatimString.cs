@@ -2,15 +2,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using Radicle.Common.Check;
 
 /// <summary>
 /// Immutable representation of RESP blob string.
 /// </summary>
-public sealed class RESPVerbatimString : RESPValue
+public sealed class RESPVerbatimString : RESPStringLikeValue
 {
     /// <summary>
     /// Gets human readable name.
@@ -28,12 +26,9 @@ public sealed class RESPVerbatimString : RESPValue
     public RESPVerbatimString(
             VerbatimStringType stringType,
             string stringValue)
+        : base(stringValue)
     {
-        Ensure.Param(stringValue).Done();
-
         this.StringType = stringType;
-        this.Value = RESPNames.DefaultEncoding.GetBytes(stringValue)
-                .ToImmutableArray();
     }
 
     /// <summary>
@@ -46,9 +41,9 @@ public sealed class RESPVerbatimString : RESPValue
     public RESPVerbatimString(
             VerbatimStringType stringType,
             IEnumerable<byte> value)
+        : base(value)
     {
         this.StringType = stringType;
-        this.Value = Ensure.Param(value).ToImmutableArray();
     }
 
     /// <inheritdoc/>
@@ -58,19 +53,6 @@ public sealed class RESPVerbatimString : RESPValue
     /// Gets type of the string content.
     /// </summary>
     public VerbatimStringType StringType { get; }
-
-    /// <summary>
-    /// Gets value as byte array.
-    /// </summary>
-    public ImmutableArray<byte> Value { get; }
-
-    /// <summary>
-    /// Gets string value from <see cref="Value"/>.
-    /// </summary>
-    /// <remarks>See https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring?view=net-8.0#system-text-encoding-getstring(system-byte()).</remarks>
-    /// <exception cref="ArgumentException">The byte array contains invalid Unicode code points.</exception>
-    /// <exception cref="DecoderFallbackException">A fallback occurred.</exception>
-    public string StringValue => RESPNames.DefaultEncoding.GetString(this.Value.ToArray());
 
     /// <summary>
     /// Gets a value indicating whether this value is empty.

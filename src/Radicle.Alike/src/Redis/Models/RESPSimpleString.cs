@@ -2,15 +2,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using Radicle.Common.Check;
 
 /// <summary>
 /// Immutable representation of the RESP simple string.
 /// </summary>
-public sealed class RESPSimpleString : RESPValue
+public sealed class RESPSimpleString : RESPStringLikeValue
 {
     /// <summary>
     /// Gets human name of this value.
@@ -27,11 +25,8 @@ public sealed class RESPSimpleString : RESPValue
     /// <exception cref="ArgumentException">Thrown if
     ///     <paramref name="stringValue"/> contains new lines.</exception>
     public RESPSimpleString(string stringValue)
+        : base(Ensure.Param(stringValue).NoNewLines().Value)
     {
-        Ensure.Param(stringValue).NoNewLines().Done();
-
-        this.Value = RESPNames.DefaultEncoding.GetBytes(stringValue)
-                .ToImmutableArray();
     }
 
     /// <summary>
@@ -43,27 +38,14 @@ public sealed class RESPSimpleString : RESPValue
     /// <exception cref="ArgumentException">Thrown if
     ///     <paramref name="value"/> contains new lines of any kind.</exception>
     public RESPSimpleString(IEnumerable<byte> value)
-    {
-        this.Value = Ensure.Param(value)
+        : base(Ensure.Param(value)
                 .AllNotNull(b => Ensure.Param(b)
-                    .That(b => !RESPNames.AllNewLineBytes.Contains(b)).Done())
-                .ToImmutableArray();
+                    .That(b => !RESPNames.AllNewLineBytes.Contains(b)).Done()))
+    {
     }
 
     /// <inheritdoc/>
     public override RESPDataType Type => RESPDataType.SimpleString;
-
-    /// <summary>
-    /// Gets value as byte array (by definition does not contain new lines).
-    /// </summary>
-    public ImmutableArray<byte> Value { get; }
-
-    /// <summary>
-    /// Gets string value from <see cref="Value"/>.
-    /// </summary>
-    /// <exception cref="ArgumentException">The byte array contains invalid Unicode code points.</exception>
-    /// <exception cref="DecoderFallbackException">A fallback occurred.</exception>
-    public string StringValue => RESPNames.DefaultEncoding.GetString(this.Value.ToArray());
 
     /// <summary>
     /// Implicitly cast of <paramref name="stringValue"/>

@@ -1,27 +1,31 @@
 ﻿namespace Radicle.Common.Tokenization.Models;
 
 using System;
+using Radicle.Common;
 using Radicle.Common.Check;
+using Radicle.Common.MetaData;
 
 /// <summary>
 /// Base of immutable token decodigns with failure handling.
 /// </summary>
-public abstract class TokenDecoding
+/// <remarks>
+/// The full hierarchy is as follows:
+/// <code>
+/// Token decoding class hierarchy:
+///
+///            TokenDecoding
+///           /              \
+///    TokenNoMatch       TokenMatch
+///                      /          \
+///               TokenFailure     TokenWith
+///                               /         \
+///                   TokenWithNoValue     TokenWithValue
+///                                        /             \
+///                                  TokenBinary     TokenString
+/// </code>
+/// </remarks>
+public abstract class TokenDecoding : IOneFrom<TokenNoMatch, TokenFailure, TokenWithNoValue, TokenBinary, TokenString>
 {
-    /*
-       Token decoding class hierarchy:
-
-              TokenDecoding
-            /               \
-     TokenNoMatch        TokenMatch
-                       /            \
-                TokenFailure      TokenWith
-                                /         \
-                    TokenWithNoValue     TokenWithValue
-                                         /             \
-                                   TokenBinary     TokenString
-    */
-
     /// <summary>
     /// Initializes a new instance of the <see cref="TokenDecoding"/> class.
     /// </summary>
@@ -61,4 +65,50 @@ public abstract class TokenDecoding
     /// leading to empty token.
     /// </summary>
     public int StartAt { get; }
+
+    /// <inheritdoc/>
+    public object SumTypeValue => this;
+
+    /// <inheritdoc/>
+    public byte SumTypeValueIndex
+    {
+        get
+        {
+            if (this is TokenString)
+            {
+                return 4;
+            }
+            else if (this is TokenBinary)
+            {
+                return 3;
+            }
+            else if (this is TokenWithNoValue)
+            {
+                return 2;
+            }
+            else if (this is TokenFailure)
+            {
+                return 1;
+            }
+            else if (this is TokenNoMatch)
+            {
+                return 0;
+            }
+
+            throw new NotSupportedException(
+                    $"BUG: {nameof(TokenDecoding)} of type {this.GetType().Name} "
+                    + "is not counted into the sum type");
+        }
+    }
+
+    /// <summary>
+    /// Return representation of this instance
+    /// as one of the possible subtypes.
+    /// </summary>
+    /// <returns>Sum type of all possible values.</returns>
+    [Experimental("Currently under experimental use.")]
+    public IOneFrom<TokenNoMatch, TokenFailure, TokenWithNoValue, TokenBinary, TokenString> AsOneFrom()
+    {
+        return this;
+    }
 }

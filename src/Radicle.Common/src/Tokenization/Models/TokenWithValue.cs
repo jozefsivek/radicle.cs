@@ -2,11 +2,12 @@
 
 using System;
 using System.Collections.Generic;
+using Radicle.Common.MetaData;
 
 /// <summary>
 /// Immutable representation of token with value.
 /// </summary>
-public abstract class TokenWithValue : TokenWith
+public abstract class TokenWithValue : TokenWith, IOneFrom<TokenBinary, TokenString>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="TokenWithValue"/> class.
@@ -31,6 +32,26 @@ public abstract class TokenWithValue : TokenWith
             int continueAt)
         : base(sourceString, startAt, endAt, continueAt)
     {
+    }
+
+    /// <inheritdoc/>
+    public new byte SumTypeValueIndex
+    {
+        get
+        {
+            if (this is TokenString)
+            {
+                return 1;
+            }
+            else if (this is TokenBinary)
+            {
+                return 0;
+            }
+
+            throw new NotSupportedException(
+                    $"BUG: {nameof(TokenDecoding)} of type {this.GetType().Name} "
+                    + "is not counted into the sum type");
+        }
     }
 
     /// <summary>
@@ -83,5 +104,16 @@ public abstract class TokenWithValue : TokenWith
     public static TokenWithValue ToTokenWithValue(IEnumerable<byte> value)
     {
         return TokenBinary.GetPassThrough(value);
+    }
+
+    /// <summary>
+    /// Return representation of this instance
+    /// as one of the possible subtypes.
+    /// </summary>
+    /// <returns>Sum type of all possible values.</returns>
+    [Experimental("Currently under experimental use.")]
+    public new IOneFrom<TokenBinary, TokenString> AsOneFrom()
+    {
+        return this;
     }
 }

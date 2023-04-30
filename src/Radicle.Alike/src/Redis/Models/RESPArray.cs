@@ -45,6 +45,20 @@ public sealed class RESPArray : RESPAggregate, IEnumerable<RESPValue>
     /// <inheritdoc/>
     public override uint Length => (uint)this.Items.Length;
 
+    /// <summary>
+    /// Transform this array to
+    /// to <see cref="RESPMap"/> if possible
+    /// with items corresponding to
+    /// key1, value1, ke2, value2, etc.
+    /// </summary>
+    /// <returns>Instance of <see cref="RESPMap"/>.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown
+    ///     if this <see cref="Length"/> is not even.</exception>
+    public RESPMap ToRESPMap()
+    {
+        return RESPMap.FromRESPArray(this);
+    }
+
     /// <inheritdoc/>
     public override bool Equals(RESPValue? other)
     {

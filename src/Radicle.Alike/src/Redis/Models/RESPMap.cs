@@ -99,6 +99,18 @@ public sealed class RESPMap : RESPAggregate, IEnumerable<KeyValuePair<RESPValue,
         return new RESPMap(GetKeyValues(Ensure.Param(array).Value));
     }
 
+    /// <summary>
+    /// Transform this map
+    /// to <see cref="RESPArray"/> with items corresponding to
+    /// key1, value1, ke2, value2, etc.
+    /// See <see cref="ToRESPArray(RESPMap)"/>.
+    /// </summary>
+    /// <returns>Instance of <see cref="RESPArray"/>.</returns>
+    public RESPArray ToRESPArray()
+    {
+        return ToRESPArray(this);
+    }
+
     /// <inheritdoc/>
     public override TResult Accept<TResult>(IRESPValueVisitor<TResult> visitor)
     {

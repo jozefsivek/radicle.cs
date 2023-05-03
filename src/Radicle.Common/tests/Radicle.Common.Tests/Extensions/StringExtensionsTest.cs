@@ -214,4 +214,40 @@ public class StringExtensionsTest
                 expected,
                 actual);
     }
+
+    [Fact]
+    public void ToLines_NullInput_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() => ((string)null!).ToLines());
+    }
+
+    [Theory]
+    [InlineData("", new[] { "" })]
+    [InlineData("\r\n", new[] { "", "" })]
+    [InlineData("\n\r", new[] { "", "" })]
+    [InlineData("\n", new[] { "", "" })]
+    [InlineData("\n\n", new[] { "", "", "" })]
+    [InlineData("\r", new[] { "", "" })]
+    [InlineData("foo\r\nbar\n", new[] { "foo", "bar", "" })]
+    [InlineData("foo\nbar", new[] { "foo", "bar" })]
+    public void ToLines_ValidInput_Works(
+            string input,
+            string[] expected)
+    {
+        Assert.Equal(expected, input.ToLines());
+    }
+
+    [Theory]
+    [InlineData("\r\n", StringSplitOptions.RemoveEmptyEntries, new string[] { })]
+    [InlineData("\n", StringSplitOptions.RemoveEmptyEntries, new string[] { })]
+    [InlineData("foo\n\nbar", StringSplitOptions.RemoveEmptyEntries, new string[] { "foo", "bar" })]
+    [InlineData(" foo\n\n\tbar", StringSplitOptions.TrimEntries, new string[] { "foo", "", "bar" })]
+    [InlineData("  \n\n\t", StringSplitOptions.TrimEntries, new string[] { "", "", "" })]
+    public void ToLines_ComplexInput_Works(
+            string input,
+            StringSplitOptions options,
+            string[] expected)
+    {
+        Assert.Equal(expected, input.ToLines(options: options));
+    }
 }

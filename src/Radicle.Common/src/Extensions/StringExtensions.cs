@@ -123,6 +123,27 @@ public static class StringExtensions
                 modifier: h => Dump.Literal(h, literalDefinition: literalDefinition));
     }
 
+    /// <summary>
+    /// Split given <paramref name="self"/>
+    /// to parts not containing any new line character.
+    /// Composite line breaks like '\r\n' have precedence
+    /// over single character line breaks.
+    /// </summary>
+    /// <param name="self">String to split.</param>
+    /// <param name="options">Optional split options.</param>
+    /// <returns>Enumeration of line break free lines.</returns>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    public static string[] ToLines(
+            this string self,
+            StringSplitOptions options = StringSplitOptions.None)
+    {
+        // The order here is important, we do not want to have
+        // more splits than necessary
+        return Ensure.Param(self).Value
+                .Split(new[] { "\r\n", "\n\r", "\n", "\r" }, options: options);
+    }
+
     private static string EllipsisWithModifier(
             this string self,
             ushort trim = 24,

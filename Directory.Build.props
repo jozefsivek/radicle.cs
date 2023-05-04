@@ -15,7 +15,7 @@
 
             PackageVersion is auto-set when packing.
         -->
-        <Version>0.7.0</Version>
+        <Version>0.8.0</Version>
         <PackageProjectUrl>https://github.com/jozefsivek/radicle.cs</PackageProjectUrl>
         <PackageReleaseNotes>https://github.com/jozefsivek/radicle.cs/blob/master/CHANGELOG.md</PackageReleaseNotes>
     </PropertyGroup>

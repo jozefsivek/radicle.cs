@@ -46,6 +46,27 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.8.0 (2023-05-04)
+------------------
+
+Upgrade urgency: LOW; new tooling
+
+- Fix inverse colour flag behaviour for console output
+- Add experimental OneFrom iterface for sum types
+- Add experimental interfaces on Token models
+- Add implicit string operators for string RESP types
+  to ease instance creation
+- Use single base class for all string like RESP values
+- Add more convenience methods for RESP array
+  to and from map conversion
+- Add an extension to split string in to
+  the lines by any known new line characters
+- Add tooling for ASCII-like visualisation
+  of tree structures
+- Add horizontal bar plot formatter for
+  progress and value ASCII-like in-line plots
+
+
 0.7.0 (2023-03-31)
 ------------------
 

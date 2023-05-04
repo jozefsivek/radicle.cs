@@ -9,6 +9,8 @@ using Radicle.CLI.Models;
 using Radicle.Common;
 using Radicle.Common.Check;
 using Radicle.Common.Extensions;
+using Radicle.Common.Visual;
+using Radicle.Common.Visual.Models;
 
 /// <summary>
 /// System Console implementation of <see cref="IREPLReaderWriter"/>.
@@ -81,7 +83,7 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
                 ProgressViewModel currentProgress = new(
                         progress,
                         spinner: Spinners.GetSpinner(this.stylingProvider.SpinnerType),
-                        progressBars: ProgressBars.GetBars(this.stylingProvider.ProgressBarsType));
+                        plotFormatter: ConstructFormatter(this.stylingProvider.ProgressBarsType));
 
                 if (lastProgress is null)
                 {
@@ -284,6 +286,30 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
         Console.WriteLine();
 
         return Task.FromResult(currentModel.UserInputValue);
+    }
+
+    private static HorizontalBarPlotFormatter ConstructFormatter(
+            ProgressBarsType type)
+    {
+        BarPlotStyle styleName = type switch
+        {
+            ProgressBarsType.ASCII => BarPlotStyle.ASCII,
+            ProgressBarsType.Graphic => BarPlotStyle.FullBlock,
+            ProgressBarsType.PartialBlock => BarPlotStyle.PartialBlock,
+            ProgressBarsType.BlockDots => BarPlotStyle.BlockDots,
+            ProgressBarsType.Dots => BarPlotStyle.Dots,
+            _ => throw new NotSupportedException(
+                    $"BUG: progress bar type {type} is not recognized."),
+        };
+
+        return new HorizontalBarPlotFormatter()
+        {
+            Interval = new DoubleInterval(0.0, 1.0),
+            ShowLeftBoundary = true,
+            ShowRightBoundary = true,
+            StyleName = styleName,
+            Width = 14,
+        };
     }
 
     private static void WriteLine(

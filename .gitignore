@@ -52,6 +52,9 @@
 !src/Radicle.Common/tests/Radicle.Common.Tests
 !src/Radicle.Common/tests/Radicle.Common.Tests/Radicle.Common.Tests.csproj
 !src/Radicle.Common/tests/Radicle.Common.Tests/**/
+!src/Radicle.Common/tests/Radicle.Common.FunctionalTests
+!src/Radicle.Common/tests/Radicle.Common.FunctionalTests/Radicle.Common.FunctionalTests.csproj
+!src/Radicle.Common/tests/Radicle.Common.FunctionalTests/**/
 
 !src/Radicle.Alike
 !src/Radicle.Alike/src

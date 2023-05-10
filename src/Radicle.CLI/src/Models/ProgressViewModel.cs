@@ -71,6 +71,7 @@ internal sealed class ProgressViewModel
                 ? Math.Max(this.Count, (ulong)progress.Total)
                 : 0uL;
         this.Elapsed = (DateTimeOffset.UtcNow - progress.StartDate).UseIfLongerOr(TimeSpan.Zero);
+        this.Status = progress.Status;
         this.spinner = Ensure.Collection(spinner).InRange(2, 42).ToImmutableArray();
         this.plotFormatter = Ensure.Param(plotFormatter).Value;
     }
@@ -91,6 +92,11 @@ internal sealed class ProgressViewModel
     /// Can be zero.
     /// </summary>
     public TimeSpan Elapsed { get; }
+
+    /// <summary>
+    /// Gets current status.
+    /// </summary>
+    public string Status { get; } = string.Empty;
 
     /// <summary>
     /// Gets estimated time of arrival.
@@ -147,6 +153,7 @@ internal sealed class ProgressViewModel
                 .Append(this.SpeedOrEmpty())
                 .Append("; ")
                 .Append(this.GetETAOrElapsedTime())
+                .Append(this.StatusOrEmpty())
                 .ToString();
     }
 
@@ -183,6 +190,18 @@ internal sealed class ProgressViewModel
             double speed = this.Count / this.Elapsed.TotalSeconds;
 
             return $"({speed:f0} ops/s)";
+        }
+
+        return string.Empty;
+    }
+
+    private string StatusOrEmpty()
+    {
+        if (!string.IsNullOrWhiteSpace(this.Status))
+        {
+            // the trimming to buffer width will happen in printer
+            // here we trim just to make it look better
+            return $": {this.Status.Ellipsis(trim: 128)}";
         }
 
         return string.Empty;

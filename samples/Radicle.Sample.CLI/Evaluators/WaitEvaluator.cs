@@ -90,6 +90,11 @@ internal sealed class WaitEvaluator : SampleCommandEvaluator
             {
                 progress?.Report(++counter);
 
+                if (progress is not null && counter % 5 == 0)
+                {
+                    progress.Status = $"remaining {progress.Total - counter}";
+                }
+
                 cancellationToken.ThrowIfCancellationRequested();
 
                 await Task.Delay(

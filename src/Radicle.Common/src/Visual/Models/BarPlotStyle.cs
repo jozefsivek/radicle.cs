@@ -11,27 +11,32 @@ public enum BarPlotStyle
     ASCIIStars = 0,
 
     /// <summary>
+    /// ASCII style with '.'.
+    /// </summary>
+    ASCIIDots = 1,
+
+    /// <summary>
     /// ASCII style.
     /// </summary>
-    ASCII = 1,
+    ASCII = 9,
 
     /// <summary>
     /// Style using solid blocks.
     /// </summary>
-    FullBlock = 2,
+    FullBlock = 16,
 
     /// <summary>
     /// Style using partial grid blocks.
     /// </summary>
-    PartialBlock = 3,
+    PartialBlock = 20,
 
     /// <summary>
     /// Style using dots in a grid.
     /// </summary>
-    BlockDots = 4,
+    BlockDots = 21,
 
     /// <summary>
     /// Style using simple dots.
     /// </summary>
-    Dots = 5,
+    Dots = 32,
 }

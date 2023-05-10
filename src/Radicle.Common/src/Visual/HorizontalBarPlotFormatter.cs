@@ -155,6 +155,7 @@ public sealed class HorizontalBarPlotFormatter
         return this.StyleName switch
         {
             BarPlotStyle.ASCIIStars => HorizontalBarPlotStyle.ASCIIStars,
+            BarPlotStyle.ASCIIDots => HorizontalBarPlotStyle.ASCIIDots,
             BarPlotStyle.ASCII => HorizontalBarPlotStyle.ASCII,
             BarPlotStyle.FullBlock => HorizontalBarPlotStyle.FullVerticalBlock,
             BarPlotStyle.PartialBlock => HorizontalBarPlotStyle.PartialBlock,

@@ -23,6 +23,23 @@ internal sealed class HorizontalBarPlotStyle
     };
 
     /// <summary>
+    /// ASCII stars plot style.
+    /// </summary>
+    public static readonly HorizontalBarPlotStyle ASCIIDots = new()
+    {
+        PositiveProgress = new[]
+        {
+            ' ',
+            '.',
+        },
+        NegativeProgress = new[]
+        {
+            ' ',
+            '.',
+        },
+    };
+
+    /// <summary>
     /// ASCII line plot style.
     /// </summary>
     public static readonly HorizontalBarPlotStyle ASCII = new();

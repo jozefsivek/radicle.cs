@@ -143,6 +143,7 @@ public class HorizontalBarPlotFormatterTest
     [Theory]
     [InlineData("[*         ]", 6, BarPlotStyle.ASCIIStars)]
     [InlineData("[*****     ]", 50, BarPlotStyle.ASCIIStars)]
+    [InlineData("[.......   ]", 70, BarPlotStyle.ASCIIDots)]
     [InlineData("[I|        ]", 16, BarPlotStyle.ASCII)]
     [InlineData("\u2595\u2588\u2588\u258B       \u258F", 26, BarPlotStyle.FullBlock)]
     [InlineData("\u2595\u2588\u2588\u2588\u2599      \u258F", 36, BarPlotStyle.PartialBlock)]

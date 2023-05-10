@@ -302,13 +302,15 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
                     $"BUG: progress bar type {type} is not recognized."),
         };
 
+        ushort width = (ushort)Math.Clamp(Console.BufferWidth / 6, 4, 36);
+
         return new HorizontalBarPlotFormatter()
         {
             Interval = new DoubleInterval(0.0, 1.0),
             ShowLeftBoundary = true,
             ShowRightBoundary = true,
             StyleName = styleName,
-            Width = 14,
+            Width = width,
         };
     }
 

@@ -3,6 +3,7 @@ namespace Radicle.Common.Base;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using Radicle.Common.Check;
 
 /// <summary>
@@ -66,7 +67,7 @@ public class Disposable : IDisposable
     /// which will be disposed with this instance.
     /// </summary>
     /// <remarks>There is no concurrent set.</remarks>
-    internal ConcurrentDictionary<IDisposable, bool> Disposables { get; } = new();
+    internal ConcurrentDictionary<IDisposable, int> Disposables { get; } = new();
 
     /// <inheritdoc/>
     public void Dispose()
@@ -99,7 +100,8 @@ public class Disposable : IDisposable
         // e.g. called from Dispose()
         if (disposing)
         {
-            foreach (IDisposable d in this.Disposables.Keys)
+            foreach (IDisposable d in this.Disposables
+                    .OrderBy(i => i.Value).Select(i => i.Key))
             {
                 d.Dispose();
             }
@@ -121,15 +123,23 @@ public class Disposable : IDisposable
     /// by this instance which will be disposed with this instance.
     /// </summary>
     /// <param name="disposable">Disposable object to add.</param>
+    /// <param name="order">Optional order of disposal.
+    ///     Disposaables with lower order number will be disposed first.
+    ///     In some cases this makes a difference if you add multiple
+    ///     disposables and one wraps the other, then the wrapper
+    ///     needs to be disposed first (e.g. deflate stream made
+    ///     from file stream).</param>
     /// <exception cref="ArgumentNullException">Thrown if
     ///     required parameter is <see langword="null"/>.</exception>
     /// <exception cref="ObjectDisposedException">Thrown if this instance
     ///     is already disposed.</exception>
-    protected void Add(IDisposable disposable)
+    protected void Add(
+            IDisposable disposable,
+            int order = 0)
     {
         this.EnsureNotDisposed();
 
-        _ = this.Disposables.TryAdd(Ensure.Param(disposable).Value, true);
+        _ = this.Disposables.TryAdd(Ensure.Param(disposable).Value, order);
     }
 
     /// <summary>

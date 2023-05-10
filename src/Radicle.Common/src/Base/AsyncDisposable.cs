@@ -1,6 +1,7 @@
 ﻿namespace Radicle.Common.Base;
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 /// <summary>
@@ -65,7 +66,8 @@ public class AsyncDisposable : Disposable, IAsyncDisposable
         }
 
         // release managed resources
-        foreach (IDisposable d in this.Disposables.Keys)
+        foreach (IDisposable d in this.Disposables
+                .OrderBy(i => i.Value).Select(i => i.Key))
         {
             if (d is IAsyncDisposable a)
             {

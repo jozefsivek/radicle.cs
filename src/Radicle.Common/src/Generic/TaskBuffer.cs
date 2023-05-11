@@ -2,6 +2,8 @@ namespace Radicle.Common.Generic;
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Radicle.Common.Base;
 
@@ -50,15 +52,27 @@ public sealed class TaskBuffer<TValue, TMetaData> : TaskBufferBase<TMetaData>
         return base.Enqueue(task, metaData);
     }
 
+    /*
+    check http://blog.monstuff.com/archives/2019/03/async-enumerables-with-cancellation.html
+    for tips
+    */
+
     /// <summary>
     /// Await all stored tasks serially in order they were enqueued and clear
     /// the buffer. Call before or at the time
     /// <see cref="Enqueue(Task{TValue}, TMetaData)"/> returns <see langword="true"/>.
     /// </summary>
+    /// <param name="cancellationToken">Optional cancelation token
+    ///     for the enumeration. See
+    ///     http://blog.monstuff.com/archives/2019/03/async-enumerables-with-cancellation.html
+    ///     for more info.</param>
     /// <returns>Enumeraion of task results and metadata.</returns>
     /// <exception cref="Exception">Thrown from the awaited
     ///     stored task.</exception>
-    public async IAsyncEnumerable<(TValue Result, TMetaData Meta)> FlushAsync()
+    /// <exception cref="OperationCanceledException">Thrown
+    ///     if operation was cancelled.</exception>
+    public async IAsyncEnumerable<(TValue Result, TMetaData Meta)> FlushAsync(
+            [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         if (!this.IsEmpty)
         {
@@ -66,6 +80,8 @@ public sealed class TaskBuffer<TValue, TMetaData> : TaskBufferBase<TMetaData>
             {
                 foreach ((Task task, TMetaData meta) in this.CurrentTasks())
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     TValue result = await ((Task<TValue>)task).ConfigureAwait(false);
 
                     yield return (result, meta);

@@ -46,6 +46,23 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.9.0 (2023-05-11)
+------------------
+
+Upgrade urgency: LOW; new tooling and improvements
+
+- Add support for ordering disposables so they
+  are disposed in predictable order
+- Add experimental utility for smart detection
+  of compressed or STDIN/OUT files
+- Add ASCII dots plot style and correct
+  the enum values to allow future extensions
+- Add optional human readable status text to
+  TransparentProgress
+- Add optional [cancellation token](http://blog.monstuff.com/archives/2019/03/async-enumerables-with-cancellation.html)
+  into the async enumerator in TaskBuffer
+
+
 0.8.0 (2023-05-04)
 ------------------
 

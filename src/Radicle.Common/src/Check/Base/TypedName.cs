@@ -28,18 +28,20 @@ public abstract class TypedName<T> : ITypedName, IEquatable<T>, IComparable, ICo
                 ? string.Intern(value)
                 : value;
 
-        string portableValue = this.Value;
+        string invariantValue = this.Value;
 
         if (this.Spec.IgnoreCaseWhenCompared)
         {
 #pragma warning disable CA1308 // Normalize strings to uppercase
-            portableValue = this.Value.ToLowerInvariant();
+            invariantValue = this.Value.ToLowerInvariant();
 #pragma warning restore CA1308 // Normalize strings to uppercase
+
+            invariantValue = this.InternValues
+                    ? string.Intern(invariantValue)
+                    : invariantValue;
         }
 
-        this.InvariantValue = this.InternValues
-                ? string.Intern(portableValue)
-                : portableValue;
+        this.InvariantValue = invariantValue;
     }
 
     /// <inheritdoc />
@@ -53,9 +55,11 @@ public abstract class TypedName<T> : ITypedName, IEquatable<T>, IComparable, ICo
 
     /// <summary>
     /// Gets a value indicating whether to allow interning
-    /// of the value to save memory. Defaults to <see langword="true"/>.
+    /// of the value to save memory.
+    /// Defaults to <see langword="false"/> to avoid unintentional
+    /// memory leaks.
     /// </summary>
-    protected virtual bool InternValues { get; } = true;
+    protected virtual bool InternValues { get; }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 

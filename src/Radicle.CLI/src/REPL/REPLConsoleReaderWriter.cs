@@ -71,19 +71,31 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
             TransparentProgress<long> progress,
             Func<Task<IEnumerable<OutputLine>>> outputFactory)
     {
+        Ensure.Param(progress).Done();
+
         Task<IEnumerable<OutputLine>> task = Ensure.Param(outputFactory).Value();
         DateTime lastPrintout = DateTime.UtcNow;
         ProgressViewModel? lastProgress = default;
         ulong request = 0;
+        RollingCollection<ProgressReport<long>> lastReports = new(4);
 
         while (!task.IsCompleted)
         {
             if (lastPrintout.IsOlderThan(TimeSpan.FromMilliseconds(250)))
             {
+                ProgressReport<long> latestReport = progress.LastReport;
+
+                if (!lastReports.TryGetLast(out ProgressReport<long> last)
+                        || last != latestReport)
+                {
+                    lastReports.Add(latestReport);
+                }
+
                 ProgressViewModel currentProgress = new(
                         progress,
                         spinner: Spinners.GetSpinner(this.stylingProvider.SpinnerType),
-                        plotFormatter: ConstructFormatter(this.stylingProvider.ProgressBarsType));
+                        plotFormatter: ConstructFormatter(this.stylingProvider.ProgressBarsType),
+                        lastReports);
 
                 if (lastProgress is null)
                 {

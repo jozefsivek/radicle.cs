@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 using Radicle.Common.Check;
 
 /// <summary>
-/// Mutable looping collection with looping
+/// Looping immutable collection with mutable cursor to support looping, i.e.
 /// wrapping around.
 /// </summary>
 /// <typeparam name="T">Type of the collcetion item.</typeparam>

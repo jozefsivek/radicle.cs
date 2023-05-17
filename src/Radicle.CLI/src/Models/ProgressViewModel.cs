@@ -19,6 +19,10 @@ internal sealed class ProgressViewModel
 
     private readonly HorizontalBarPlotFormatter plotFormatter;
 
+    private readonly TimeSpan maximumETA = TimeSpan.FromDays(365 * 100);
+
+    private double? speedValue;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ProgressViewModel"/> class.
     /// </summary>
@@ -45,6 +49,7 @@ internal sealed class ProgressViewModel
                 .ValueOr(TimeSpan.Zero);
         this.spinner = Ensure.Collection(spinner).InRange(2, 42).ToImmutableArray();
         this.plotFormatter = Ensure.Param(plotFormatter).Value;
+        this.LastReports = ImmutableArray<ProgressReport<long>>.Empty;
     }
 
     /// <summary>
@@ -53,6 +58,7 @@ internal sealed class ProgressViewModel
     /// <param name="progress">Progress source, values are clipped if required.</param>
     /// <param name="spinner">Spinner containing consecutively displayed characters.</param>
     /// <param name="plotFormatter">Plot formatter.</param>
+    /// <param name="lastReports">Last reports, if available.</param>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown
@@ -60,7 +66,8 @@ internal sealed class ProgressViewModel
     public ProgressViewModel(
             TransparentProgress<long> progress,
             ImmutableArray<char> spinner,
-            HorizontalBarPlotFormatter plotFormatter)
+            HorizontalBarPlotFormatter plotFormatter,
+            IEnumerable<ProgressReport<long>>? lastReports = null)
     {
         Ensure.Param(progress).Done();
 
@@ -74,6 +81,7 @@ internal sealed class ProgressViewModel
         this.Status = progress.Status;
         this.spinner = Ensure.Collection(spinner).InRange(2, 42).ToImmutableArray();
         this.plotFormatter = Ensure.Param(plotFormatter).Value;
+        this.LastReports = Ensure.OptionalCollection(lastReports).ToImmutableArray();
     }
 
     /// <summary>
@@ -94,36 +102,97 @@ internal sealed class ProgressViewModel
     public TimeSpan Elapsed { get; }
 
     /// <summary>
+    /// Gets history reports. Can be empty.
+    /// </summary>
+    public ImmutableArray<ProgressReport<long>> LastReports { get; }
+
+    /// <summary>
     /// Gets current status.
     /// </summary>
     public string Status { get; } = string.Empty;
 
     /// <summary>
-    /// Gets estimated time of arrival.
+    /// Gets estimated time of arrival computed as average across whole time.
     /// </summary>
-    public TimeSpan ETA
+    public TimeSpan AverageETA => this.ComputeETA(this.AverageSpeed);
+
+    /// <summary>
+    /// Gets average speed, operations per second,
+    /// computed as average across whole time.
+    /// </summary>
+    public double AverageSpeed
     {
         get
         {
-            double multiplier = (1.0 - this.Ratio) / this.Ratio;
-            TimeSpan maximumETA = TimeSpan.FromDays(365 * 2);
-
-            if (double.IsInfinity(multiplier))
+            if (this.Elapsed == TimeSpan.Zero)
             {
-                return maximumETA;
+                return 0.0;
             }
 
-            // time span multiplication can overflow
-            // with System.OverflowException unlike:
-            double elapsed = this.Elapsed.TotalSeconds;
-            double eta = elapsed * multiplier;
+            return this.Count / this.Elapsed.TotalSeconds;
+        }
+    }
 
-            if (maximumETA.TotalSeconds <= eta)
+    /// <summary>
+    /// Gets estimated time of arrival computed from
+    /// the <see cref="LastReports"/> if possible or
+    /// fallback to <see cref="AverageETA"/>.
+    /// </summary>
+    public TimeSpan ETA => this.ComputeETA(this.Speed);
+
+    /// <summary>
+    /// Gets speed, operations per second,
+    /// computed from the contemporary observation.
+    /// </summary>
+    public double Speed
+    {
+        get
+        {
+            if (!this.speedValue.HasValue)
             {
-                return maximumETA;
+                if (this.LastReports.Length < 2 || !this.Total.HasValue)
+                {
+                    this.speedValue = this.AverageSpeed;
+                }
+                else
+                {
+                    double weights = 0.0;
+                    double speed = 0.0;
+
+                    if (this.LastReports.Length < 4 && this.Elapsed != TimeSpan.Zero)
+                    {
+                        speed += this.Count / this.Elapsed.TotalSeconds;
+                        weights++;
+                    }
+
+                    ProgressReport<long> last = default;
+                    bool first = true;
+                    double weight = 2.0;
+
+                    foreach (ProgressReport<long> report in this.LastReports)
+                    {
+                        if (!first)
+                        {
+                            weight *= 2.0;
+                            TimeSpan timeIncrement = report.Date - last.Date;
+
+                            if (timeIncrement != TimeSpan.Zero)
+                            {
+                                speed += weight * (report.Count - last.Count)
+                                        / timeIncrement.TotalSeconds;
+                                weights += weight;
+                            }
+                        }
+
+                        last = report;
+                        first = false;
+                    }
+
+                    this.speedValue = speed / weights;
+                }
             }
 
-            return TimeSpan.FromSeconds(eta);
+            return this.speedValue.Value;
         }
     }
 
@@ -185,11 +254,9 @@ internal sealed class ProgressViewModel
 
     private string SpeedOrEmpty()
     {
-        if (this.Elapsed != TimeSpan.Zero)
+        if (this.Speed > 0.0)
         {
-            double speed = this.Count / this.Elapsed.TotalSeconds;
-
-            return $"({speed:f0} ops/s)";
+            return $"({this.Speed:f0} ops/s)";
         }
 
         return string.Empty;
@@ -205,5 +272,27 @@ internal sealed class ProgressViewModel
         }
 
         return string.Empty;
+    }
+
+    private TimeSpan ComputeETA(double opsPerSecond)
+    {
+        if (opsPerSecond == 0.0)
+        {
+            return this.maximumETA;
+        }
+        else if (this.Total.HasValue)
+        {
+            double eta = ((double)this.Total - this.Count) / opsPerSecond;
+
+            // time span multiplication can overflow
+            // with System.OverflowException:
+            return Math.Abs(eta) >= this.maximumETA.TotalSeconds || double.IsNaN(eta)
+                    ? this.maximumETA
+                    : TimeSpan.FromSeconds(eta);
+        }
+        else
+        {
+            return TimeSpan.Zero;
+        }
     }
 }

@@ -23,6 +23,13 @@ public class TransparentProgress<T> : IProgress<T>
     public DateTime StartDate { get; } = DateTime.UtcNow;
 
     /// <summary>
+    /// Gets last report of this progress
+    /// this is by default set to <see cref="StartDate"/>
+    /// and initial value of <see cref="Count"/>.
+    /// </summary>
+    public ProgressReport<T> LastReport { get; private set; } = new ProgressReport<T>(default);
+
+    /// <summary>
     /// Gets current count, this is value
     /// normally set by <see cref="Report(T)"/>.
     /// </summary>
@@ -56,5 +63,6 @@ public class TransparentProgress<T> : IProgress<T>
     public void Report(T value)
     {
         this.Count = value;
+        this.LastReport = this.Count;
     }
 }

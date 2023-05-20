@@ -53,7 +53,7 @@ public sealed class TaskBuffer : TaskBufferBase<int>
     /// <returns>Awaitable task.</returns>
     /// <exception cref="Exception">Thrown from the awaited
     ///     stored task.</exception>
-    public async ValueTask FlushAsync()
+    public async Task FlushAsync()
     {
         if (this.IsEmpty)
         {

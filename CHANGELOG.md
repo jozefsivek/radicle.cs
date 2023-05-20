@@ -46,6 +46,21 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.9.1 (2023-05-20)
+------------------
+
+Upgrade urgency: MODERATE; bugfixes and small improvements
+
+- Fix potential memory leak in TypedName when used with default settings.
+  The values in TypedName were Intern by default, this can
+  cause memory leak if one creates names with high variability of
+  values. And it is easy to overlook the default setting.
+- Fix wacky ETA REPL calculation for non uniform progress
+- Add low (1 to 2 paralle tasks) parallelization task utility
+- Fix wrong use of ValueTask
+- Add easier readable performance counters
+
+
 0.9.0 (2023-05-11)
 ------------------
 

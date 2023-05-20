@@ -24,20 +24,27 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
 
     private readonly IREPLInputHistory history;
 
+    private readonly bool statsForNerds;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="REPLConsoleReaderWriter"/> class.
     /// </summary>
     /// <param name="stylingProvider">Meta data provider.</param>
     /// <param name="history">History. Note this is used only to read,
     ///     the caller is responsible for pushing new records to history.</param>
+    /// <param name="statsForNerds">Experimental optional
+    ///     flag determining if to print additional statistics
+    ///     during long running tasks.</param>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
     public REPLConsoleReaderWriter(
             IREPLStylingProvider stylingProvider,
-            IREPLInputHistory history)
+            IREPLInputHistory history,
+            bool statsForNerds = false)
     {
         this.stylingProvider = Ensure.Param(stylingProvider).Value;
         this.history = Ensure.Param(history).Value;
+        this.statsForNerds = statsForNerds;
     }
 
     /// <inheritdoc/>
@@ -94,8 +101,13 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
                 ProgressViewModel currentProgress = new(
                         progress,
                         spinner: Spinners.GetSpinner(this.stylingProvider.SpinnerType),
-                        plotFormatter: ConstructFormatter(this.stylingProvider.ProgressBarsType),
-                        lastReports);
+                        plotFormatter: ConstructFormatter(
+                                this.stylingProvider.ProgressBarsType,
+                                this.statsForNerds),
+                        lastReports)
+                {
+                    IncludePerformanceCounters = this.statsForNerds,
+                };
 
                 if (lastProgress is null)
                 {
@@ -301,7 +313,8 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
     }
 
     private static HorizontalBarPlotFormatter ConstructFormatter(
-            ProgressBarsType type)
+            ProgressBarsType type,
+            bool shortWidth = false)
     {
         BarPlotStyle styleName = type switch
         {
@@ -314,7 +327,10 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
                     $"BUG: progress bar type {type} is not recognized."),
         };
 
-        ushort width = (ushort)Math.Clamp(Console.BufferWidth / 6, 4, 36);
+        ushort width = (ushort)Math.Clamp(
+                Console.BufferWidth / (shortWidth ? 8 : 6),
+                4,
+                36);
 
         return new HorizontalBarPlotFormatter()
         {

@@ -3,10 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Text;
 using Radicle.Common;
 using Radicle.Common.Check;
 using Radicle.Common.Extensions;
+using Radicle.Common.Profiling.Models;
 using Radicle.Common.Visual;
 
 /// <summary>
@@ -83,6 +85,11 @@ internal sealed class ProgressViewModel
         this.plotFormatter = Ensure.Param(plotFormatter).Value;
         this.LastReports = Ensure.OptionalCollection(lastReports).ToImmutableArray();
     }
+
+    /// <summary>
+    /// Gets a value indicating whether to include runtime performance counters.
+    /// </summary>
+    public bool IncludePerformanceCounters { get; init; }
 
     /// <summary>
     /// Gets current count.
@@ -218,6 +225,7 @@ internal sealed class ProgressViewModel
         return new StringBuilder(spinner.ToString())
                 .Append(' ')
                 .Append(this.GetProgressOrCurrentCount())
+                .Append(this.CountersOrEmpty())
                 .Append(' ')
                 .Append(this.SpeedOrEmpty())
                 .Append("; ")
@@ -257,6 +265,39 @@ internal sealed class ProgressViewModel
         if (this.Speed > 0.0)
         {
             return $"({this.Speed:f0} ops/s)";
+        }
+
+        return string.Empty;
+    }
+
+    private string CountersOrEmpty()
+    {
+        if (this.IncludePerformanceCounters)
+        {
+            ThreadCounters w = Common.Profiling.PerformanceCounters.Worker;
+            ThreadCounters io = Common.Profiling.PerformanceCounters.CompletionPort;
+            StringBuilder sb = new("[");
+            bool first = true;
+
+            foreach ((string name, ThreadCounters t) in new[] { ("w", w), ("io", io) })
+            {
+                if (!first)
+                {
+                    sb = sb.Append('|');
+                }
+
+                first = false;
+                string busy = t.Busy.ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                sb = sb.Append(name)
+                        .Append(':')
+                        .Append(busy)
+                        .Append('/')
+                        .Append(t.Available)
+                        .Append('_')
+                        .Append(t.Min);
+            }
+
+            return sb.Append(']').ToString();
         }
 
         return string.Empty;

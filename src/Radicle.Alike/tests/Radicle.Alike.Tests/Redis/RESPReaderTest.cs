@@ -27,7 +27,7 @@ public class RESPReaderTest
         }
         finally
         {
-            System.IO.File.Delete(tmpFilePath);
+            File.Delete(tmpFilePath);
         }
     }
 
@@ -45,7 +45,7 @@ public class RESPReaderTest
         Assert.Throws<ObjectDisposedException>(() =>
                 reader.Read());
         await Assert.ThrowsAsync<ObjectDisposedException>(() =>
-                reader.ReadAsync().AsTask()).ConfigureAwait(false);
+                reader.ReadAsync()).ConfigureAwait(false);
         Assert.Throws<ObjectDisposedException>(() =>
                 stream.Write(new byte[] { 0x00 }, 0, 1));
     }
@@ -64,7 +64,7 @@ public class RESPReaderTest
         Assert.Throws<ObjectDisposedException>(() =>
             reader.Read());
         await Assert.ThrowsAsync<ObjectDisposedException>(() =>
-            reader.ReadAsync().AsTask()).ConfigureAwait(false);
+            reader.ReadAsync()).ConfigureAwait(false);
         await stream.WriteAsync((new byte[] { 0x00 }).AsMemory(0, 1)).ConfigureAwait(false);
     }
 
@@ -113,7 +113,7 @@ public class RESPReaderTest
         MemoryStream stream = new(inputRESP3.Select(ch => (byte)ch).ToArray());
         using RESPReader reader = new(stream, protocolVersion: RESPVersions.RESP2);
 
-        await Assert.ThrowsAsync<FormatException>(() => reader.ReadAsync().AsTask()).ConfigureAwait(false);
+        await Assert.ThrowsAsync<FormatException>(() => reader.ReadAsync()).ConfigureAwait(false);
     }
 
     [Theory]
@@ -264,7 +264,7 @@ public class RESPReaderTest
         using RESPReader reader = new(stream);
 
         FormatException exception = await Assert.ThrowsAsync<FormatException>(() =>
-                reader.ReadAsync().AsTask()).ConfigureAwait(false);
+                reader.ReadAsync()).ConfigureAwait(false);
         Assert.Contains(
                 "Unexpected type byte 0x66",
                 exception.Message,
@@ -302,7 +302,7 @@ public class RESPReaderTest
         using RESPReader reader = new(stream);
 
         FormatException exception = await Assert.ThrowsAsync<FormatException>(() =>
-                reader.ReadAsync().AsTask()).ConfigureAwait(false);
+                reader.ReadAsync()).ConfigureAwait(false);
         Assert.Contains(
                 "Expected 64-bin unsigned number, got:",
                 exception.Message,
@@ -331,7 +331,7 @@ public class RESPReaderTest
         using RESPReader reader = new(stream, protocolVersion: RESPVersions.RESP2);
 
         FormatException exception = await Assert.ThrowsAsync<FormatException>(() =>
-                reader.ReadAsync().AsTask()).ConfigureAwait(false);
+                reader.ReadAsync()).ConfigureAwait(false);
         Assert.Contains(
                 "Unexpected character found while reading RESP new line, ",
                 exception.Message,
@@ -390,7 +390,7 @@ public class RESPReaderTest
         using RESPReader reader = new(stream, protocolVersion: RESPVersions.RESP2);
 
         IOException exception = await Assert.ThrowsAsync<IOException>(() =>
-                reader.ReadAsync().AsTask()).ConfigureAwait(false);
+                reader.ReadAsync()).ConfigureAwait(false);
         Assert.Contains(
                 "End of the stream reached while reading RESP",
                 exception.Message,
@@ -580,7 +580,7 @@ public class RESPReaderTest
         RESPNull expected = RESPNull.Instance;
 
         FormatException exception = await Assert.ThrowsAsync<FormatException>(() =>
-                reader.ReadAsync().AsTask()).ConfigureAwait(false);
+                reader.ReadAsync()).ConfigureAwait(false);
 
         Assert.Contains(
                "Expected 64-bin unsigned number, got: -1. Note the null value serialization is changed in RESP3",

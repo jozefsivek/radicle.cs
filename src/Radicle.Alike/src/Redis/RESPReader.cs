@@ -134,7 +134,7 @@ public class RESPReader : RESPStreamWrapper
     ///     as the user is not in controll of the payload.</exception>
     /// <exception cref="IOException">Thrown is case of I/O exception
     ///     or when reading past end of file.</exception>
-    public async ValueTask<RESPValue> ReadAsync()
+    public async Task<RESPValue> ReadAsync()
     {
         this.EnsureNotDisposed();
 
@@ -199,7 +199,7 @@ public class RESPReader : RESPStreamWrapper
         };
     }
 
-    private static async ValueTask<RESPValue> ReadAnyAsync(
+    private static async Task<RESPValue> ReadAnyAsync(
             Stream stream,
             RESPVersions compatibility,
             RESPAttributeValue? attribs = null)
@@ -297,7 +297,7 @@ public class RESPReader : RESPStreamWrapper
         };
     }
 
-    private static async ValueTask<RESPValue> ReadArrayAsync(
+    private static async Task<RESPValue> ReadArrayAsync(
             Stream stream,
             RESPVersions compatibility,
             RESPAttributeValue? attribs = null)
@@ -391,7 +391,7 @@ public class RESPReader : RESPStreamWrapper
         };
     }
 
-    private static async ValueTask<RESPValue> ReadBlobStringAsync(
+    private static async Task<RESPValue> ReadBlobStringAsync(
             Stream stream,
             RESPVersions compatibility,
             RESPAttributeValue? attribs = null)
@@ -621,7 +621,7 @@ public class RESPReader : RESPStreamWrapper
     /// <exception cref="IOException">Thrown in case of I/O exception.</exception>
     /// <exception cref="NotSupportedException">Thrown if reading
     ///     payload lenght above currently supported <see cref="int.MaxValue"/>.</exception>
-    private static async ValueTask<byte[]> ReadPayloadAsync(
+    private static async Task<byte[]> ReadPayloadAsync(
             Stream stream,
             ulong length)
     {

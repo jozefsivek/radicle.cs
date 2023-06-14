@@ -1,12 +1,16 @@
 namespace Radicle.CLI.REPL;
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Radicle.CLI.Models;
 using Radicle.Common.Check;
+using Radicle.Common.Extensions;
+using Radicle.Common.Profiling;
 
 /// <summary>
 /// REPL (Read-eval-print loop) loop is construct actually
@@ -128,12 +132,29 @@ public sealed class REPLEventLoop
                 }
 #pragma warning restore CA1508 // Avoid dead conditional code
 
+                if (!CountersDictionary.Default.IsEmpty)
+                {
+                    await this.WriteDefaultCounters().ConfigureAwait(false);
+                }
+
                 await this.evaluator.AuditEvaluationAsync(
                         input,
                         sw.Elapsed,
                         cancellationToken: cancellationToken).ConfigureAwait(false);
             }
         }
+    }
+
+    private async Task WriteDefaultCounters()
+    {
+        IEnumerable<OutputLine> counters = CountersDictionary.Default
+                .ToString()
+                .ToLines()
+                .Select(l => (OutputLine)$"[  {l}  ]");
+
+        counters = new[] { (OutputLine)"[  default profile counters:  ]" }.Concat(counters);
+
+        await this.readerWriter.WriteLinesAsync(counters).ConfigureAwait(false);
     }
 
     private (ushort Repeats, string Input) ExtractRepeats(string input)

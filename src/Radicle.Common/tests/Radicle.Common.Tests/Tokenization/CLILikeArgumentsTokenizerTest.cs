@@ -8,7 +8,7 @@ using Xunit;
 public class CLILikeArgumentsTokenizerTest
 {
     [Fact]
-    public void Parse_WithNullInput_Fails()
+    public void Parse_WithNullInput_Throws()
     {
         CLILikeArgumentsTokenizer t = new();
 

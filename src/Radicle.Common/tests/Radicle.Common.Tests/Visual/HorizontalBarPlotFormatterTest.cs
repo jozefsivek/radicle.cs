@@ -1,6 +1,7 @@
 namespace Radicle.Common.Visual;
 
 using System;
+using Radicle.Common.Statistics.Models;
 using Radicle.Common.Visual.Models;
 using Xunit;
 

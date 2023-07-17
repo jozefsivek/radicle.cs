@@ -9,6 +9,7 @@ using Radicle.CLI.Models;
 using Radicle.Common;
 using Radicle.Common.Check;
 using Radicle.Common.Extensions;
+using Radicle.Common.Statistics.Models;
 using Radicle.Common.Visual;
 using Radicle.Common.Visual.Models;
 

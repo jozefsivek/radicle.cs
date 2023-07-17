@@ -1,15 +1,15 @@
-﻿namespace Radicle.Common.Visual.Models;
+﻿namespace Radicle.Common.Statistics.Models;
 
 using System;
 
 /// <summary>
 /// Implementation of <see cref="NumericInterval{T}"/>
-/// for <see cref="ulong"/> values.
+/// for <see cref="int"/> values.
 /// </summary>
-public sealed class UInt64Interval : NumericInterval<ulong>
+public sealed class Int32Interval : NumericInterval<int>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="UInt64Interval"/> class.
+    /// Initializes a new instance of the <see cref="Int32Interval"/> class.
     /// </summary>
     /// <param name="lower">Lower interval bound.</param>
     /// <param name="upper">Upper inteval bound.</param>
@@ -21,9 +21,9 @@ public sealed class UInt64Interval : NumericInterval<ulong>
     ///     if <paramref name="lower"/> is greater than
     ///     <paramref name="upper"/>; or if they are equal
     ///     while some of the boundary is not included in the interval.</exception>
-    public UInt64Interval(
-            ulong lower,
-            ulong upper,
+    public Int32Interval(
+            int lower,
+            int upper,
             bool includeLower = true,
             bool includeUpper = true)
         : base(

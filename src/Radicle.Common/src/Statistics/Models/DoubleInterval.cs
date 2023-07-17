@@ -1,4 +1,4 @@
-﻿namespace Radicle.Common.Visual.Models;
+﻿namespace Radicle.Common.Statistics.Models;
 
 using System;
 using Radicle.Common.Check;

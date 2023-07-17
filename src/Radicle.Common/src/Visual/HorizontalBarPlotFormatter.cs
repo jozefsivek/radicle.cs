@@ -3,6 +3,7 @@
 using System;
 using System.Text;
 using Radicle.Common.Check;
+using Radicle.Common.Statistics.Models;
 using Radicle.Common.Visual.Models;
 
 /* TODO: maybe implement inversion of the plot, which can be a way to display zero mark

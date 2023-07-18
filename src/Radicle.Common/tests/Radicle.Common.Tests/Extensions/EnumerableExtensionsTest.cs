@@ -579,4 +579,133 @@ public class EnumerableExtensionsTest
         Assert.True(min <= resultCount && resultCount <= count);
         Assert.Empty(result.Except(this.nonEmptyEnumerable));
     }
+
+    [Fact]
+    public void Shuffle_NullSource_Throws()
+    {
+        int[] source = null!;
+
+        Assert.Throws<ArgumentNullException>(() => source.Shuffle());
+    }
+
+    [Fact]
+    public void ShuffleIList_NullSource_Throws()
+    {
+        IList<int> source = null!;
+
+        Assert.Throws<ArgumentNullException>(() => source.Shuffle());
+    }
+
+    [Fact]
+    public void Shuffle_EmptyArray_Works()
+    {
+        int[] source = Array.Empty<int>();
+
+        Assert.Equal(source, source.Shuffle());
+        Assert.Equal(source, ((IList<int>)source).Shuffle());
+    }
+
+    [Fact]
+    public void ShuffleIList_EmptyArray_Works()
+    {
+        IList<int> source = Array.Empty<int>();
+
+        Assert.Equal(source, source.Shuffle());
+    }
+
+    [Fact]
+    public void Shuffle_EmptyList_Works()
+    {
+        List<int> source = new(0);
+
+        Assert.Equal(source, source.Shuffle());
+    }
+
+    [Fact]
+    public void ShuffleIList_EmptyList_Works()
+    {
+        IList<int> source = new List<int>(0);
+
+        Assert.Equal(source, source.Shuffle());
+    }
+
+    [Fact]
+    public void Shuffle_TrivialSource_Works()
+    {
+        int[] source = new[] { 1 };
+
+        Assert.Equal(new[] { 1 }, source.Shuffle());
+    }
+
+    [Fact]
+    public void ShuffleIList_TrivialSource_Works()
+    {
+        IList<int> source = new[] { 1 };
+
+        Assert.Equal(new[] { 1 }, source.Shuffle());
+    }
+
+    [Fact]
+    public void Shuffle_NullItemSource_Works()
+    {
+        object?[] source = new object?[] { null };
+
+        Assert.Equal(new object?[] { null }, source.Shuffle());
+    }
+
+    [Fact]
+    public void ShuffleIList_NullItemSource_Works()
+    {
+        IList<object?> source = new object?[] { null };
+
+        Assert.Equal(new object?[] { null }, source.Shuffle());
+    }
+
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(12)]
+    public void Shuffle_NonTrivialSource_Works(int length)
+    {
+        List<int> originalSource = Enumerable.Range(1, length).ToList();
+        List<int> source = new(originalSource);
+        int matches = 0;
+        const int rounds = 8;
+
+        for (int i = 0; i < rounds; i++)
+        {
+            _ = source.Shuffle();
+
+            if (source.Zip(originalSource).All(item => item.First == item.Second))
+            {
+                matches++;
+            }
+        }
+
+        Assert.True(matches < rounds);
+    }
+
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(12)]
+    public void ShuffleIList_NonTrivialSource_Works(int length)
+    {
+        List<int> originalSource = Enumerable.Range(1, length).ToList();
+        IList<int> source = new List<int>(originalSource);
+        int matches = 0;
+        const int rounds = 8;
+
+        for (int i = 0; i < rounds; i++)
+        {
+            _ = source.Shuffle();
+
+            if (source.Zip(originalSource).All(item => item.First == item.Second))
+            {
+                matches++;
+            }
+        }
+
+        Assert.True(matches < rounds);
+    }
 }

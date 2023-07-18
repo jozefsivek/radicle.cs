@@ -1,6 +1,7 @@
 namespace Radicle.Common.Extensions;
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Radicle.Common.Check;
@@ -358,24 +359,60 @@ public static class EnumerableExtensions
 
     /// <summary>
     /// Shuffles list with Fisher–Yates shuffle
-    /// algorithm.
+    /// algorithm. The execution time scales
+    /// linearly with the length of <paramref name="source"/>
+    /// as O(N).
     /// </summary>
-    /// <typeparam name="T">Type of the value in the <paramref name="source"/>.</typeparam>
+    /// <typeparam name="TList">Collection type of <paramref name="source"/>.</typeparam>
     /// <param name="source">List to shuffle.</param>
+    /// <returns>Instance which was shuffled.</returns>
     /// <exception cref="ArgumentNullException">Thrown
     ///     if required parameter is <see langword="null"/>.</exception>
-    public static void Shuffle<T>(
+    public static TList Shuffle<TList>(
+            this TList source)
+        where TList : IList
+    {
+        int n = Ensure.Param(source).Value.Count;
+
+        if (n > 1)
+        {
+            while (n > 1)
+            {
+                n--;
+                int randomIndex = ThreadSafeRandom.Next(n + 1);
+                (source[n], source[randomIndex]) = (source[randomIndex], source[n]);
+            }
+        }
+
+        return source;
+    }
+
+    /// <summary>
+    /// Shuffles list with Fisher–Yates shuffle
+    /// algorithm. The execution time scales
+    /// linearly with the length of <paramref name="source"/>
+    /// as O(N).
+    /// </summary>
+    /// <typeparam name="T">Item type of <paramref name="source"/>.</typeparam>
+    /// <param name="source">List to shuffle.</param>
+    /// <returns>Instance which was shuffled.</returns>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    public static IList<T> Shuffle<T>(
             this IList<T> source)
     {
-        Ensure.Param(source).Done();
+        int n = Ensure.Param(source).Value.Count;
 
-        int n = source.Count;
-
-        while (n > 1)
+        if (n > 1)
         {
-            n--;
-            int randomIndex = ThreadSafeRandom.Next(n + 1);
-            (source[n], source[randomIndex]) = (source[randomIndex], source[n]);
+            while (n > 1)
+            {
+                n--;
+                int randomIndex = ThreadSafeRandom.Next(n + 1);
+                (source[n], source[randomIndex]) = (source[randomIndex], source[n]);
+            }
         }
+
+        return source;
     }
 }

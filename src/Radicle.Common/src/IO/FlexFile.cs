@@ -246,6 +246,11 @@ public sealed class FlexFile : AsyncDisposable
     /// <summary>
     /// Opens a <see cref="FlexFile"/> on the specified path with read/write access with no sharing.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Default compression level is <see cref="CompressionLevel.Optimal"/>.
+    /// </para>
+    /// </remarks>
     /// <param name="path">The file to open.</param>
     /// <param name="mode">A <see cref="FileMode"/> value that specifies whether a file is created if one does not exist, and determines whether the contents of existing files are retained or overwritten.</param>
     /// <returns>A <see cref="FlexFile"/> opened in the specified mode and path, with read/write access and not shared.</returns>
@@ -276,6 +281,11 @@ public sealed class FlexFile : AsyncDisposable
     /// <summary>
     /// Opens a <see cref="FlexFile"/> on the specified path with read/write access with no sharing.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Default compression level is <see cref="CompressionLevel.Optimal"/>.
+    /// </para>
+    /// </remarks>
     /// <param name="path">The file to open.</param>
     /// <param name="mode">A <see cref="FileMode"/> value that specifies whether a file is created if one does not exist, and determines whether the contents of existing files are retained or overwritten.</param>
     /// <param name="access">A <see cref="FileAccess"/> value that specifies the operations that can be performed on the file.</param>
@@ -307,6 +317,11 @@ public sealed class FlexFile : AsyncDisposable
     /// <summary>
     /// Opens a <see cref="FlexFile"/> on the specified path with read/write access with no sharing.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Default compression level is <see cref="CompressionLevel.Optimal"/>.
+    /// </para>
+    /// </remarks>
     /// <param name="path">The file to open.</param>
     /// <param name="mode">A <see cref="FileMode"/> value that specifies whether a file is created if one does not exist, and determines whether the contents of existing files are retained or overwritten.</param>
     /// <param name="access">A <see cref="FileAccess"/> value that specifies the operations that can be performed on the file.</param>

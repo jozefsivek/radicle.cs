@@ -32,18 +32,43 @@ Mind the versions bellow follow [Semantic Versioning](https://semver.org/)
 Small note on what DOES NOT count as a breaking change
 (and thus not require major change update):
 
-- addition of optional parameters in function/method call
-  with default values replicating the previous behaviour
-- change of the order of names optional parameters
-  (just use names when doing call to prevent breaks)
 - any changes to explicitly marked internal
   and or experimental API
+- addition of new models, methods, properties and fields
 
 Current list of maintained releases:
 
 - features and bug fixes: 0.x or later
 - only severe bug fixes: -
 - not supported: -
+
+
+0.10.0 (2023-08-09)
+-------------------
+
+Upgrade urgency: LOW; new features, some potential breaking changes
+
+- Add counters for concurrent counting for profiling or work,
+  see `CountersDictionary`. The `REPLEventLoop` also prints
+  default ones if used.
+- Change [concurrent processing utilities](src/Radicle.Common/docs/concurrent_processing.md),
+  some changes may be breaking, the API is now more unified
+  and feature complete.
+- Change namespace of interval modes (out of Visual namespace)
+- Add DiscreteValueDistribution, inverse transform sampling
+  for discrete values. See documentation of `DiscreteValueDistribution`
+  for more information
+- Change Shuffle extension signature to return shuffled list
+- Fix transparent progress to be more usable: add event,
+  interface, add methods to allow easy work with nullables,
+  add option to create child stages. Some of the changes
+  can be breaking.
+- Add Clamp TimeSpan extension
+- Add Metronome tooling for keeping up with a periodic
+  events by pulling. For scheduled events naturally
+  use `System.Threading.Timer`.
+- Add ETA calculator with 2 possible strategies,
+  with easy use together with transparent progress.
 
 
 0.9.1 (2023-05-20)

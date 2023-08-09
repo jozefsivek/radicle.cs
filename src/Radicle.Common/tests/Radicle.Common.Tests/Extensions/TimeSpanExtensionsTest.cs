@@ -5,6 +5,48 @@ using Xunit;
 
 public class TimeSpanExtensionsTest
 {
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(0.2)]
+    [InlineData(0.4)]
+    [InlineData(1.0)]
+    public void Clamp_ValueInRange_ReturnsValue(double seconds)
+    {
+        TimeSpan span = TimeSpan.FromSeconds(seconds);
+
+        Assert.Equal(span, span.Clamp(TimeSpan.Zero, TimeSpan.FromSeconds(1.0)));
+    }
+
+    [Theory]
+    [InlineData(-1.2, true)]
+    [InlineData(-1.0, true)]
+    [InlineData(1.0, false)]
+    [InlineData(1.4, false)]
+    public void Clamp_ValueOutsideRange_ReturnsClampedValue(double seconds, bool low)
+    {
+        TimeSpan span = TimeSpan.FromSeconds(seconds);
+        TimeSpan min = TimeSpan.FromSeconds(-1.0);
+        TimeSpan max = TimeSpan.FromSeconds(1.0);
+
+        Assert.Equal(
+                low ? min : max,
+                span.Clamp(min, max));
+    }
+
+    [Theory]
+    [InlineData(long.MinValue, true)]
+    [InlineData(long.MaxValue, false)]
+    public void Clamp_MaxValueOutsideRange_ReturnsClampedValue(long ticks, bool low)
+    {
+        TimeSpan span = new(ticks);
+        TimeSpan min = TimeSpan.FromSeconds(-1.0);
+        TimeSpan max = TimeSpan.FromSeconds(1.0);
+
+        Assert.Equal(
+                low ? min : max,
+                span.Clamp(min, max));
+    }
+
     [Fact]
     public void UseIfShorterOr_ShorterThis_ReturnsThis()
     {

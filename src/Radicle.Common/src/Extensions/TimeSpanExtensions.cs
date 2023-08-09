@@ -47,6 +47,34 @@ public static class TimeSpanExtensions
     private const int YearDuration = 365;
 
     /// <summary>
+    /// Returns value clamped to the inclusive range of min and max
+    /// like <see cref="Math.Clamp(int, int, int)"/>.
+    /// </summary>
+    /// <param name="span">The value to be clamped.</param>
+    /// <param name="min">The lower bound of the result.</param>
+    /// <param name="max">The upper bound of the result.</param>
+    /// <returns><paramref name="span"/> if in inclusive range
+    /// [<paramref name="min"/>, <paramref name="max"/>]
+    /// -or- <paramref name="min"/> if shorter than <paramref name="min"/>
+    /// -or- <paramref name="max"/> if longer than <paramref name="max"/>.</returns>
+    public static TimeSpan Clamp(
+            this TimeSpan span,
+            TimeSpan min,
+            TimeSpan max)
+    {
+        if (span >= max)
+        {
+            return max;
+        }
+        else if (span <= min)
+        {
+            return min;
+        }
+
+        return span;
+    }
+
+    /// <summary>
     /// Returns <paramref name="span"/> if it is shorter than
     /// <paramref name="alternative"/>, otherwise returns <paramref name="alternative"/>.
     /// </summary>

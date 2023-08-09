@@ -1,4 +1,4 @@
-namespace Radicle.Common.IO;
+namespace Radicle.Common.FunctionalTests.IO;
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Radicle.Common.Check;
 using Radicle.Common.Compression;
+using Radicle.Common.IO;
 using Xunit;
 
 /*

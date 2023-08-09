@@ -81,31 +81,23 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
     {
         Ensure.Param(progress).Done();
 
+        ETA eta = ETA.FromProgress(progress);
         Task<IEnumerable<OutputLine>> task = Ensure.Param(outputFactory).Value();
-        DateTime lastPrintout = DateTime.UtcNow;
+        Metronome metronome = Metronome.CreateForLiveUpdate();
         ProgressViewModel? lastProgress = default;
         ulong request = 0;
-        RollingCollection<ProgressReport<long>> lastReports = new(4);
 
         while (!task.IsCompleted)
         {
-            if (lastPrintout.IsOlderThan(TimeSpan.FromMilliseconds(250)))
+            if (metronome.IsTime())
             {
-                ProgressReport<long> latestReport = progress.LastReport;
-
-                if (!lastReports.TryGetLast(out ProgressReport<long> last)
-                        || last != latestReport)
-                {
-                    lastReports.Add(latestReport);
-                }
-
                 ProgressViewModel currentProgress = new(
-                        progress,
+                        eta.GetETA(),
                         spinner: Spinners.GetSpinner(this.stylingProvider.SpinnerType),
                         plotFormatter: ConstructFormatter(
                                 this.stylingProvider.ProgressBarsType,
                                 this.statsForNerds),
-                        lastReports)
+                        status: progress.GetDescription())
                 {
                     IncludePerformanceCounters = this.statsForNerds,
                 };
@@ -127,10 +119,9 @@ public class REPLConsoleReaderWriter : IREPLReaderWriter
                 }
 
                 lastProgress = currentProgress;
-                lastPrintout = DateTime.UtcNow;
             }
 
-            await Task.Delay(TimeSpan.FromMilliseconds(100)).ConfigureAwait(false);
+            await metronome.DelayAsync().ConfigureAwait(false);
         }
 
         if (lastProgress is not null)

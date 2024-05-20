@@ -3,7 +3,7 @@
 using System;
 
 /// <summary>
-/// Immutable representaion of free text token between escape tokens.
+/// Immutable representaion of free text token between other tokens.
 /// </summary>
 public sealed class ParsedTokenFreeText : ParsedToken
 {

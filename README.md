@@ -48,4 +48,7 @@ and in any project root. Some highlights:
     - [concurrent processing with tasks](src/Radicle.Common/docs/concurrent_processing.md):
       a powerful toolbox for parallel tasks execution with
       low overhead and tight controll over how results are processed
+    - [tokenisation and parsing](src/Radicle.Common/docs/tokenisation.md)
+      a toolbox for character parsing as well as tokenisation
+      with implemented CLI like text tokenisation
 

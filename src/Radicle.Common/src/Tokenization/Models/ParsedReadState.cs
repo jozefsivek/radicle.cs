@@ -35,7 +35,9 @@ public sealed class ParsedReadState
     public ImmutableArray<char> ReadBuffer { get; }
 
     /// <summary>
-    /// Gets triggering stop word.
+    /// Gets triggering stop word which was the cause of providing
+    /// this read state. It is the same stop word yielded as last token
+    /// when parsing.
     /// </summary>
     public ParsedTokenStopWord TriggeringStopWord { get; }
 }

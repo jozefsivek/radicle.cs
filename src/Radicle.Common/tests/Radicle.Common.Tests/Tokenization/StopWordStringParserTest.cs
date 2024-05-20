@@ -14,6 +14,8 @@ public class StopWordStringParserTest
 
     private static readonly ParsedTokenStopWord Escape = new('\\');
 
+    private static readonly ParsedTokenStopWord STOP = new("STOP");
+
     [Fact]
     public void Constructor_NullStopWords_Throws()
     {
@@ -53,6 +55,43 @@ public class StopWordStringParserTest
         StopWordStringParser p = new();
 
         Assert.Empty(p.Parse("a", startAt: 1));
+    }
+
+    [Fact]
+    public void Parse_NoStopWords_YieldsInput()
+    {
+        StopWordStringParser p = new();
+
+        Assert.Equal(
+            new ParsedToken[]
+            {
+                new ParsedTokenFreeText("\\*foo bar_"),
+            },
+            p.Parse("\\*foo bar_"));
+    }
+
+    [Fact]
+    public void Parse_NoCallBack_YieldsNoControlTokens()
+    {
+        StopWordStringParser p = new(
+                stopWords: new HashSet<ParsedTokenStopWord>(new[]
+                {
+                    Em,
+                    Bold,
+                    Escape,
+                    STOP,
+                }));
+
+        Assert.Equal(
+            new ParsedToken[]
+            {
+                new ParsedTokenFreeText("foo"),
+                new ParsedTokenStopWord("\\"),
+                new ParsedTokenStopWord("*"),
+                new ParsedTokenFreeText("bar"),
+                new ParsedTokenStopWord("STOP"),
+            },
+            p.Parse("foo\\*barSTOP"));
     }
 
     [Theory]
@@ -193,6 +232,34 @@ public class StopWordStringParserTest
             p.Parse($"foo{stopWord}\\{stopWord}bar{stopWord}"));
     }
 
+    [Fact]
+    public void Parse_WithMultiCharacterStopWord_Works()
+    {
+        StopWordStringParser p = ConstructSimpleMarkdownTokenParser();
+
+        Assert.Equal(
+            new ParsedToken[]
+            {
+                new ParsedTokenFreeText("foo"),
+                new ParsedTokenStopWord("STOP"),
+                new ParsedTokenFreeText("bar"),
+            },
+            p.Parse("fooSTOPbar"));
+    }
+
+    [Fact]
+    public void Parse_WithIncompleteMultiCharacterStopWord_Works()
+    {
+        StopWordStringParser p = ConstructSimpleMarkdownTokenParser();
+
+        Assert.Equal(
+            new ParsedToken[]
+            {
+                new ParsedTokenFreeText("fooSTO"),
+            },
+            p.Parse("fooSTO"));
+    }
+
     private static StopWordStringParser ConstructSimpleMarkdownTokenParser()
     {
         return new StopWordStringParser(
@@ -201,6 +268,7 @@ public class StopWordStringParserTest
                     Em,
                     Bold,
                     Escape,
+                    STOP,
                 }),
                 controlTokenAction: (state) =>
                 {

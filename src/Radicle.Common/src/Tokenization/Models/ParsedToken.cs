@@ -73,6 +73,7 @@ public abstract class ParsedToken : IEquatable<ParsedToken>
     public virtual bool Equals(ParsedToken? other)
     {
         return other is not null
+                && this.Type == other.Type
                 && this.Value.Equals(other.Value, StringComparison.Ordinal);
     }
 

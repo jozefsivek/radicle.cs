@@ -112,7 +112,7 @@ public class InMemoryKeyValueStoreTest
 
         map.Set(1, true, TimeSpan.FromTicks(1));
 
-        await Task.Delay(TimeSpan.FromMilliseconds(1)).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMilliseconds(1));
 
         Assert.False(map.Contains(1));
     }
@@ -164,7 +164,7 @@ public class InMemoryKeyValueStoreTest
 
         map.Set(1, true, TimeSpan.FromTicks(1));
 
-        await Task.Delay(TimeSpan.FromMilliseconds(1)).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMilliseconds(1));
 
         Assert.False(map.TryGetValue(1, out _));
     }
@@ -245,7 +245,7 @@ public class InMemoryKeyValueStoreTest
 
         map.Set(1, oldValue, TimeSpan.FromTicks(1));
 
-        await Task.Delay(TimeSpan.FromMilliseconds(1)).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMilliseconds(1));
 
         Assert.Equal(newValue, map.GetOrAdd(1, _ => newValue));
 
@@ -317,7 +317,7 @@ public class InMemoryKeyValueStoreTest
 
         map.Set(1, oldValue, TimeSpan.FromTicks(1));
 
-        await Task.Delay(TimeSpan.FromMilliseconds(1)).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMilliseconds(1));
 
         map.Set(1, newValue);
 
@@ -354,7 +354,7 @@ public class InMemoryKeyValueStoreTest
         map.Set(1, true, TimeSpan.FromTicks(1));
         Assert.Equal(1uL, map.ContemporaryLength);
 
-        await Task.Delay(TimeSpan.FromMilliseconds(1)).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMilliseconds(1));
 
         Assert.False(map.TryRemove(1, out _));
         Assert.Equal(0uL, map.ContemporaryLength);

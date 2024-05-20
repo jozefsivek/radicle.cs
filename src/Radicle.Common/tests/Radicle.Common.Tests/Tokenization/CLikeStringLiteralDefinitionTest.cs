@@ -1,7 +1,6 @@
 namespace Radicle.Common.Tokenization;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Radicle.Common.Tokenization.Models;
@@ -9,28 +8,28 @@ using Xunit;
 
 public class CLikeStringLiteralDefinitionTest
 {
-    public static IEnumerable<object[]> BinaryRawValueCasesForMinimal => new List<object[]>
+    public static TheoryData<byte[], string> BinaryRawValueCasesForMinimal => new()
     {
-        new object[] { Array.Empty<byte>(), string.Empty },
-        new object[] { new byte[] { (byte)'\n', (byte)'\r', (byte)'\t', (byte)'\b', (byte)'\a', (byte)'\f', (byte)'\v' }, "\n\r\t\b\a\f\v" },
-        new object[] { new byte[] { (byte)'"', (byte)'\'', (byte)'\\' }, "\\\"'\\\\" },
-        new object[] { new byte[] { 0xc3, 0xb4 }, "\\xc3\\xb4" }, // letter
+        { Array.Empty<byte>(), string.Empty },
+        { new byte[] { (byte)'\n', (byte)'\r', (byte)'\t', (byte)'\b', (byte)'\a', (byte)'\f', (byte)'\v' }, "\n\r\t\b\a\f\v" },
+        { new byte[] { (byte)'"', (byte)'\'', (byte)'\\' }, "\\\"'\\\\" },
+        { new byte[] { 0xc3, 0xb4 }, "\\xc3\\xb4" }, // letter
     };
 
-    public static IEnumerable<object[]> BinaryRawValueCasesForNormal => new List<object[]>
+    public static TheoryData<byte[], string> BinaryRawValueCasesForNormal => new()
     {
-        new object[] { Array.Empty<byte>(), string.Empty },
-        new object[] { new byte[] { (byte)'\n', (byte)'\r', (byte)'\t', (byte)'\b', (byte)'\a', (byte)'\f', (byte)'\v' }, "\\n\\r\\t\\b\\a\\f\\v" },
-        new object[] { new byte[] { (byte)'"', (byte)'\'', (byte)'\\' }, "\\\"'\\\\" },
-        new object[] { new byte[] { 0xc3, 0xb4 }, "\\xc3\\xb4" }, // letter
+        { Array.Empty<byte>(), string.Empty },
+        { new byte[] { (byte)'\n', (byte)'\r', (byte)'\t', (byte)'\b', (byte)'\a', (byte)'\f', (byte)'\v' }, "\\n\\r\\t\\b\\a\\f\\v" },
+        { new byte[] { (byte)'"', (byte)'\'', (byte)'\\' }, "\\\"'\\\\" },
+        { new byte[] { 0xc3, 0xb4 }, "\\xc3\\xb4" }, // letter
     };
 
-    public static IEnumerable<object[]> BinaryRawValueCasesForConservative => new List<object[]>
+    public static TheoryData<byte[], string> BinaryRawValueCasesForConservative => new()
     {
-        new object[] { Array.Empty<byte>(), string.Empty },
-        new object[] { new byte[] { (byte)'\n', (byte)'\r', (byte)'\t', (byte)'\b', (byte)'\a', (byte)'\f', (byte)'\v' }, "\\n\\r\\t\\b\\a\\f\\v" },
-        new object[] { new byte[] { (byte)'"', (byte)'\'', (byte)'\\' }, "\\\"'\\\\" },
-        new object[] { new byte[] { 0xc3, 0xb4 }, "\\xc3\\xb4" }, // letter
+        { Array.Empty<byte>(), string.Empty },
+        { new byte[] { (byte)'\n', (byte)'\r', (byte)'\t', (byte)'\b', (byte)'\a', (byte)'\f', (byte)'\v' }, "\\n\\r\\t\\b\\a\\f\\v" },
+        { new byte[] { (byte)'"', (byte)'\'', (byte)'\\' }, "\\\"'\\\\" },
+        { new byte[] { 0xc3, 0xb4 }, "\\xc3\\xb4" }, // letter
     };
 
     [Fact]

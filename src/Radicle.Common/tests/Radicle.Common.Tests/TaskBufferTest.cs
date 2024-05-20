@@ -29,7 +29,7 @@ public class TaskBufferTest
 
             if (full)
             {
-                await buffer.FlushAsync().ConfigureAwait(false);
+                await buffer.FlushAsync();
             }
         }
 
@@ -56,13 +56,13 @@ public class TaskBufferTest
 
             if (full)
             {
-                await buffer.FlushAsync().ConfigureAwait(false);
+                await buffer.FlushAsync();
             }
         }
 
         Assert.False(buffer.IsEmpty);
 
-        await buffer.FlushAsync().ConfigureAwait(false);
+        await buffer.FlushAsync();
 
         Assert.True(expected.SetEquals(completed));
         Assert.True(buffer.IsEmpty);
@@ -88,7 +88,7 @@ public class TaskBufferTest
 
         Assert.False(buffer.IsEmpty);
 
-        await buffer.FlushAsync().ConfigureAwait(false);
+        await buffer.FlushAsync();
 
         Assert.True(expected.SetEquals(completed));
         Assert.True(buffer.IsEmpty);
@@ -118,7 +118,7 @@ public class TaskBufferTest
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
                     await buffer.FlushAsync(cancellationToken: source.Token).ConfigureAwait(false))
-                .ConfigureAwait(false);
+                ;
 
         Assert.True(completed < 2);
 
@@ -141,7 +141,7 @@ public class TaskBufferTest
 
         await Assert.ThrowsAsync<ArgumentException>(async () =>
                     await buffer.FlushAsync().ConfigureAwait(false))
-                .ConfigureAwait(false);
+                ;
 
         Assert.True(buffer.IsEmpty);
         Assert.False(buffer.IsFull);
@@ -165,7 +165,7 @@ public class TaskBufferTest
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
                     await buffer.FlushAsync().ConfigureAwait(false))
-                .ConfigureAwait(false);
+                ;
 
         Assert.True(buffer.IsEmpty);
         Assert.False(buffer.IsFull);
@@ -186,7 +186,7 @@ public class TaskBufferTest
         {
             if (buffer.Enqueue(Task.Run(() => Interlocked.Increment(ref completed))))
             {
-                await buffer.FlushAsync().ConfigureAwait(false);
+                await buffer.FlushAsync();
             }
         }
 

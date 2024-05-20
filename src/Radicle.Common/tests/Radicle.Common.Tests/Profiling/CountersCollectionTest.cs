@@ -519,7 +519,7 @@ public class CountersCollectionTest
 
         semaphore.Release(4);
 
-        await Task.WhenAll(tasks).ConfigureAwait(false);
+        await Task.WhenAll(tasks);
 
         Assert.Equal(tasksCount * (incrs - decrs), collection["foo"]);
     }

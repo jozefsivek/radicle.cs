@@ -1,7 +1,6 @@
 namespace Radicle.Common.Compression;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -25,36 +24,36 @@ public class VLQTest
         0b_0000_0000,
     };
 
-    public static IEnumerable<object[]> CorruptPayloads => new List<object[]>
+    public static TheoryData<byte[]> CorruptPayloads => new()
     {
-        new object[] { Array.Empty<byte>() },
+        { Array.Empty<byte>() },
         /* truncated payloads */
-        new object[] { new byte[] { 0b_10000001 } },
-        new object[] { new byte[] { 0b_10111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111 } },
+        { new byte[] { 0b_10000001 } },
+        { new byte[] { 0b_10111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111 } },
     };
 
-    public static IEnumerable<object[]> TestPayloads => new List<object[]>
+    public static TheoryData<ulong, byte[]> TestPayloads => new()
     {
-        new object[] { 0UL, new byte[] { 0b_0000_0000 } },
-        new object[] { 1UL, new byte[] { 0b_0000_0001 } },
-        new object[] { 43UL, new byte[] { 0b_0010_1011 } },
-        new object[] { 127UL, new byte[] { 0b_0111_1111 } },
-        new object[] { 128UL, new byte[] { 0b_10000001, 0b_00000000 } },
-        new object[] { 8192UL, new byte[] { 0b_11000000, 0b_00000000 } },
-        new object[] { 16383UL, new byte[] { 0b_11111111, 0b_01111111 } },
-        new object[] { 16384UL, new byte[] { 0b_1000_0001, 0b_10000000, 0b_00000000 } },
-        new object[] { 2097150UL, new byte[] { 0b_11111111, 0b_11111111, 0b_01111110 } },
-        new object[] { 2097153UL, new byte[] { 0b_10000001, 0b_10000000, 0b_10000000, 0b_00000001 } },
-        new object[] { 134217728UL, new byte[] { 0b_11000000, 0b_10000000, 0b_10000000, 0b_00000000 } },
-        new object[] { 268435454UL, new byte[] { 0b_11111111, 0b_11111111, 0b_11111111, 0b_01111110 } },
-        new object[] { ulong.MaxValue, new byte[] { 0b_10000001, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_01111111 } },
+        { 0UL, new byte[] { 0b_0000_0000 } },
+        { 1UL, new byte[] { 0b_0000_0001 } },
+        { 43UL, new byte[] { 0b_0010_1011 } },
+        { 127UL, new byte[] { 0b_0111_1111 } },
+        { 128UL, new byte[] { 0b_10000001, 0b_00000000 } },
+        { 8192UL, new byte[] { 0b_11000000, 0b_00000000 } },
+        { 16383UL, new byte[] { 0b_11111111, 0b_01111111 } },
+        { 16384UL, new byte[] { 0b_1000_0001, 0b_10000000, 0b_00000000 } },
+        { 2097150UL, new byte[] { 0b_11111111, 0b_11111111, 0b_01111110 } },
+        { 2097153UL, new byte[] { 0b_10000001, 0b_10000000, 0b_10000000, 0b_00000001 } },
+        { 134217728UL, new byte[] { 0b_11000000, 0b_10000000, 0b_10000000, 0b_00000000 } },
+        { 268435454UL, new byte[] { 0b_11111111, 0b_11111111, 0b_11111111, 0b_01111110 } },
+        { ulong.MaxValue, new byte[] { 0b_10000001, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_01111111 } },
     };
 
-    public static IEnumerable<object[]> TestPayloadsWithSuffix => new List<object[]>
+    public static TheoryData<ulong, byte[]> TestPayloadsWithSuffix => new()
     {
-        new object[] { 0UL, new byte[] { 0b_0000_0000, 0b_0000_0000 } },
-        new object[] { 16383UL, new byte[] { 0b_11111111, 0b_01111111, 0b_11111111 } },
-        new object[] { ulong.MaxValue, new byte[] { 0b_10111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_01111111, 0b_10111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_01111111 } },
+        { 0UL, new byte[] { 0b_0000_0000, 0b_0000_0000 } },
+        { 16383UL, new byte[] { 0b_11111111, 0b_01111111, 0b_11111111 } },
+        { ulong.MaxValue, new byte[] { 0b_10111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_01111111, 0b_10111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_11111111, 0b_01111111 } },
     };
 
     [Theory]

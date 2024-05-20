@@ -208,7 +208,7 @@ public class TaskRiverTest
                     {
                     }
                 })
-                .ConfigureAwait(false);
+                ;
 
         Assert.True(completed < 2);
 
@@ -248,7 +248,7 @@ public class TaskRiverTest
                     {
                     }
                 })
-                .ConfigureAwait(false);
+                ;
 
         Assert.True(river.IsEmpty);
         Assert.False(river.IsFull);
@@ -283,7 +283,7 @@ public class TaskRiverTest
                     river.FlushAsync().ConfigureAwait(false))
             {
             }
-        }).ConfigureAwait(false);
+        });
 
         Assert.True(river.IsEmpty);
         Assert.False(river.IsFull);
@@ -355,7 +355,7 @@ public class TaskRiverTest
                     {
                     }
                 })
-                .ConfigureAwait(false);
+                ;
 
         Assert.True(completed < 2);
 
@@ -394,8 +394,7 @@ public class TaskRiverTest
                     river.FlushAllAsync().ConfigureAwait(false))
             {
             }
-        })
-                .ConfigureAwait(false);
+        });
 
         Assert.True(river.IsEmpty);
         Assert.False(river.IsFull);
@@ -430,7 +429,7 @@ public class TaskRiverTest
                     river.FlushAllAsync().ConfigureAwait(false))
             {
             }
-        }).ConfigureAwait(false);
+        });
 
         Assert.True(river.IsEmpty);
         Assert.False(river.IsFull);

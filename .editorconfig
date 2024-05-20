@@ -47,3 +47,6 @@ dotnet_style_prefer_conditional_expression_over_return = false:suggestion
 
 # TODO: temporary disabled, it is buggy: https://github.com/dotnet/roslyn/issues/67531
 dotnet_diagnostic.IDE0251.severity = suggestion
+
+# TODO: temporary disabled, it is buggy: https://github.com/dotnet/roslyn-analyzers/issues/5712
+dotnet_diagnostic.RCS1261.severity = suggestion

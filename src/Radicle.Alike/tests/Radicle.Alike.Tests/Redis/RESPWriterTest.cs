@@ -40,7 +40,7 @@ public class RESPWriterTest
         Assert.Throws<ObjectDisposedException>(() =>
                 writer.Write(RESPNull.Instance));
         await Assert.ThrowsAsync<ObjectDisposedException>(() =>
-                writer.WriteAsync(RESPNull.Instance).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(RESPNull.Instance).AsTask());
         Assert.Throws<ObjectDisposedException>(() =>
                 stream.Write(new byte[] { 0x00 }, 0, 1));
     }
@@ -59,8 +59,8 @@ public class RESPWriterTest
         Assert.Throws<ObjectDisposedException>(() =>
             writer.Write(RESPNull.Instance));
         await Assert.ThrowsAsync<ObjectDisposedException>(() =>
-            writer.WriteAsync(RESPNull.Instance).AsTask()).ConfigureAwait(false);
-        await stream.WriteAsync((new byte[] { 0x00 }).AsMemory(0, 1)).ConfigureAwait(false);
+            writer.WriteAsync(RESPNull.Instance).AsTask());
+        await stream.WriteAsync((new byte[] { 0x00 }).AsMemory(0, 1));
     }
 
     [Fact]
@@ -77,7 +77,7 @@ public class RESPWriterTest
         using RESPWriter writer = new(new MemoryStream());
 
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
-                writer.WriteAsync(null!).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(null!).AsTask());
     }
 
     [Fact]
@@ -104,23 +104,23 @@ public class RESPWriterTest
         using RESPWriter writer = new(new MemoryStream(), protocolVersion: RESPVersions.RESP2);
 
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                writer.WriteAsync(RESPAttributeValue.Empty).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(RESPAttributeValue.Empty).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                writer.WriteAsync(new RESPBigNumber(0)).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(new RESPBigNumber(0)).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                writer.WriteAsync(new RESPBlobError(string.Empty)).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(new RESPBlobError(string.Empty)).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                writer.WriteAsync(RESPBoolean.True).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(RESPBoolean.True).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                writer.WriteAsync(new RESPDouble(0.0)).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(new RESPDouble(0.0)).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                writer.WriteAsync(RESPMap.Empty).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(RESPMap.Empty).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                writer.WriteAsync(new RESPPush(new RESPValue[] { new RESPSimpleString("pubsub") })).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(new RESPPush(new RESPValue[] { new RESPSimpleString("pubsub") })).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                writer.WriteAsync(RESPSet.Empty).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(RESPSet.Empty).AsTask());
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                writer.WriteAsync(new RESPVerbatimString(VerbatimStringType.Text, string.Empty)).AsTask()).ConfigureAwait(false);
+                writer.WriteAsync(new RESPVerbatimString(VerbatimStringType.Text, string.Empty)).AsTask());
     }
 
     [Theory]
@@ -189,7 +189,7 @@ public class RESPWriterTest
         IEnumerable<byte> expected = expectedCharacters.Select(ch => (byte)ch);
 
         await writer.WriteAsync(new RESPArray(strs.Select(s => new RESPSimpleString(s))))
-                .ConfigureAwait(false);
+                ;
 
         Assert.Equal(expected, stream.ToArray());
     }
@@ -354,7 +354,7 @@ public class RESPWriterTest
         using RESPWriter writer = new(stream);
         IEnumerable<byte> expected = expectedCharacters.Select(ch => (byte)ch);
 
-        await writer.WriteAsync(new RESPNumber(number)).ConfigureAwait(false);
+        await writer.WriteAsync(new RESPNumber(number));
 
         Assert.Equal(expected, stream.ToArray());
     }

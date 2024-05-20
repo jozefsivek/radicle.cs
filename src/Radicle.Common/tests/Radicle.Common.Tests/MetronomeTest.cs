@@ -27,7 +27,7 @@ public class MetronomeTest
     {
         Metronome metronome = new(TimeSpan.FromMinutes(1.0));
 
-        await Task.Delay(1).ConfigureAwait(false);
+        await Task.Delay(1);
 
         Assert.False(metronome.IsTime());
     }
@@ -37,7 +37,7 @@ public class MetronomeTest
     {
         Metronome metronome = new(TimeSpan.FromMilliseconds(0.1));
 
-        await Task.Delay(1).ConfigureAwait(false);
+        await Task.Delay(1);
 
         Assert.True(metronome.IsTime());
     }
@@ -59,7 +59,7 @@ public class MetronomeTest
 
         Stopwatch sw = Stopwatch.StartNew();
 
-        await metronome.DelayAsync().ConfigureAwait(false);
+        await metronome.DelayAsync();
 
         sw.Stop();
 
@@ -75,7 +75,7 @@ public class MetronomeTest
 
         Assert.True(actual.TotalMilliseconds <= 0.5);
 
-        await Task.Delay(1).ConfigureAwait(false);
+        await Task.Delay(1);
 
         Assert.True(metronome.IsTime());
 

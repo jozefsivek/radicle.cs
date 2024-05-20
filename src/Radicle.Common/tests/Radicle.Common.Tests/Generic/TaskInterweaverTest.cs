@@ -37,7 +37,7 @@ public class TaskInterweaverTest
 
         for (int i = 0; i < 10; i++)
         {
-            await ti.EnqueueAsync(Foo(i), i).ConfigureAwait(false);
+            await ti.EnqueueAsync(Foo(i), i);
         }
 
         Assert.True(ti.IsEmpty);
@@ -74,10 +74,10 @@ public class TaskInterweaverTest
 
         for (int i = 0; i < 10; i++)
         {
-            await ti.EnqueueAsync(Foo(i), i).ConfigureAwait(false);
+            await ti.EnqueueAsync(Foo(i), i);
         }
 
-        await ti.FlushAsync().ConfigureAwait(false);
+        await ti.FlushAsync();
 
         Assert.True(ti.IsEmpty);
         Assert.Equal(10, counter);
@@ -102,11 +102,11 @@ public class TaskInterweaverTest
     }
 
     [Fact]
-    public void EnqueueAsync_NullTask_Throws()
+    public async Task EnqueueAsync_NullTask_Throws()
     {
         TaskInterweaver<object, int> ti = new(_ => ValueTask.CompletedTask);
 
-        Assert.ThrowsAsync<ArgumentNullException>(async () =>
+        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
                 await ti.EnqueueAsync(null!, 0).ConfigureAwait(false));
     }
 
@@ -131,16 +131,16 @@ public class TaskInterweaverTest
 
         Assert.Equal(0, counter);
 
-        await ti.EnqueueAsync(Foo(0), 0).ConfigureAwait(false);
+        await ti.EnqueueAsync(Foo(0), 0);
 
         Assert.True(ti.IsFull);
         Assert.Equal(0, counter);
 
-        await ti.EnqueueAsync(Foo(1), 1).ConfigureAwait(false);
+        await ti.EnqueueAsync(Foo(1), 1);
 
         Assert.Equal(1, counter);
 
-        await ti.EnqueueAsync(Foo(2), 2).ConfigureAwait(false);
+        await ti.EnqueueAsync(Foo(2), 2);
 
         Assert.False(ti.IsFull);
         Assert.Equal(3, counter);
@@ -167,7 +167,7 @@ public class TaskInterweaverTest
 
         Assert.Equal(0, counter);
 
-        await ti.EnqueueAsync(Foo(0), 0).ConfigureAwait(false);
+        await ti.EnqueueAsync(Foo(0), 0);
 
         Assert.False(ti.IsFull);
         Assert.Equal(1, counter);
@@ -194,13 +194,13 @@ public class TaskInterweaverTest
         Assert.Equal(0, counter);
         Assert.True(ti.IsEmpty);
 
-        await ti.EnqueueAsync(Foo(0), 0).ConfigureAwait(false);
+        await ti.EnqueueAsync(Foo(0), 0);
 
         Assert.True(ti.IsFull);
         Assert.False(ti.IsEmpty);
         Assert.Equal(0, counter);
 
-        await ti.EnqueueAsync(Foo(1), 1).ConfigureAwait(false);
+        await ti.EnqueueAsync(Foo(1), 1);
 
         Assert.True(ti.IsFull);
         Assert.Equal(1, counter);
@@ -233,7 +233,7 @@ public class TaskInterweaverTest
             {
                 await ti.EnqueueAsync(Foo(), 0).ConfigureAwait(false);
             }
-        }).ConfigureAwait(false);
+        });
 
         Assert.True(ti.IsEmpty);
         Assert.False(ti.IsFull);

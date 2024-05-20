@@ -176,8 +176,7 @@ public class TaskBufferTest
                             buffer.FlushAsync(cancellationToken: source.Token).ConfigureAwait(false))
                     {
                     }
-                })
-                .ConfigureAwait(false);
+                });
 
         Assert.True(completed < 2);
 
@@ -216,8 +215,7 @@ public class TaskBufferTest
                             buffer.FlushAsync().ConfigureAwait(false))
                     {
                     }
-                })
-                .ConfigureAwait(false);
+                });
 
         Assert.True(buffer.IsEmpty);
         Assert.False(buffer.IsFull);
@@ -252,8 +250,7 @@ public class TaskBufferTest
                     buffer.FlushAsync().ConfigureAwait(false))
             {
             }
-        })
-                .ConfigureAwait(false);
+        });
 
         Assert.True(buffer.IsEmpty);
         Assert.False(buffer.IsFull);

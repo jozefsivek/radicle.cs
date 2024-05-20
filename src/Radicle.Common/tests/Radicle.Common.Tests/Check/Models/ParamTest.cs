@@ -142,7 +142,7 @@ public class ParamTest
     {
         long[]? value = new[] { 42L };
 
-        Assert.Equal(value, Ensure.Optional(value).ValueOrDefault()!);
+        Assert.Equal(value, Ensure.Optional(value).ValueOrDefault());
     }
 
     [Fact]
@@ -150,7 +150,7 @@ public class ParamTest
     {
         Dictionary<long, long>? value = new() { { 42, 42 } };
 
-        Assert.Equal(value, Ensure.OptionalDictionary(value).ValueOrDefault()!);
+        Assert.Equal(value, Ensure.OptionalDictionary(value).ValueOrDefault());
     }
 
     [Fact]

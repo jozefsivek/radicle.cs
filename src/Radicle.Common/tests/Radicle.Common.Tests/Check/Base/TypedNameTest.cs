@@ -63,8 +63,8 @@ public class TypedNameTest
     [InlineData("Name", "Name")]
     public void Value_PreservesOriginalCase(string expected, string input)
     {
-        Assert.True(expected.Equals(new ConcreteCaseSensitiveName(input).Value, StringComparison.Ordinal));
-        Assert.True(expected.Equals(new ConcreteCaseInsensitiveName(input).Value, StringComparison.Ordinal));
+        Assert.Equal(expected, new ConcreteCaseSensitiveName(input).Value);
+        Assert.Equal(expected, new ConcreteCaseInsensitiveName(input).Value);
     }
 
     [Theory]

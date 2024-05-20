@@ -26,13 +26,12 @@ public class FlexFileTest
         using TmpDir dir = new();
         string fileName = dir.GetTempFile();
 
-        using FlexFile fw = FlexFile.Open(
+        await using FlexFile fw = FlexFile.Open(
                 fileName,
                 FileMode.OpenOrCreate,
                 FileAccess.Write);
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => fw.ReadAllTextAsync())
-                .ConfigureAwait(false);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => fw.ReadAllTextAsync());
     }
 
     [Theory]
@@ -45,23 +44,23 @@ public class FlexFileTest
         string fileName = dir.GetTempFile();
         byte[] payload = Encoding.UTF8.GetBytes(testString);
 
-        using (FlexFile fw = FlexFile.Open(
+        await using (FlexFile fw = FlexFile.Open(
                 fileName,
                 FileMode.OpenOrCreate,
                 FileAccess.Write))
         {
-            await ((Stream)fw).WriteAsync(payload).ConfigureAwait(false);
+            await ((Stream)fw).WriteAsync(payload);
         }
 
         File.Move(fileName, fileName + extension, overwrite: true);
 
-        using FlexFile cfr = FlexFile.Open(
+        await using FlexFile cfr = FlexFile.Open(
                 fileName + extension,
                 FileMode.OpenOrCreate,
                 FileAccess.Read);
 
         await Assert.ThrowsAsync<InvalidDataException>(() =>
-                cfr.ReadAllTextAsync()).ConfigureAwait(false);
+                cfr.ReadAllTextAsync());
     }
 
     [Theory]
@@ -74,17 +73,17 @@ public class FlexFileTest
         string fileName = dir.GetTempFile();
         byte[] payload = Encoding.UTF8.GetBytes(testString);
 
-        using (FlexFile fw = FlexFile.Open(
+        await using (FlexFile fw = FlexFile.Open(
                 fileName,
                 FileMode.OpenOrCreate,
                 FileAccess.Write))
         {
-            await ((Stream)fw).WriteAsync(payload).ConfigureAwait(false);
+            await ((Stream)fw).WriteAsync(payload);
         }
 
         File.Move(fileName, fileName + extension, overwrite: true);
 
-        using FlexFile cfr = FlexFile.Open(
+        await using FlexFile cfr = FlexFile.Open(
                 fileName + extension,
                 FileMode.OpenOrCreate,
                 FileAccess.Read);
@@ -115,22 +114,22 @@ public class FlexFileTest
         string fileName = dir.GetTempFile();
         byte[] payload = Encoding.UTF8.GetBytes(testString);
 
-        using (FlexFile fw = FlexFile.Open(
+        await using (FlexFile fw = FlexFile.Open(
                 fileName,
                 FileMode.OpenOrCreate,
                 FileAccess.Write))
         {
-            await ((Stream)fw).WriteAsync(payload).ConfigureAwait(false);
+            await ((Stream)fw).WriteAsync(payload);
         }
 
-        using FlexFile fr = FlexFile.Open(
+        await using FlexFile fr = FlexFile.Open(
                 fileName,
                 FileMode.OpenOrCreate,
                 FileAccess.Read);
 
         Assert.False(fr.IsCompressed);
         Assert.Equal(CompressionFormat.None, fr.CompressionFormat);
-        Assert.Equal(testString, await fr.ReadAllTextAsync().ConfigureAwait(false));
+        Assert.Equal(testString, await fr.ReadAllTextAsync());
     }
 
     [Theory]
@@ -143,22 +142,22 @@ public class FlexFileTest
         string fileName = dir.GetTempFile(extension);
         byte[] payload = Encoding.UTF8.GetBytes(testString);
 
-        using (FlexFile fw = FlexFile.Open(
+        await using (FlexFile fw = FlexFile.Open(
                 fileName,
                 FileMode.OpenOrCreate,
                 FileAccess.Write))
         {
-            await ((Stream)fw).WriteAsync(payload).ConfigureAwait(false);
+            await ((Stream)fw).WriteAsync(payload);
         }
 
-        using FlexFile fr = FlexFile.Open(
+        await using FlexFile fr = FlexFile.Open(
                 fileName,
                 FileMode.OpenOrCreate,
                 FileAccess.Read);
 
         Assert.True(fr.IsCompressed);
         Assert.Equal(CompressionFormat.Gzip, fr.CompressionFormat);
-        Assert.Equal(testString, await fr.ReadAllTextAsync().ConfigureAwait(false));
+        Assert.Equal(testString, await fr.ReadAllTextAsync());
     }
 
     [Fact]
@@ -178,12 +177,12 @@ public class FlexFileTest
         string fileName = dir.GetTempFile(extension);
         byte[] payload = Encoding.UTF8.GetBytes(testString);
 
-        using (FlexFile fw = FlexFile.Open(
+        await using (FlexFile fw = FlexFile.Open(
                 fileName,
                 FileMode.OpenOrCreate,
                 FileAccess.Write))
         {
-            await ((Stream)fw).WriteAsync(payload).ConfigureAwait(false);
+            await ((Stream)fw).WriteAsync(payload);
         }
 
         int ext = extension?.Length ?? 0;

@@ -1,71 +1,70 @@
 namespace Radicle.Common;
 
 using System;
-using System.Collections.Generic;
 using Xunit;
 
 public class Iso8601Test
 {
-    public static IEnumerable<object[]> LocalTimeAssumedCases => new List<object[]>
+    public static TheoryData<DateTimeOffset, string> LocalTimeAssumedCases => new()
     {
-        new object[] { ConstructDateTimeOffset(42), "0042" },
-        new object[] { ConstructDateTimeOffset(2042), "2042" },
-        new object[] { ConstructDateTimeOffset(2042, 2), "2042-02" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23), "2042-02-23" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23), "20420223" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23, 4), "2042-02-23T04:00:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56), "2042-01-23T04:56:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57), "2042-01-23T04:56:57" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.123), "2042-01-23T04:56:57.123" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.123), "20420123T045657.123" },
+        { ConstructDateTimeOffset(42), "0042" },
+        { ConstructDateTimeOffset(2042), "2042" },
+        { ConstructDateTimeOffset(2042, 2), "2042-02" },
+        { ConstructDateTimeOffset(2042, 2, 23), "2042-02-23" },
+        { ConstructDateTimeOffset(2042, 2, 23), "20420223" },
+        { ConstructDateTimeOffset(2042, 2, 23, 4), "2042-02-23T04:00:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56), "2042-01-23T04:56:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57), "2042-01-23T04:56:57" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.123), "2042-01-23T04:56:57.123" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.123), "20420123T045657.123" },
     };
 
-    public static IEnumerable<object[]> UTCAssumedCases => new List<object[]>
+    public static TheoryData<DateTimeOffset, string> UTCAssumedCases => new()
     {
-        new object[] { ConstructDateTimeOffset(42, minuteOffset: 0), "0042" },
-        new object[] { ConstructDateTimeOffset(2042, minuteOffset: 0), "2042" },
-        new object[] { ConstructDateTimeOffset(2042, 2, minuteOffset: 0), "2042-02" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23, minuteOffset: 0), "2042-02-23" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23, minuteOffset: 0), "20420223" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23, 4, minuteOffset: 0), "2042-02-23T04:00:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, minuteOffset: 0), "2042-01-23T04:56:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, minuteOffset: 0), "2042-01-23T04:56:57" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.1234, minuteOffset: 0), "2042-01-23T04:56:57.1234" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.1234, minuteOffset: 0), "20420123T045657.1234" },
+        { ConstructDateTimeOffset(42, minuteOffset: 0), "0042" },
+        { ConstructDateTimeOffset(2042, minuteOffset: 0), "2042" },
+        { ConstructDateTimeOffset(2042, 2, minuteOffset: 0), "2042-02" },
+        { ConstructDateTimeOffset(2042, 2, 23, minuteOffset: 0), "2042-02-23" },
+        { ConstructDateTimeOffset(2042, 2, 23, minuteOffset: 0), "20420223" },
+        { ConstructDateTimeOffset(2042, 2, 23, 4, minuteOffset: 0), "2042-02-23T04:00:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, minuteOffset: 0), "2042-01-23T04:56:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, minuteOffset: 0), "2042-01-23T04:56:57" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.1234, minuteOffset: 0), "2042-01-23T04:56:57.1234" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.1234, minuteOffset: 0), "20420123T045657.1234" },
     };
 
-    public static IEnumerable<object[]> RegularCases => new List<object[]>
+    public static TheoryData<DateTimeOffset, string> RegularCases => new()
     {
-        new object[] { ConstructDateTimeOffset(42), "0042" },
-        new object[] { ConstructDateTimeOffset(2042), "2042" },
-        new object[] { ConstructDateTimeOffset(2042, 2), "2042-02" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23), "2042-02-23" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23), "20420223" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23, 4, minuteOffset: 1 * 60), "2042-02-23T04:00:00+01" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, minuteOffset: -1 * 60), "2042-01-23T04:56:00-01" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, minuteOffset: 14 * 60), "2042-01-23T04:56:57+14" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.12345, minuteOffset: -14 * 60), "2042-01-23T04:56:57.12345-14" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.12345, minuteOffset: (2 * 60) + 15), "20420123T045657.12345+02:15" },
+        { ConstructDateTimeOffset(42), "0042" },
+        { ConstructDateTimeOffset(2042), "2042" },
+        { ConstructDateTimeOffset(2042, 2), "2042-02" },
+        { ConstructDateTimeOffset(2042, 2, 23), "2042-02-23" },
+        { ConstructDateTimeOffset(2042, 2, 23), "20420223" },
+        { ConstructDateTimeOffset(2042, 2, 23, 4, minuteOffset: 1 * 60), "2042-02-23T04:00:00+01" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, minuteOffset: -1 * 60), "2042-01-23T04:56:00-01" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, minuteOffset: 14 * 60), "2042-01-23T04:56:57+14" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.12345, minuteOffset: -14 * 60), "2042-01-23T04:56:57.12345-14" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.12345, minuteOffset: (2 * 60) + 15), "20420123T045657.12345+02:15" },
     };
 
-    public static IEnumerable<object[]> SerializationCases => new List<object[]>
+    public static TheoryData<DateTimeOffset, string> SerializationCases => new()
     {
-        new object[] { ConstructDateTimeOffset(42, minuteOffset: 0), "0042-01-01T00:00:00.0000000+00:00" },
-        new object[] { ConstructDateTimeOffset(2042, minuteOffset: 0), "2042-01-01T00:00:00.0000000+00:00" },
-        new object[] { ConstructDateTimeOffset(2042, 2, minuteOffset: 0), "2042-02-01T00:00:00.0000000+00:00" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23, minuteOffset: 0), "2042-02-23T00:00:00.0000000+00:00" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23, 4, minuteOffset: 0), "2042-02-23T04:00:00.0000000+00:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, minuteOffset: 0), "2042-01-23T04:56:00.0000000+00:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, minuteOffset: 0), "2042-01-23T04:56:57.0000000+00:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.1234567, minuteOffset: 0), "2042-01-23T04:56:57.1234567+00:00" },
-        new object[] { ConstructDateTimeOffset(42, minuteOffset: 1 * 60), "0042-01-01T00:00:00.0000000+01:00" },
-        new object[] { ConstructDateTimeOffset(2042, minuteOffset: -1 * 60), "2042-01-01T00:00:00.0000000-01:00" },
-        new object[] { ConstructDateTimeOffset(2042, 2, minuteOffset: (2 * 60) + 15), "2042-02-01T00:00:00.0000000+02:15" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23, minuteOffset: -(2 * 60) - 15), "2042-02-23T00:00:00.0000000-02:15" },
-        new object[] { ConstructDateTimeOffset(2042, 2, 23, 4, minuteOffset: 14 * 60), "2042-02-23T04:00:00.0000000+14:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, minuteOffset: -14 * 60), "2042-01-23T04:56:00.0000000-14:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, minuteOffset: 6 * 60), "2042-01-23T04:56:57.0000000+06:00" },
-        new object[] { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.1234567, minuteOffset: -8 * 60), "2042-01-23T04:56:57.1234567-08:00" },
+        { ConstructDateTimeOffset(42, minuteOffset: 0), "0042-01-01T00:00:00.0000000+00:00" },
+        { ConstructDateTimeOffset(2042, minuteOffset: 0), "2042-01-01T00:00:00.0000000+00:00" },
+        { ConstructDateTimeOffset(2042, 2, minuteOffset: 0), "2042-02-01T00:00:00.0000000+00:00" },
+        { ConstructDateTimeOffset(2042, 2, 23, minuteOffset: 0), "2042-02-23T00:00:00.0000000+00:00" },
+        { ConstructDateTimeOffset(2042, 2, 23, 4, minuteOffset: 0), "2042-02-23T04:00:00.0000000+00:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, minuteOffset: 0), "2042-01-23T04:56:00.0000000+00:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, minuteOffset: 0), "2042-01-23T04:56:57.0000000+00:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.1234567, minuteOffset: 0), "2042-01-23T04:56:57.1234567+00:00" },
+        { ConstructDateTimeOffset(42, minuteOffset: 1 * 60), "0042-01-01T00:00:00.0000000+01:00" },
+        { ConstructDateTimeOffset(2042, minuteOffset: -1 * 60), "2042-01-01T00:00:00.0000000-01:00" },
+        { ConstructDateTimeOffset(2042, 2, minuteOffset: (2 * 60) + 15), "2042-02-01T00:00:00.0000000+02:15" },
+        { ConstructDateTimeOffset(2042, 2, 23, minuteOffset: -(2 * 60) - 15), "2042-02-23T00:00:00.0000000-02:15" },
+        { ConstructDateTimeOffset(2042, 2, 23, 4, minuteOffset: 14 * 60), "2042-02-23T04:00:00.0000000+14:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, minuteOffset: -14 * 60), "2042-01-23T04:56:00.0000000-14:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, minuteOffset: 6 * 60), "2042-01-23T04:56:57.0000000+06:00" },
+        { ConstructDateTimeOffset(2042, 1, 23, 4, 56, 57, 0.1234567, minuteOffset: -8 * 60), "2042-01-23T04:56:57.1234567-08:00" },
     };
 
     [Fact]

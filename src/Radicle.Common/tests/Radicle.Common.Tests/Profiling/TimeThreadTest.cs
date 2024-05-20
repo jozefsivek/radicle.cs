@@ -45,7 +45,7 @@ public class TimeThreadTest
 
         thread.Measure("foo");
 
-        await Task.Delay(1).ConfigureAwait(false);
+        await Task.Delay(1);
 
         thread.Restart();
 

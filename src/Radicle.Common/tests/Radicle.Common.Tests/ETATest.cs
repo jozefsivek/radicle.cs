@@ -106,7 +106,7 @@ public class ETATest
 
         TimeSpan eta1 = status.ETA.Value;
 
-        await Task.Delay(1).ConfigureAwait(false);
+        await Task.Delay(1);
 
         status = eta.GetETA();
 

@@ -494,7 +494,7 @@ public class EnumerableExtensionsTest
     public void Mul_NonTrivialInput_Works(
             IEnumerable<int> source,
             int multiplier,
-            IEnumerable<int> delimiter,
+            IEnumerable<int>? delimiter,
             IEnumerable<int> expected)
     {
         IEnumerable<(int First, int Second)> s = source

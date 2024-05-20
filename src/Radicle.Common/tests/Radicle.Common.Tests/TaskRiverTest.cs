@@ -29,7 +29,7 @@ public class TaskRiverTest
 
             if (full)
             {
-                await river.FlushAsync().ConfigureAwait(false);
+                await river.FlushAsync();
             }
         }
 
@@ -56,12 +56,12 @@ public class TaskRiverTest
 
             if (full)
             {
-                await river.FlushAsync().ConfigureAwait(false);
+                await river.FlushAsync();
             }
         }
 
         // at this point the river can be empty some times
-        await river.FlushAllAsync().ConfigureAwait(false);
+        await river.FlushAllAsync();
 
         Assert.True(expected.SetEquals(completed));
         Assert.True(river.IsEmpty);
@@ -83,7 +83,7 @@ public class TaskRiverTest
 
         Assert.False(river.IsEmpty);
 
-        await river.FlushAsync().ConfigureAwait(false);
+        await river.FlushAsync();
 
         Assert.True(expected.SetEquals(completed));
         Assert.True(river.IsEmpty);
@@ -108,14 +108,14 @@ public class TaskRiverTest
 
         Assert.False(river.IsEmpty);
 
-        await river.FlushAsync().ConfigureAwait(false);
+        await river.FlushAsync();
 
         Assert.True(expected.SetEquals(completed));
         Assert.False(river.IsEmpty);
 
         semaphore.Release();
 
-        await river.FlushAsync().ConfigureAwait(false);
+        await river.FlushAsync();
 
         expected.Add(2);
         Assert.True(expected.SetEquals(completed));
@@ -145,8 +145,7 @@ public class TaskRiverTest
         source.Cancel();
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-                    await river.FlushAsync(cancellationToken: source.Token).ConfigureAwait(false))
-                .ConfigureAwait(false);
+                    await river.FlushAsync(cancellationToken: source.Token).ConfigureAwait(false));
 
         Assert.True(completed < 2);
 
@@ -168,8 +167,7 @@ public class TaskRiverTest
         Assert.True(river.IsFull);
 
         await Assert.ThrowsAsync<ArgumentException>(async () =>
-                    await river.FlushAsync().ConfigureAwait(false))
-                .ConfigureAwait(false);
+                    await river.FlushAsync().ConfigureAwait(false));
 
         Assert.True(river.IsEmpty);
         Assert.False(river.IsFull);
@@ -192,8 +190,7 @@ public class TaskRiverTest
         Assert.True(river.IsFull);
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-                    await river.FlushAsync().ConfigureAwait(false))
-                .ConfigureAwait(false);
+                    await river.FlushAsync().ConfigureAwait(false));
 
         Assert.True(river.IsEmpty);
         Assert.False(river.IsFull);
@@ -219,7 +216,7 @@ public class TaskRiverTest
 
         Assert.False(river.IsEmpty);
 
-        await river.FlushAllAsync().ConfigureAwait(false);
+        await river.FlushAllAsync();
 
         Assert.True(expected.SetEquals(completed));
         Assert.True(river.IsEmpty);
@@ -248,8 +245,7 @@ public class TaskRiverTest
         source.Cancel();
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-                    await river.FlushAllAsync(cancellationToken: source.Token).ConfigureAwait(false))
-                .ConfigureAwait(false);
+                    await river.FlushAllAsync(cancellationToken: source.Token).ConfigureAwait(false));
 
         Assert.True(completed < 2);
 
@@ -271,8 +267,7 @@ public class TaskRiverTest
         Assert.True(river.IsFull);
 
         await Assert.ThrowsAsync<ArgumentException>(async () =>
-                    await river.FlushAllAsync().ConfigureAwait(false))
-                .ConfigureAwait(false);
+                    await river.FlushAllAsync().ConfigureAwait(false));
 
         Assert.True(river.IsEmpty);
         Assert.False(river.IsFull);
@@ -295,8 +290,7 @@ public class TaskRiverTest
         Assert.True(river.IsFull);
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-                    await river.FlushAllAsync().ConfigureAwait(false))
-                .ConfigureAwait(false);
+                    await river.FlushAllAsync().ConfigureAwait(false));
 
         Assert.True(river.IsEmpty);
         Assert.False(river.IsFull);
@@ -321,7 +315,7 @@ public class TaskRiverTest
                     _ = Interlocked.Increment(ref completed);
                 })))
             {
-                await river.FlushAsync().ConfigureAwait(false);
+                await river.FlushAsync();
             }
         }
 

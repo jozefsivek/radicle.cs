@@ -1,130 +1,110 @@
 namespace Radicle.Common.Compression;
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
 public class GzipTest
 {
-    public static IEnumerable<object[]> TooShortPayloads =>
-            new List<object[]>()
+    public static TheoryData<byte[]> TooShortPayloads => new()
     {
-        new object[]
         {
-            Array.Empty<byte>(),
+            Array.Empty<byte>()
         },
-        new object[]
         {
-            new byte[] { 0x00 },
+            new byte[] { 0x00 }
         },
-        new object[]
         {
-            new byte[] { 0xff },
+            new byte[] { 0xff }
         },
-        new object[]
         {
-            new byte[] { 0x25 },
+            new byte[] { 0x25 }
         },
-        new object[]
         {
-            new byte[] { 0xa1 },
+            new byte[] { 0xa1 }
         },
-        new object[]
         {
             new byte[]
             {
                 0xa1, 0x6d,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
                 0xa1, 0x6d, 0xf9,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
                 0xa1, 0x6d, 0xf9, 0x84,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
                 0xa1, 0x6d, 0xf9, 0x84,
                 0x9f,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
                 0x7d, 0x93, 0x8d, 0xf3,
                 0x2e, 0x3a,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
                 0x7d, 0x93, 0x8d, 0xf3,
                 0x2e, 0x3a, 0xf5,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
                 0x7d, 0x93, 0x8d, 0xf3,
                 0x2e, 0x3a, 0xf5, 0xf8,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
                 0xa1, 0x6d, 0xf9, 0x84,
                 0x9f, 0x75, 0x45, 0x83,
                 0x4e,
-            },
+            }
         },
     };
 
-    public static IEnumerable<object[]> CorruptPayloads =>
-            new List<object[]>()
+    public static TheoryData<byte[]> CorruptPayloads => new()
     {
-        new object[]
         {
             new byte[]
             {
                 0x7d, 0x93, 0x8d, 0xf3,
                 0x2e, 0x3a, 0xf5, 0xf8,
                 0xca, 0xbc,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
                 0xa1, 0x6d, 0xf9, 0x84,
                 0x9f, 0x75, 0x45, 0x83,
                 0x4e, 0xba, 0x2a,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
                 0xa1, 0x6d, 0xf9, 0x84,
                 0x9f, 0x75, 0x45, 0x83,
                 0x4e, 0xba, 0x2a, 0xdf,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
@@ -132,9 +112,8 @@ public class GzipTest
                 0x2e, 0x3a, 0xf5, 0xf8,
                 0xca, 0xbc, 0x50, 0x49,
                 0x5f, 0xb4, 0xf4, 0x14,
-            },
+            }
         },
-        new object[]
         {
             new byte[]
             {
@@ -146,7 +125,7 @@ public class GzipTest
                 0x81, 0x0c, 0x64, 0x29,
                 0x48, 0x6b, 0xcd, 0x13,
                 0x2a, 0x36, 0x6e, 0xa8,
-            },
+            }
         },
     };
 

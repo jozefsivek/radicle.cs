@@ -21,7 +21,7 @@ public class ProfilingSessionTest
 
         for (int i = 0; i < 4; i++)
         {
-            await FeedSession(session, 4).ConfigureAwait(false);
+            await FeedSession(session, 4);
 
             Assert.Equal(4, session.Yield().Count());
         }

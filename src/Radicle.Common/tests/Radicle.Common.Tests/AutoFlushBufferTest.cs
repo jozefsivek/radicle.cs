@@ -62,7 +62,7 @@ public class AutoFlushBufferTest
                 (object _) => ValueTask.CompletedTask);
 
         await Assert.ThrowsAsync<ArgumentNullException>(async () =>
-                await buffer.EnqueueAsync(null!).ConfigureAwait(false)).ConfigureAwait(false);
+                await buffer.EnqueueAsync(null!).ConfigureAwait(false));
     }
 
     [Fact]
@@ -79,7 +79,7 @@ public class AutoFlushBufferTest
                     return ValueTask.CompletedTask;
                 });
 
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
+        await buffer.EnqueueAsync(1);
 
         Assert.False(flushed);
     }
@@ -98,8 +98,8 @@ public class AutoFlushBufferTest
                     return ValueTask.CompletedTask;
                 });
 
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
+        await buffer.EnqueueAsync(1);
+        await buffer.EnqueueAsync(1);
 
         Assert.True(flushed);
     }
@@ -120,7 +120,7 @@ public class AutoFlushBufferTest
 
         for (int i = 0; i < 10; i++)
         {
-            await buffer.EnqueueAsync(1).ConfigureAwait(false);
+            await buffer.EnqueueAsync(1);
         }
 
         Assert.Equal(10 / buffer.Capacity, flushed);
@@ -145,12 +145,12 @@ public class AutoFlushBufferTest
                     return ValueTask.CompletedTask;
                 });
 
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
-        await buffer.EnqueueAsync(0).ConfigureAwait(false);
+        await buffer.EnqueueAsync(1);
+        await buffer.EnqueueAsync(0);
 
         Assert.False(flushed);
 
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
+        await buffer.EnqueueAsync(1);
 
         Assert.True(flushed);
     }
@@ -165,7 +165,7 @@ public class AutoFlushBufferTest
                 (int _) => ValueTask.CompletedTask);
 
         await Assert.ThrowsAsync<ArgumentNullException>(async () =>
-                await buffer.EnqueueAndFlushAsync(null!).ConfigureAwait(false)).ConfigureAwait(false);
+                await buffer.EnqueueAndFlushAsync(null!).ConfigureAwait(false));
     }
 
     [Fact]
@@ -179,7 +179,7 @@ public class AutoFlushBufferTest
 
         await Assert.ThrowsAsync<ArgumentNullException>(async () =>
                 await buffer.EnqueueAndFlushAsync(new object[] { null! })
-                    .ConfigureAwait(false)).ConfigureAwait(false);
+                    .ConfigureAwait(false));
     }
 
     [Fact]
@@ -196,7 +196,7 @@ public class AutoFlushBufferTest
                     return ValueTask.CompletedTask;
                 });
 
-        await buffer.EnqueueAndFlushAsync(new int[] { 1, 1 }).ConfigureAwait(false);
+        await buffer.EnqueueAndFlushAsync(new int[] { 1, 1 });
 
         Assert.True(flushed);
     }
@@ -215,14 +215,14 @@ public class AutoFlushBufferTest
                     return ValueTask.CompletedTask;
                 });
 
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
+        await buffer.EnqueueAsync(1);
+        await buffer.EnqueueAsync(1);
+        await buffer.EnqueueAsync(1);
+        await buffer.EnqueueAsync(1);
 
         Assert.False(flushed);
 
-        await buffer.FlushAsync().ConfigureAwait(false);
+        await buffer.FlushAsync();
 
         Assert.True(flushed);
     }
@@ -241,16 +241,16 @@ public class AutoFlushBufferTest
                     return ValueTask.CompletedTask;
                 });
 
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
-        await buffer.EnqueueAsync(1).ConfigureAwait(false);
+        await buffer.EnqueueAsync(1);
+        await buffer.EnqueueAsync(1);
 
         Assert.Equal(0, flushed);
 
-        await buffer.FlushAsync().ConfigureAwait(false);
+        await buffer.FlushAsync();
 
         Assert.Equal(1, flushed);
 
-        await buffer.FlushAsync().ConfigureAwait(false);
+        await buffer.FlushAsync();
 
         Assert.Equal(2, flushed);
     }

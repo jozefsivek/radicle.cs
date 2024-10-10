@@ -415,4 +415,80 @@ public static class EnumerableExtensions
 
         return source;
     }
+
+    /// <summary>
+    /// Returns native lenght of the enumerable if possible
+    /// before falling back to LINQ Count.
+    /// </summary>
+    /// <param name="source">Source enumerable to get lenght for.</param>
+    /// <returns>Length of the enumerable.</returns>
+    /// <typeparam name="TItem">Type of the item.</typeparam>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    public static int NativeLength<TItem>(
+            this IEnumerable<TItem> source)
+    {
+        if (source is Array a)
+        {
+            return a.Length;
+        }
+        else if (source is IList<TItem> l)
+        {
+            return l.Count;
+        }
+        else if (source is ICollection<TItem> c)
+        {
+            return c.Count;
+        }
+        else if (source is IReadOnlyCollection<TItem> rc)
+        {
+            return rc.Count;
+        }
+        else if (source is IDictionary d)
+        {
+            return d.Count;
+        }
+        else
+        {
+            return source.Count();
+        }
+    }
+
+    /// <summary>
+    /// Returns native check for any of the enumerable if possible
+    /// before falling back to LINQ Any.
+    /// </summary>
+    /// <param name="source">Source enumerable to get lenght for.</param>
+    /// <returns>Length of the enumerable.</returns>
+    /// <typeparam name="TItem">Type of the item.</typeparam>
+    /// <exception cref="ArgumentNullException">Thrown
+    ///     if required parameter is <see langword="null"/>.</exception>
+    public static bool NativeAny<TItem>(
+            this IEnumerable<TItem> source)
+    {
+        if (source is Array a)
+        {
+            return a.Length > 0;
+        }
+        else if (source is IList<TItem> l)
+        {
+            return l.Count > 0;
+        }
+        else if (source is ICollection<TItem> c)
+        {
+            return c.Count > 0;
+        }
+        else if (source is IReadOnlyCollection<TItem> rc)
+        {
+            return rc.Count > 0;
+        }
+        else if (source is IDictionary d)
+        {
+            return d.Count > 0;
+        }
+        else
+        {
+            return source.Any();
+        }
+    }
 }

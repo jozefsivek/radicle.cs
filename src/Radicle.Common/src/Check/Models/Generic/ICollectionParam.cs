@@ -1,10 +1,8 @@
 ﻿namespace Radicle.Common.Check.Models.Generic;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+using Radicle.Common.Extensions;
 
 /// <summary>
 /// Interface of generic colection parameter.
@@ -55,47 +53,13 @@ public interface ICollectionParam<T, TItem> : IParam<T>, IEnumerable<TItem>
     ///     the collection is emoty.</exception>
     ICollectionParam<T, TItem> NotEmpty()
     {
-        if (this.IsSpecified)
+        if (this.IsSpecified && !this.Value.NativeAny())
         {
-            bool empty;
+            string description = this.Description;
 
-            if (this.Value is Array a)
-            {
-                empty = a.Length == 0;
-            }
-            else if (this.Value is IList<TItem> l)
-            {
-                empty = l.Count == 0;
-            }
-            else if (this.Value is ICollection<TItem> c)
-            {
-                empty = c.Count == 0;
-            }
-            else if (this.Value is IImmutableList<TItem> il)
-            {
-                empty = il.Count == 0;
-            }
-            else if (this.Value is IDictionary d)
-            {
-                empty = d.Count == 0;
-            }
-            else if (this.Value is IReadOnlyCollection<TItem> rc)
-            {
-                empty = rc.Count == 0;
-            }
-            else
-            {
-                empty = !this.Value.Any();
-            }
-
-            if (empty)
-            {
-                string description = this.Description;
-
-                throw new ArgumentOutOfRangeException(
-                        this.Name,
-                        $"{description} cannot be an empty enumerable.");
-            }
+            throw new ArgumentOutOfRangeException(
+                    this.Name,
+                    $"{description} cannot be an empty enumerable.");
         }
 
         return this;
@@ -144,33 +108,7 @@ public interface ICollectionParam<T, TItem> : IParam<T>, IEnumerable<TItem>
     {
         if (this.IsSpecified)
         {
-            int length;
-
-            if (this.Value is Array a)
-            {
-                length = a.Length;
-            }
-            else if (this.Value is IList<TItem> l)
-            {
-                length = l.Count;
-            }
-            else if (this.Value is IImmutableList<TItem> il)
-            {
-                length = il.Count;
-            }
-            else if (this.Value is IDictionary d)
-            {
-                length = d.Count;
-            }
-            else if (this.Value is IReadOnlyCollection<TItem> rc)
-            {
-                length = rc.Count;
-            }
-            else
-            {
-                length = this.Value.Count();
-            }
-
+            int length = this.Value.NativeLength();
             long lc = length - lowerBound;
             long uc = upperBound - length;
 

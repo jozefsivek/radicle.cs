@@ -20,13 +20,6 @@ internal sealed class HistoryEvaluator : SampleCommandEvaluator
     /// </summary>
     public static readonly CommandVerb MainVerb = new("HISTORY");
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HistoryEvaluator"/> class.
-    /// </summary>
-    public HistoryEvaluator()
-    {
-    }
-
     /// <inheritdoc/>
     public override ICommandGroup Group => SampleGroup.Instance;
 

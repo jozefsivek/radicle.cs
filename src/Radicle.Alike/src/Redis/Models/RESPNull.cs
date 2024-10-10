@@ -18,13 +18,6 @@ public sealed class RESPNull : RESPValue
     /// </summary>
     public static readonly RESPNull Instance = new();
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RESPNull"/> class.
-    /// </summary>
-    public RESPNull()
-    {
-    }
-
     /// <inheritdoc/>
     public override RESPDataType Type => RESPDataType.Null;
 

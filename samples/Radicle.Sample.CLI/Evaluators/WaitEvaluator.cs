@@ -20,13 +20,6 @@ internal sealed class WaitEvaluator : SampleCommandEvaluator
     /// </summary>
     public static readonly CommandVerb MainVerb = new("WAIT");
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="WaitEvaluator"/> class.
-    /// </summary>
-    public WaitEvaluator()
-    {
-    }
-
     /// <inheritdoc/>
     public override ICommandGroup Group => SampleGroup.Instance;
 

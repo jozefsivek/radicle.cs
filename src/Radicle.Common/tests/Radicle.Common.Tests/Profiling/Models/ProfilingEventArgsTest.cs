@@ -84,7 +84,9 @@ public class ProfilingEventArgsTest
     {
         EventCategoryName category = new("test_category");
         TestService service = new();
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
         ArgumentNullException exception = new("param", "exc");
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
         const string message = "{foo} is {bar}";
 
         ProfilingEventArgs e = ProfilingEventArgs.From(
@@ -303,7 +305,9 @@ public class ProfilingEventArgsTest
     {
         EventCategoryName category = new("test_category");
         TestService service = new();
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
         ArgumentNullException exception = new("param", "exc");
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
         const string message = "{foo} is {bar}";
         ProfilingEventArgs e = ProfilingEventArgs.StartFrom(
                 service,

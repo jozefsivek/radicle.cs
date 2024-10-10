@@ -19,7 +19,7 @@
             - https://www.cazzulino.com/git-info-from-msbuild-and-code.html
             - https://github.com/devlooped/GitInfo
         -->
-        <PackageReference Include="GitInfo" Version="3.0.4" PrivateAssets="All" />
+        <PackageReference Include="GitInfo" Version="3.3.5" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>

@@ -15,13 +15,6 @@ using Radicle.Common.Visual.Models;
 public sealed class HorizontalBarPlotFormatter
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="HorizontalBarPlotFormatter"/> class.
-    /// </summary>
-    public HorizontalBarPlotFormatter()
-    {
-    }
-
-    /// <summary>
     /// Gets a value indicating whether left boundary should be shown.
     /// </summary>
     public bool ShowLeftBoundary { get; init; }

@@ -19,13 +19,6 @@ internal sealed class EchoEvaluator : SampleCommandEvaluator
     /// </summary>
     public static readonly CommandVerb MainVerb = new("ECHO");
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="EchoEvaluator"/> class.
-    /// </summary>
-    public EchoEvaluator()
-    {
-    }
-
     /// <inheritdoc/>
     public override ICommandGroup Group => SampleGroup.Instance;
 

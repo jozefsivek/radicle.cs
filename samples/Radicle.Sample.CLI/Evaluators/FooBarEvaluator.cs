@@ -18,13 +18,6 @@ internal sealed class FooBarEvaluator : SampleCommandEvaluator
     /// </summary>
     public static readonly CommandVerb MainVerb = /*FOO*/ new("BAR");
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="FooBarEvaluator"/> class.
-    /// </summary>
-    public FooBarEvaluator()
-    {
-    }
-
     /// <inheritdoc/>
     public override ICommandGroup Group => SampleGroup.Instance;
 

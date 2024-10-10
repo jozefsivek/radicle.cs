@@ -418,10 +418,10 @@ public class EnumerableExtensionsTest
     {
         object[] source = new object[]
         {
-            new object(), // 0
-            new object(), // 1
+            new(), // 0
+            new(), // 1
             string.Empty, // 2
-            new object(), // 3
+            new(), // 3
             3, // 4
             3, // 5
             3, // 6

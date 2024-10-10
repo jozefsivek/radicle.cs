@@ -38,7 +38,7 @@ public class CollectionParamTest
     [Fact]
     public void NotEmpty_NonEmptyInput_Works()
     {
-        Ensure.Collection(new List<object>() { new object() })
+        Ensure.Collection(new List<object>() { new() })
                 .NotEmpty();
     }
 
@@ -57,7 +57,7 @@ public class CollectionParamTest
     [Fact]
     public void AllNotNull_ValidInput_Works()
     {
-        Ensure.Collection(new List<object>() { new object() })
+        Ensure.Collection(new List<object>() { new() })
                 .AllNotNull();
     }
 

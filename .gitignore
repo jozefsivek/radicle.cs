@@ -74,3 +74,8 @@
 !samples/Radicle.Sample.CLI
 !samples/Radicle.Sample.CLI/Radicle.Sample.CLI.csproj
 !samples/Radicle.Sample.CLI/**/
+
+
+# ignore build outputs which we added unintentionally with **
+bin
+obj

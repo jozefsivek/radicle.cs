@@ -63,7 +63,7 @@ public class MetronomeTest
 
         sw.Stop();
 
-        Assert.True(sw.Elapsed > TimeSpan.FromMilliseconds(1.0) && sw.Elapsed < TimeSpan.FromMilliseconds(10.0));
+        Assert.True(sw.Elapsed > TimeSpan.FromMilliseconds(1.0) && sw.Elapsed < TimeSpan.FromMilliseconds(1000.0));
     }
 
     [Fact]

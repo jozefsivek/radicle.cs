@@ -13,6 +13,18 @@ using Radicle.Common.Check;
 /// </summary>
 public static class Gzip
 {
+    /// <summary>
+    /// Threshold above which it is meaningfull to compress
+    /// normal text string with GZip compression.
+    /// </summary>
+    public const int TextStringCompressionThreshold = 250;
+
+    /// <summary>
+    /// Threshold above which it is meaningfull to compress
+    /// random text string with GZip compression.
+    /// </summary>
+    public const int RandomStringCompressionThreshold = 270;
+
     /*
     See the RFC http://www.zlib.org/rfc-gzip.html for the full spec.
 
@@ -45,6 +57,20 @@ public static class Gzip
         0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00,
     }.ToImmutableArray();
+
+    /// <summary>
+    /// Determine if the given bytes appear to be compressed payload.
+    /// </summary>
+    /// <param name="bytes">Bytes to check.</param>
+    /// <returns><see langword="true"/> if the payload appears to be compressed;
+    /// -or- <see langword="false"/> otherwise.</returns>
+    public static bool IsProbablyCompressedPayload(byte[] bytes)
+    {
+        Ensure.Param(bytes).Done();
+
+        // lengths + magic number
+        return (bytes.Length >= 10) && (bytes[0] == 0x1f) && (bytes[1] == 0x8b);
+    }
 
     /// <summary>
     /// Compress given string.

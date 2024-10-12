@@ -93,7 +93,7 @@
 
             - https://developercommunity.visualstudio.com/content/problem/1256608/looks-like-visual-studio-for-mac-doesnt-respect-th.html
         -->
-        <MSBuildProjectExtensionsPath>$(SolutionDir)obj/$(MSBuildProjectName)/</MSBuildProjectExtensionsPath>
+        <!--MSBuildProjectExtensionsPath>$(SolutionDir)obj/$(MSBuildProjectName)/</MSBuildProjectExtensionsPath-->
 
         <!--
             https://docs.microsoft.com/en-us/visualstudio/ide/how-to-change-the-build-output-directory?view=vs-2019
@@ -113,12 +113,13 @@
             - https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2017
         -->
 
-        <BaseIntermediateOutputPath>$(MSBuildProjectExtensionsPath)</BaseIntermediateOutputPath>
-        <IntermediateOutputPath>$(MSBuildProjectExtensionsPath)$(Configuration)/</IntermediateOutputPath>
+        <!--BaseIntermediateOutputPath>$(MSBuildProjectExtensionsPath)</BaseIntermediateOutputPath-->
+        <!--IntermediateOutputPath>$(MSBuildProjectExtensionsPath)$(Configuration)/</IntermediateOutputPath-->
+        
         <!-- Do not set BaseOutputPath, bad consequences -->
         <!--BaseOutputPath>$(SolutionDir)/bin/</BaseOutputPath-->
-        <OutputPath>$(SolutionDir)bin/$(Configuration)/</OutputPath>
-        <OutDir>$(OutputPath)</OutDir>
+        <!--OutputPath>$(SolutionDir)bin/$(Configuration)/</OutputPath-->
+        <!--OutDir>$(OutputPath)</OutDir-->
         <!-- Don't transitively copy output files, since everything builds to the same folder.
 
             - until https://github.com/dotnet/sdk/issues/23342 is solved
@@ -129,7 +130,7 @@
 
         <!-- The $(AssemblyName) is not defined yet on read of this file -->
         <!--DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile-->
-        <DocumentationFile>$(OutputPath)$(MSBuildProjectName).xml</DocumentationFile>
+        <!--DocumentationFile>$(OutputPath)$(MSBuildProjectName).xml</DocumentationFile-->
     </PropertyGroup>
 
 </Project>

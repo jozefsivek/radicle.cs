@@ -43,6 +43,17 @@ Current list of maintained releases:
 - not supported: -
 
 
+0.11.0 (2024-10-13)
+-------------------
+
+Upgrade urgency: LOW; new features
+
+- Add documentation for low level string parsing and fix small bug
+- Add `NativeLength` to extensions
+- Add `CompressionThreshold` constants and probing API for GZIP
+- Add zip collections for memory efficient immutable data
+
+
 0.10.0 (2023-08-09)
 -------------------
 
